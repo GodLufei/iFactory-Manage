@@ -42,7 +42,8 @@ export default [
     response: () => {
       return {
         success: true,
-        data: [permissionRouter]
+        // data: [permissionRouter],
+        data: []
       };
     }
   }
