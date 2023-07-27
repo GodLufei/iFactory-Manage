@@ -1,50 +1,66 @@
 <template>
-  <div class="bread-crumb">
-    <el-breadcrumb separator="/">
-      <el-breadcrumb-item :to="{ path: '/' }" v-show="!isIndex"
-        >首页</el-breadcrumb-item
-      >
-      <el-breadcrumb-item v-for="item in breadList" :key="item.path">
-        {{ item.meta.title }}
+  <el-breadcrumb class="app-breadcrumb" separator="/">
+    <transition-group name="breadcrumb">
+      <el-breadcrumb-item v-for="(item,index) in levelList" :key="item.path">
+        <span v-if="item.redirect === 'noRedirect' || index == levelList.length - 1" class="no-redirect">{{ item.meta.title }}</span>
+        <a v-else @click.prevent="handleLink(item)">{{ item.meta.title }}</a>
       </el-breadcrumb-item>
-    </el-breadcrumb>
-  </div>
+    </transition-group>
+  </el-breadcrumb>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      breadList: []
-    }
-  },
+<script setup>
+const route = useRoute();
+const router = useRouter();
+const levelList = ref([])
 
-  watch: {
-    $route(route) {
-      let filterList = route.matched.filter(item => {
-        if (item.meta && item.meta.title) {
-          return item
-        }
-      })
-      this.breadList = filterList
-    }
-  },
-
-  computed: {
-    // 判断是否在首页
-    isIndex() {
-      let isIndexPage = false
-      this.breadList.forEach(item => {
-        if (item.path === '/' || item.path === '/dashbord') {
-          isIndexPage = true
-        } else {
-          isIndexPage = false
-        }
-      })
-      return isIndexPage
-    }
+function getBreadcrumb() {
+  // only show routes with meta.title
+  let matched = route.matched.filter(item => item.meta && item.meta.title);
+  const first = matched[0]
+  // 判断是否为首页
+  if (!isDashboard(first)) {
+    matched = [{ path: '/index', meta: { title: '首页' } }].concat(matched)
   }
+
+  levelList.value = matched.filter(item => item.meta && item.meta.title && item.meta.breadcrumb !== false)
 }
+function isDashboard(route) {
+  const name = route && route.name
+  if (!name) {
+    return false
+  }
+  return name.trim() === 'Index'
+}
+function handleLink(item) {
+  const { redirect, path } = item
+  if (redirect) {
+    router.push(redirect)
+    return
+  }
+  router.push(path)
+}
+
+watchEffect(() => {
+  // if you go to the redirect page, do not update the breadcrumbs
+  if (route.path.startsWith('/redirect/')) {
+    return
+  }
+  getBreadcrumb()
+})
+getBreadcrumb();
 </script>
 
-<style lang="scss" scoped></style>
+<style lang='scss' scoped>
+.app-breadcrumb.el-breadcrumb {
+  display: inline-block;
+  font-size: 14px;
+  line-height: 50px;
+  margin-left: 8px;
+
+  .no-redirect {
+    color: #97a8be;
+    cursor: text;
+  }
+}
+</style>
