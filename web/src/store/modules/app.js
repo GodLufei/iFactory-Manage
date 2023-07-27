@@ -1,23 +1,46 @@
-const state = {
-  opened: false, // 菜单侧边栏展开状态 true:打开 false:关闭
-  showDriver: false // 导航状态 true:需要 false:不需要
-}
+import Cookies from 'js-cookie'
 
-const mutations = {
-  SET_OPENED(state, payload) {
-    state.opened = payload
-  },
+const useAppStore = defineStore(
+  'app',
+  {
+    state: () => ({
+      sidebar: {
+        opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
+        withoutAnimation: false,
+        hide: false
+      },
+      device: 'desktop',
+      size: Cookies.get('size') || 'default'
+    }),
+    actions: {
+      toggleSideBar(withoutAnimation) {
+        if (this.sidebar.hide) {
+          return false;
+        }
+        this.sidebar.opened = !this.sidebar.opened
+        this.sidebar.withoutAnimation = withoutAnimation
+        if (this.sidebar.opened) {
+          Cookies.set('sidebarStatus', 1)
+        } else {
+          Cookies.set('sidebarStatus', 0)
+        }
+      },
+      closeSideBar({ withoutAnimation }) {
+        Cookies.set('sidebarStatus', 0)
+        this.sidebar.opened = false
+        this.sidebar.withoutAnimation = withoutAnimation
+      },
+      toggleDevice(device) {
+        this.device = device
+      },
+      setSize(size) {
+        this.size = size;
+        Cookies.set('size', size)
+      },
+      toggleSideBarHide(status) {
+        this.sidebar.hide = status
+      }
+    }
+  })
 
-  SET_DRIVER(state, payload) {
-    state.showDriver = payload
-  }
-}
-
-const actions = {}
-
-export default {
-  namespaced: true,
-  state,
-  mutations,
-  actions
-}
+export default useAppStore

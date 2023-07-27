@@ -1,24 +1,15 @@
-/**
- * 获取Token
- */
+import Cookies from 'js-cookie'
+
+const TokenKey = 'Admin-Token'
+
 export function getToken() {
-  if (localStorage.getItem('vuex')) {
-    return JSON.parse(localStorage.getItem('vuex')).user.token
-  }
-  return ''
+  return Cookies.get(TokenKey)
 }
 
-/**
- * 递归扁平化路由 获取meta信息
- * @param {Array} routes
- */
-export function getRoutesMeta(routes) {
-  let routesTitle = []
-  for (let index = 0; index < routes.length; index++) {
-    if (routes[index].children) {
-      routesTitle = [...routesTitle, ...getRoutesMeta(routes[index].children)]
-    }
-    routesTitle.push(routes[index].name)
-  }
-  return routesTitle
+export function setToken(token) {
+  return Cookies.set(TokenKey, token)
+}
+
+export function removeToken() {
+  return Cookies.remove(TokenKey)
 }
