@@ -5,17 +5,17 @@ namespace ProductManage.Domain.AggregatesModel;
 
 public class ProductStatus : Enumeration
 {
-    public static ProductStatus UnProduct = new(1, "未排期");
+    public static readonly ProductStatus UnProduct = new(1, "未排期");
 
-    public static ProductStatus AwaitingProduct = new(2, "下发生产");
+    public static readonly ProductStatus AwaitingProduct = new(2, "下发生产");
 
-    public static ProductStatus DoingProduct = new(3, "生产中");
+    public static readonly ProductStatus DoingProduct = new(3, "生产中");
 
-    public static ProductStatus DoneProduct = new(4, "生产完成");
+    public static readonly ProductStatus DoneProduct = new(4, "生产完成");
 
-    public static ProductStatus CancelledProduct = new(5, "生产取消");
+    public static readonly ProductStatus CancelledProduct = new(5, "生产取消");
 
-    public static ProductStatus ScarpProduct = new(6, "生产报废");
+    public static readonly ProductStatus ScarpProduct = new(6, "生产报废");
 
     public ProductStatus(int id, string name)
         : base(id, name)

@@ -14,6 +14,10 @@ public class ProductItemEntityTypeConfiguration : IEntityTypeConfiguration<Produ
 
         productItemConfiguration.Ignore(x => x.DomainEvents);
 
+        productItemConfiguration.Property(x => x.ProductTypeId)
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .IsRequired();
+
         productItemConfiguration.Property(x => x.ProductItemName)
             .HasMaxLength(40)
             .UsePropertyAccessMode(PropertyAccessMode.Field)

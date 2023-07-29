@@ -5,30 +5,74 @@ namespace ProductManage.Domain.AggregatesModel;
 
 public class ProductItem : Entity
 {
-    public readonly string ProductItemName; //产品明细名称
+    /// <summary>
+    /// 产品类型Id
+    /// </summary>
+    public int ProductTypeId;
 
-    public string TechnicalRequirements; //技术要求
+    /// <summary>
+    /// 产品明细名称
+    /// </summary>
+    public string ProductItemName;
 
-    public string Material; // 材料型号
+    /// <summary>
+    /// 技术要求
+    /// </summary>
+    public string TechnicalRequirements;
 
-    public string Diameter; // 直径
+    /// <summary>
+    /// 材料型号
+    /// </summary>
+    public string Material;
 
-    public string Length; //长度
+    /// <summary>
+    /// 直径
+    /// </summary>
+    public string Diameter;
 
-    public string FigureNo; // 图号
+    /// <summary>
+    /// 长度
+    /// </summary>
+    public string Length;
 
-    public int Amount; //数量
+    /// <summary>
+    /// 图号
+    /// </summary>
+    public string FigureNo;
 
-    public string Unit; //单位
+    /// <summary>
+    /// 数量
+    /// </summary>
+    public int Amount;
 
-    public int ProductStatusId; // 产品状态
+    /// <summary>
+    /// 单位
+    /// </summary>
+    public string Unit;
 
-    public TimeSpan ScheduledTime; //
+    /// <summary>
+    ///  产品生产状态
+    /// </summary>
+    public int ProductStatusId;
 
-    public DateTime StartTime;
+    /// <summary>
+    /// 计划时间
+    /// </summary>
+    public TimeSpan ScheduledTime;
 
-    public DateTime EndTime;
+    /// <summary>
+    /// 开始时间
+    /// </summary>
+    public DateTime? StartTime;
 
+    /// <summary>
+    /// 结束时间
+    /// </summary>
+    public DateTime? EndTime;
+
+    /// <summary>
+    ///  工时
+    /// </summary>
     public TimeSpan? ManHour;
 
     private ProductItem()
@@ -36,9 +80,11 @@ public class ProductItem : Entity
         ProductStatusId = ProductStatus.UnProduct.Id;
     }
 
-    public ProductItem(string productItemName, string technicalRequirements, string material, string diameter,
+    public ProductItem(int productTypeId, string productItemName,
+        string technicalRequirements, string material, string diameter,
         string length, string figureNo, int amount, string unit) : this()
     {
+        ProductTypeId = productTypeId;
         ProductItemName = productItemName;
         TechnicalRequirements = technicalRequirements;
         Material = material;
@@ -49,7 +95,10 @@ public class ProductItem : Entity
         Unit = unit;
     }
 
-
+    /// <summary>
+    /// 开始生产
+    /// </summary>
+    /// <param name="scheduleTime"></param>
     public void StartProductItem(TimeSpan scheduleTime)
     {
         ProductStatusId = ProductStatus.DoingProduct.Id;
@@ -57,6 +106,9 @@ public class ProductItem : Entity
         ScheduledTime = scheduleTime;
     }
 
+    /// <summary>
+    ///  状态扭转
+    /// </summary>
     public void TransferStatus()
     {
         ++ProductStatusId;
@@ -66,6 +118,9 @@ public class ProductItem : Entity
         }
     }
 
+    /// <summary>
+    /// 完成产品
+    /// </summary>
     private void FinishProductItem()
     {
         ProductStatusId = ProductStatus.DoneProduct.Id;
@@ -73,18 +128,25 @@ public class ProductItem : Entity
         ManHour = EndTime - StartTime;
     }
 
+    /// <summary>
+    /// 取消订单
+    /// </summary>
     public void CancelProductItem()
     {
         ProductStatusId = ProductStatus.ScarpProduct.Id;
     }
 
+    /// <summary>
+    /// 更新数量
+    /// </summary>
+    /// <param name="amount"></param>
+    /// <exception cref="ProductDomainException"></exception>
     public void SetNewAmount(int amount)
     {
         if (amount < 0)
         {
             throw new ProductDomainException("amount is not valid");
         }
-
         Amount = amount;
     }
 }

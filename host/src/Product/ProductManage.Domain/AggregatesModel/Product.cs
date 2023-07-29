@@ -7,7 +7,7 @@ public class Product : Entity, IAggregateRoot
 {
     public readonly int QuotationId;
 
-    public readonly string Description;
+    public readonly string Description = null!;
 
     public DateTime CreateTime;
 
@@ -15,42 +15,50 @@ public class Product : Entity, IAggregateRoot
 
     public DateTime EndTime;
 
-    public decimal CompletionRate;
+    private decimal CompletionRate;
+
+    public ProductStatus ProductStatus { get; private set; }
 
     public int ProductStatusId;
 
-    public TimeSpan? TotalManHour;
+    private TimeSpan? TotalManHour;
 
     // Address is a Value Object pattern example persisted as EF Core 2.0 owned entity
-    public Address Address { get; private set; }
+    public Address Address { get; set; }
 
     private readonly List<ProductItem> _productItems;
 
     public IReadOnlyCollection<ProductItem> ProductItems => _productItems;
 
-    public Product(int quotationId, string description)
+    private Product()
+    {
+    }
+
+    public Product(int quotationId, string description) : this()
     {
         QuotationId = quotationId;
         Description = description;
         _productItems = new List<ProductItem>();
     }
 
-    public void InitProduct(DateTime createDate, string street, string city, string province, string zipCode)
+    public void InitProduct(Address address)
     {
-        CreateTime = createDate;
+        CreateTime = DateTime.Now;
         ProductStatusId = ProductStatus.UnProduct.Id;
         CompletionRate = 0;
-        Address = new Address(street, city, province, zipCode);
+        Address = address;
         TotalManHour = new TimeSpan();
     }
 
-    public void AddProductItem(string productItemName, string technicalRequirements, string material, string diameter,
+    public void AddProductItem(int productTypeId, string productItemName, string technicalRequirements, string material,
+        string diameter,
         string length, string figureNo, int amount, string unit)
     {
         var existingProductItem = _productItems.SingleOrDefault(o => o.ProductItemName == productItemName);
         if (existingProductItem is null)
         {
-            _productItems.Add(new ProductItem(productItemName, technicalRequirements, material, diameter, length,
+            _productItems.Add(new ProductItem(productTypeId, productItemName, technicalRequirements, material, diameter,
+                length,
                 figureNo, amount, unit));
         }
     }
@@ -76,7 +84,6 @@ public class Product : Entity, IAggregateRoot
         {
             existingProductItem.TransferStatus();
         }
-
         CalculateCompletionRate();
     }
 
@@ -95,7 +102,6 @@ public class Product : Entity, IAggregateRoot
         if (CompletionRate != 1) return;
         ProductStatusId = ProductStatus.DoneProduct.Id;
         EndTime = DateTime.Now;
-        // TotalManHour =
         var manHourList = _productItems.Where(T => T.ProductStatusId.Equals(ProductStatus.DoneProduct.Id))
             .Select(t => t.ManHour).ToList();
         for (var i = 1; i < manHourList.Count; i++)
@@ -110,7 +116,9 @@ public class Product : Entity, IAggregateRoot
         {
             productItem.CancelProductItem();
         }
+
         ProductStatusId = ProductStatus.CancelledProduct.Id;
         EndTime = DateTime.Now;
     }
+
 }

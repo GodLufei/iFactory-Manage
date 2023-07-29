@@ -12,7 +12,7 @@ public class ProductContext : DbContext, IUnitOfWork
 {
     public const string DEFAULT_SCHEMA = "Product";
 
-    public DbSet<ProductManage.Domain.AggregatesModel.Product> Orders { get; set; }
+    public DbSet<ProductManage.Domain.AggregatesModel.Product> Products { get; set; }
 
     public DbSet<ProductItem> OrderItems { get; set; }
 

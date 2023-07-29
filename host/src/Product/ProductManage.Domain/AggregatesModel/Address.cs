@@ -9,9 +9,9 @@ public class Address : ValueObject
     public String Province { get; private set; }
     public String ZipCode { get; private set; }
 
-    public Address() { }
+    private Address() { }
 
-    public Address(string street, string city, string province, string zipcode)
+    public Address(string street, string city, string province, string zipcode) : this()
     {
         Street = street;
         City = city;
