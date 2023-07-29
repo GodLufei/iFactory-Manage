@@ -2,29 +2,45 @@ import type { AppRouteModule } from '/@/router/types';
 
 import { LAYOUT } from '/@/router/constant';
 
-const dashboard: AppRouteModule = {
+const product: AppRouteModule = {
   path: '/product',
   name: 'Product',
   component: LAYOUT,
-  redirect: '/product/index',
+  redirect: '/product',
   meta: {
-    hideChildrenInMenu: true,
     icon: 'ant-design:inbox-outlined',
     title: '货品管理',
-    orderNo: 100000,
+    orderNo: 100,
   },
   children: [
     {
-      path: 'index',
+      path: 'list',
       name: 'ProductPage',
-      component: () => import('/@/views/product/index.vue'),
+      component: () => import('/@/views/product/list/index.vue'),
       meta: {
         title: '货品管理',
         icon: 'ant-design:inbox-outlined',
-        hideMenu: true,
+      },
+    },
+    {
+      path: 'create',
+      name: 'CreateProductPage',
+      component: () => import('/@/views/product/create/index.vue'),
+      meta: {
+        title: '货品创建',
+        icon: 'ant-design:inbox-outlined',
+      },
+    },
+    {
+      path: 'detail',
+      name: 'ProductDetailPage',
+      component: () => import('/@/views/product/detail/index.vue'),
+      meta: {
+        title: '货品详情',
+        icon: 'ant-design:inbox-outlined',
       },
     },
   ],
 };
 
-export default dashboard;
+export default product;

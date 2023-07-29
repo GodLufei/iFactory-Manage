@@ -8,10 +8,10 @@
 
   import { BasicTable, useTable } from '/@/components/Table';
 
-  import { columns, searchFormSchema, datas } from './data';
+  import { columns, searchFormSchema, datas } from '../data';
 
   export default defineComponent({
-    name: 'RoleManagement',
+    name: 'CreateProductPage',
     components: { BasicTable },
     setup() {
       const [registerTable] = useTable({

@@ -3,44 +3,43 @@ import { MockMethod } from 'vite-plugin-mock';
 import { createFakeUserList } from './user';
 
 // single
-const dashboardRoute = {
-  path: '/dashboard',
-  name: 'Dashboard',
+const productRoute = {
+  path: '/product',
+  name: 'Product',
   component: 'LAYOUT',
-  redirect: '/dashboard/analysis',
+  redirect: '/product/index',
   meta: {
-    title: 'routes.dashboard.dashboard',
+    title: '货品管理',
     hideChildrenInMenu: true,
     icon: 'bx:bx-home',
   },
   children: [
     {
-      path: 'analysis',
-      name: 'Analysis',
-      component: '/dashboard/analysis/index',
+      path: 'index',
+      name: 'ProductPage',
+      component: '/product/index',
       meta: {
         hideMenu: true,
         hideBreadcrumb: true,
-        title: 'routes.dashboard.analysis',
-        currentActiveMenu: '/dashboard',
+        title: '货品管理',
+        currentActiveMenu: '/product',
         icon: 'bx:bx-home',
       },
     },
     {
-      path: 'workbench',
-      name: 'Workbench',
-      component: '/dashboard/workbench/index',
+      path: 'create',
+      name: 'CreateProductPage',
+      component: '/product/create',
       meta: {
         hideMenu: true,
         hideBreadcrumb: true,
-        title: 'routes.dashboard.workbench',
-        currentActiveMenu: '/dashboard',
+        title: '货品创建',
+        currentActiveMenu: '/product',
         icon: 'bx:bx-home',
       },
     },
   ],
 };
-
 const backRoute = {
   path: 'back',
   name: 'PermissionBackDemo',
@@ -253,12 +252,12 @@ export default [
       let menu: Object[];
       switch (id) {
         case '1':
-          dashboardRoute.redirect = dashboardRoute.path + '/' + dashboardRoute.children[0].path;
-          menu = [dashboardRoute, authRoute, levelRoute, sysRoute, linkRoute];
+          // dashboardRoute.redirect = dashboardRoute.path + '/' + dashboardRoute.children[0].path;
+          menu = [productRoute, authRoute, levelRoute, sysRoute, linkRoute];
           break;
         case '2':
-          dashboardRoute.redirect = dashboardRoute.path + '/' + dashboardRoute.children[1].path;
-          menu = [dashboardRoute, authRoute, levelRoute, linkRoute];
+          // dashboardRoute.redirect = dashboardRoute.path + '/' + dashboardRoute.children[1].path;
+          menu = [productRoute, authRoute, levelRoute, linkRoute];
           break;
         default:
           menu = [];

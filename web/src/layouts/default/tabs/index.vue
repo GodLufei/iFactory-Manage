@@ -18,11 +18,11 @@
         </TabPane>
       </template>
 
-      <template #tabBarExtraContent v-if="getShowRedo || getShowQuick">
+      <!-- <template #tabBarExtraContent v-if="getShowRedo || getShowQuick">
         <TabRedo v-if="getShowRedo" />
         <TabContent isExtra :tabItem="$route" v-if="getShowQuick" />
         <FoldButton v-if="getShowFold" />
-      </template>
+      </template> -->
     </Tabs>
   </div>
 </template>
@@ -33,8 +33,8 @@
 
   import { Tabs } from 'ant-design-vue';
   import TabContent from './components/TabContent.vue';
-  import FoldButton from './components/FoldButton.vue';
-  import TabRedo from './components/TabRedo.vue';
+  // import FoldButton from './components/FoldButton.vue';
+  // import TabRedo from './components/TabRedo.vue';
 
   import { useGo } from '/@/hooks/web/usePage';
 
@@ -53,8 +53,8 @@
   export default defineComponent({
     name: 'MultipleTabs',
     components: {
-      TabRedo,
-      FoldButton,
+      // TabRedo,
+      // FoldButton,
       Tabs,
       TabPane: Tabs.TabPane,
       TabContent,
