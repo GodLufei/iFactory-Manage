@@ -2,11 +2,10 @@
 using MediatR;
 namespace ProductManage.API.Application.Commands;
 
-[DataContract]
 public class CreateProductCommand : IRequest<int>
 {
-    [DataMember] public List<ProductItemDTO> ProductItems;
-
+    [DataMember] public List<ProductItemDTO> ProductItems { get; private set; }
+    
     [DataMember] public string City { get; private set; }
 
     [DataMember] public string Street { get; private set; }
@@ -84,10 +83,6 @@ public class CreateProductCommand : IRequest<int>
         /// 单位
         /// </summary>
         public string Unit { get; private set; }
-
-        /// <summary>
-        /// 计划时间
-        /// </summary>
-        public TimeSpan ScheduledTime { get; private set; }
+        
     }
 }

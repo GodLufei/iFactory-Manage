@@ -25,14 +25,14 @@ public abstract class CommonControllerBase : ControllerBase
         return response;
     }
 
-    protected virtual IActionResult Succeed<T>(T data, int httpStatusCode, string message)
+    public virtual IActionResult Succeed<T>(T data, int httpStatusCode, string message)
     {
         var response = GenericResponse(data, message, httpStatusCode);
 
         return response;
     }
 
-    private static IActionResult GenericResponse<T>(T data, string message,
+    public static IActionResult GenericResponse<T>(T data, string message,
         int httpStatusCode)
     {
         return new JsonResult(new GenericResponse<T>

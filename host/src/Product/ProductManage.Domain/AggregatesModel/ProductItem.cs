@@ -94,6 +94,33 @@ public class ProductItem : Entity
         Amount = amount;
         Unit = unit;
     }
+    
+    /// <summary>
+    /// 更新ProductItem
+    /// </summary>
+    /// <param name="productTypeId"></param>
+    /// <param name="productItemName"></param>
+    /// <param name="technicalRequirements"></param>
+    /// <param name="material"></param>
+    /// <param name="diameter"></param>
+    /// <param name="length"></param>
+    /// <param name="figureNo"></param>
+    /// <param name="amount"></param>
+    /// <param name="unit"></param>
+    public void UpdateProductItem(int productTypeId, string productItemName,
+        string technicalRequirements, string material, string diameter,
+        string length, string figureNo, int amount, string unit)
+    {
+        ProductTypeId = productTypeId;
+        ProductItemName = productItemName;
+        TechnicalRequirements = technicalRequirements;
+        Material = material;
+        Diameter = diameter;
+        Length = length;
+        FigureNo = figureNo;
+        Amount = amount;
+        Unit = unit;
+    }
 
     /// <summary>
     /// 开始生产

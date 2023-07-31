@@ -34,7 +34,7 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
                 productItem.Diameter, productItem.Length, productItem.FigureNo, productItem.Amount,
                 productItem.Unit);
         }
-        _logger.LogInformation("----- Creating product - Order: {@Order}", product);
+        _logger.LogInformation("----- Creating product - Product: {@Product}", product);
 
         var result = _productRepository.Add(product);
 

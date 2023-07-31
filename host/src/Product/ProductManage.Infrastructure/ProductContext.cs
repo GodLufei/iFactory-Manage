@@ -14,7 +14,7 @@ public class ProductContext : DbContext, IUnitOfWork
 
     public DbSet<ProductManage.Domain.AggregatesModel.Product> Products { get; set; }
 
-    public DbSet<ProductItem> OrderItems { get; set; }
+    public DbSet<ProductItem> ProductItems { get; set; }
 
     private readonly IMediator _mediator;
 

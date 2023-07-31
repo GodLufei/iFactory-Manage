@@ -19,7 +19,7 @@ public class QuotationController : CommonControllerBase
         _logger = logger;
     }
 
-    [ProducesResponseType(typeof(IEnumerable<>), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpPost("")]

@@ -5,6 +5,11 @@ namespace ProductManage.Domain.AggregatesModel;
 public interface IProductRepository : IRepository<Product>
 {
     Product Add(Product order);
-
-    Task<Product?> GetAsync(int orderId);
+    Product Update(Product order);
+    
+    Task<Product?> GetAsync(int id);
+    
+    Task<ProductItem> GetItemAsync(int id);
+    
+    ProductItem UpdateItem(ProductItem order);
 }
