@@ -1,84 +1,63 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
-import { h } from 'vue';
-import { Switch } from 'ant-design-vue';
+import { list } from '/@/api/product/product';
 
 export const columns: BasicColumn[] = [
   {
     title: '货品名称',
-    dataIndex: 'productName',
-    width: 200,
+    dataIndex: 'name',
+    width: 100,
   },
   {
     title: '货品类别',
-    dataIndex: 'productCategory',
-    width: 180,
-  },
-  {
-    title: '状态',
-    dataIndex: 'status',
-    width: 120,
-    customRender: ({ record }) => {
-      if (!Reflect.has(record, 'pendingStatus')) {
-        record.pendingStatus = false;
-      }
-      return h(Switch, {
-        checked: record.status === 1,
-        checkedChildren: '停用',
-        unCheckedChildren: '启用',
-        loading: record.pendingStatus,
-        onChange(checked: boolean) {
-          record.pendingStatus = checked;
-        },
-      });
+    dataIndex: 'productType',
+    width: 100,
+    customRender: ({ type }) => {
+      return type === 1 ? '轴系' : '舵系';
     },
   },
   {
-    title: '创建时间',
-    dataIndex: 'createTime',
-    width: 180,
+    title: '地址',
+    dataIndex: 'address',
+    width: 120,
+    customRender: ({ address }) => {
+      return `${address.province} ${address.city} ${address.street}`;
+    },
   },
   {
-    title: '备注',
-    dataIndex: 'remark',
+    title: '报价单Id',
+    dataIndex: 'quotationId',
+    width: 120,
+  },
+  {
+    title: '描述',
+    dataIndex: 'description',
   },
 ];
 
 export const searchFormSchema: FormSchema[] = [
   {
-    field: 'productName',
+    field: 'name',
     label: '货品名称',
     component: 'Input',
     colProps: { span: 8 },
   },
   {
-    field: 'productCategory',
+    field: 'productType',
     label: '货品类别',
     component: 'Select',
     componentProps: {
       options: [
+        { label: '舵系', value: '2' },
         { label: '轴系', value: '1' },
-        { label: '舵系', value: '0' },
+        { label: '全部', value: '0' },
       ],
     },
     colProps: { span: 8 },
   },
 ];
 
-export const datas: object[] = [
-  {
-    productName: '联轴节',
-    productCategory: '轴系',
-    orderNo: 1,
-    status: 1,
-    createTime: '2023-07-30',
-    remark: '嘻嘻嘻',
-  },
-  {
-    productName: '上舵杆',
-    productCategory: '舵系',
-    orderNo: 2,
-    status: 0,
-    createTime: '2023-07-30',
-    remark: '嘻嘻嘻',
-  },
-];
+export const datas = await getProducts();
+
+export function getProducts() {
+  return list();
+}

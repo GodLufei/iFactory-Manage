@@ -8,15 +8,15 @@
 
   import { BasicTable, useTable } from '/@/components/Table';
 
-  import { columns, searchFormSchema, datas } from '../data';
-
+  import { columns, searchFormSchema, getProducts } from '../data';
   export default defineComponent({
     name: 'ProductPage',
     components: { BasicTable },
-    setup() {
+    async setup() {
+      const products = await getProducts();
       const [registerTable] = useTable({
         columns,
-        dataSource: datas,
+        dataSource: products,
         formConfig: {
           labelWidth: 100,
           schemas: searchFormSchema,
