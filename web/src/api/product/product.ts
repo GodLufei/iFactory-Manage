@@ -7,6 +7,7 @@ import {
   Product,
   UpdateProductItemRequest,
 } from './model/productModel';
+import { BasicFetchResult } from '../model/baseModel';
 
 enum Api {
   Product = '/product',
@@ -16,8 +17,8 @@ enum Api {
 /**
  * @description: get products
  */
-export async function list(mode: ErrorMessageMode = 'modal') {
-  return await defHttp.get<Product[]>({ url: Api.Product }, { errorMessageMode: mode });
+export function list(mode: ErrorMessageMode = 'modal') {
+  return defHttp.get<BasicFetchResult<Product>>({ url: Api.Product }, { errorMessageMode: mode });
 }
 
 /**

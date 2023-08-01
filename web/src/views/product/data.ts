@@ -1,5 +1,6 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { list } from '/@/api/product/product';
+import { toRaw } from 'vue';
 
 export const columns: BasicColumn[] = [
   {
@@ -11,15 +12,16 @@ export const columns: BasicColumn[] = [
     title: '货品类别',
     dataIndex: 'productType',
     width: 100,
-    customRender: ({ type }) => {
-      return type === 1 ? '轴系' : '舵系';
+    customRender: ({ text }) => {
+      return text === 1 ? '轴系' : '舵系';
     },
   },
   {
     title: '地址',
     dataIndex: 'address',
     width: 120,
-    customRender: ({ address }) => {
+    customRender: function ({ text }) {
+      const address = toRaw(text);
       return `${address.province} ${address.city} ${address.street}`;
     },
   },
@@ -47,16 +49,16 @@ export const searchFormSchema: FormSchema[] = [
     component: 'Select',
     componentProps: {
       options: [
-        { label: '舵系', value: '2' },
-        { label: '轴系', value: '1' },
         { label: '全部', value: '0' },
+        { label: '轴系', value: '1' },
+        { label: '舵系', value: '2' },
       ],
     },
     colProps: { span: 8 },
   },
 ];
 
-export const datas = await getProducts();
+export const datas = [];
 
 export function getProducts() {
   return list();

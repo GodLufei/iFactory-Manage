@@ -8,15 +8,18 @@
 
   import { BasicTable, useTable } from '/@/components/Table';
 
-  import { columns, searchFormSchema, getProducts } from '../data';
+  import { columns, searchFormSchema } from '../data';
+  import { list } from '/@/api/product/product';
+
   export default defineComponent({
     name: 'ProductPage',
     components: { BasicTable },
-    async setup() {
-      const products = await getProducts();
+    setup() {
+      // const products = await getProducts();
       const [registerTable] = useTable({
         columns,
-        dataSource: products,
+        api: list,
+        // dataSource: products,
         formConfig: {
           labelWidth: 100,
           schemas: searchFormSchema,
@@ -25,12 +28,13 @@
         showTableSetting: false,
         bordered: true,
         showIndexColumn: false,
-        actionColumn: {
-          width: 80,
-          title: '操作',
-          dataIndex: 'action',
-          fixed: undefined,
-        },
+        // actionColumn: {
+        //   width: 80,
+        //   title: '操作',
+        //   dataIndex: 'action',
+        //   fixed: undefined,
+        //   slots: { customRender: 'action' },
+        // },
       });
 
       return {

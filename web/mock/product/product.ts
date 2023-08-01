@@ -1,7 +1,7 @@
 import { MockMethod } from 'vite-plugin-mock';
 import { resultSuccess, resultError } from '../_util';
 import { ResultEnum } from '../../src/enums/httpEnum';
-import { Product, ProductItemDTO } from '/@/api/product/model/productModel';
+import { Address, Product, ProductItemDTO } from '/@/api/product/model/productModel';
 
 const productInfos: Product[] = [
   {
@@ -12,7 +12,7 @@ const productInfos: Product[] = [
       city: '南京市',
       province: '江苏省',
       zipCode: '0010101',
-    },
+    } as Address,
     quotationId: 1,
     description: 'ceshitest',
     productType: 1,
