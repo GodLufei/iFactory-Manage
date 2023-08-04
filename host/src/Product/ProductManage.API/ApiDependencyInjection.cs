@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Product.Infrastructure;
+using ProductManage.API.Application.Commands;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -10,6 +11,9 @@ public static class ApiDependencyInjection
     {
         services.AddMediatR(cfg =>
             cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+        
+        services.AddAutoMapper(typeof(CreateProductCommand).Assembly);
+        
         // services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidatorBehavior<,>));
         // services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionBehaviour<,>));
 

@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ProductManage.API.Application.Commands;
+using ProductManage.API.DTOs;
 
 namespace ProductManage.API.Controllers;
 
@@ -19,7 +20,7 @@ public class ProductController : CommonControllerBase
         _logger = logger;
     }
 
-    [ProducesResponseType(typeof(IEnumerable<int>), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpPost("")]
@@ -29,12 +30,33 @@ public class ProductController : CommonControllerBase
         _logger.LogInformation($"create the product succeed: id{result}");
         return Succeed<int>(result, StatusCodes.Status201Created);
     }
-    
+
+    [ProducesResponseType(typeof(IEnumerable<ProductListDto>), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [HttpGet("")]
+    public async Task<IActionResult> GetListAsync()
+    {
+        var result = await _mediator.Send(new QueryProductListCommand());
+        return Succeed(result, StatusCodes.Status201Created);
+    }
+
+    [ProducesResponseType(typeof(IEnumerable<ProductListDto>), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [HttpGet("{id:int}")]
+    public async Task<IActionResult> GetAsync([FromQuery] int id)
+    {
+        var result = await _mediator.Send(new QueryProductDetailCommand(id));
+        return Succeed(result, StatusCodes.Status201Created);
+    }
+
+
     [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpPost("productItem/{id}")]
-    public async Task<IActionResult> Update([FromBody] ChangeProductItemCommand changeProductItemCommand)
+    public async Task<IActionResult> UpdateItem([FromBody] ChangeProductItemCommand changeProductItemCommand)
     {
         var result = await _mediator.Send(changeProductItemCommand);
         _logger.LogInformation($"update the productItem succeed: id{result}");

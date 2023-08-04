@@ -4,8 +4,8 @@ namespace ProductManage.API.Application.Commands;
 
 public class CreateProductCommand : IRequest<int>
 {
-    [DataMember] public List<ProductItemDTO> ProductItems { get; private set; }
-    
+    [DataMember] public List<ProductItemDto> ProductItems { get; private set; }
+
     [DataMember] public string City { get; private set; }
 
     [DataMember] public string Street { get; private set; }
@@ -18,12 +18,12 @@ public class CreateProductCommand : IRequest<int>
 
     [DataMember] public string Description { get; private set; }
 
-    public CreateProductCommand()
+    private CreateProductCommand()
     {
-        ProductItems = new List<ProductItemDTO>();
+
     }
 
-    public CreateProductCommand(List<ProductItemDTO> productItems,
+    public CreateProductCommand(List<ProductItemDto> productItems,
         string description, int quotationId,
         string city, string street, string province,
         string zipcode) : this()
@@ -37,52 +37,65 @@ public class CreateProductCommand : IRequest<int>
         ZipCode = zipcode;
     }
 
-    public class ProductItemDTO
+    public class ProductItemDto
     {
+        public ProductItemDto(int productTypeId, string name, string technicalRequirements, string material, string diameter, string length, string figureNo, int amount, string unit)
+        {
+            ProductTypeId = productTypeId;
+            Name = name;
+            TechnicalRequirements = technicalRequirements;
+            Material = material;
+            Diameter = diameter;
+            Length = length;
+            FigureNo = figureNo;
+            Amount = amount;
+            Unit = unit;
+        }
+
         /// <summary>
         ///  产品类型Id
         /// </summary>
-        public int ProductTypeId { get; private set; }
+        public int ProductTypeId { get; }
 
         /// <summary>
         /// 产品名称
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; }
 
         /// <summary>
         /// 技术要求
         /// </summary>
-        public string TechnicalRequirements { get; private set; }
+        public string TechnicalRequirements { get; }
 
         /// <summary>
         /// 材料
         /// </summary>
-        public string Material { get; private set; }
+        public string Material { get; }
 
         /// <summary>
         /// 直径
         /// </summary>
-        public string Diameter { get; private set; }
+        public string Diameter { get; }
 
         /// <summary>
         /// 长度
         /// </summary>
-        public string Length { get; private set; }
+        public string Length { get; }
 
         /// <summary>
         ///  图号
         /// </summary>
-        public string FigureNo { get; private set; }
+        public string FigureNo { get; }
 
         /// <summary>
         /// 数量
         /// </summary>
-        public int Amount { get; private set; }
+        public int Amount { get; }
 
         /// <summary>
         /// 单位
         /// </summary>
-        public string Unit { get; private set; }
-        
+        public string Unit { get; }
+
     }
 }

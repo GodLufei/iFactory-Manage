@@ -19,26 +19,33 @@ public class ProductRepository : IProductRepository
     {
         return _context.Products.Add(order).Entity;
     }
-    
+
 
     public ProductManage.Domain.AggregatesModel.Product Update(ProductManage.Domain.AggregatesModel.Product quotation)
     {
         var entry = _context.Products.Update(quotation);
         return entry.Entity;
     }
-    
-    public async Task<ProductManage.Domain.AggregatesModel.Product?> GetAsync(int id)
+
+    public async Task<ProductManage.Domain.AggregatesModel.Product> GetAsync(int id)
     {
         var product = await _context
             .Products
             .Include(x => x.Address)
             .FirstOrDefaultAsync(o => o.Id == id);
-        if (product == null) return product;
+        if (product == null) return product!;
         await _context.Entry(product)
             .Collection(i => i.ProductItems).LoadAsync();
         await _context.Entry(product)
             .Reference(i => i.ProductStatus).LoadAsync();
         return product;
+    }
+
+    public async Task<IEnumerable<ProductManage.Domain.AggregatesModel.Product>> GetListAsync()
+    {
+        return await _context
+            .Products
+            .Include(x => x.Address).ToListAsync();
     }
 
     public async Task<ProductItem> GetItemAsync(int id)

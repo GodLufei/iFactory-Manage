@@ -17,12 +17,12 @@ public class ProductStatus : Enumeration
 
     public static readonly ProductStatus ScarpProduct = new(6, "生产报废");
 
-    public ProductStatus(int id, string name)
+    private ProductStatus(int id, string name)
         : base(id, name)
     {
     }
 
-    public static IEnumerable<ProductStatus> List() => new[] { UnProduct, AwaitingProduct, DoingProduct, DoneProduct, CancelledProduct, ScarpProduct };
+    private static IEnumerable<ProductStatus> List() => new[] { UnProduct, AwaitingProduct, DoingProduct, DoneProduct, CancelledProduct, ScarpProduct };
 
     public static ProductStatus FromName(string name)
     {

@@ -22,7 +22,7 @@ public class ChangeProductItemCommandHandler : IRequestHandler<ChangeProductItem
         var productItem = await _productRepository.GetItemAsync(request.Id);
         productItem.UpdateProductItem(request.ProductTypeId, request.Name, request.TechnicalRequirements,
             request.Material, request.Diameter, request.Length, request.FigureNo, request.Amount, request.Unit);
-        
+
         var newProductItem = _productRepository.UpdateItem(productItem);
         _logger.LogInformation("----- Creating product - ProductItem: {@ProductItem}", newProductItem);
         return newProductItem.Id;

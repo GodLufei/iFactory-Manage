@@ -3,20 +3,16 @@ using ProductManage.Domain.AggregatesModel;
 
 namespace ProductManage.API.Application.Commands;
 
-public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, int>
+public abstract class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, int>
 {
-    private readonly IMediator _mediator;
-
     private readonly IProductRepository _productRepository;
 
     private readonly ILogger<CreateProductCommandHandler> _logger;
 
-
-    public CreateProductCommandHandler(IMediator mediator,
+    protected CreateProductCommandHandler(
         IProductRepository productRepository,
         ILogger<CreateProductCommandHandler> logger)
     {
-        _mediator = mediator;
         _productRepository = productRepository;
         _logger = logger;
     }
@@ -34,6 +30,7 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
                 productItem.Diameter, productItem.Length, productItem.FigureNo, productItem.Amount,
                 productItem.Unit);
         }
+
         _logger.LogInformation("----- Creating product - Product: {@Product}", product);
 
         var result = _productRepository.Add(product);

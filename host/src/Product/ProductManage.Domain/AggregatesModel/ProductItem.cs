@@ -8,81 +8,77 @@ public class ProductItem : Entity
     /// <summary>
     /// 产品类型Id
     /// </summary>
-    public int ProductTypeId;
+    public int ProductTypeId { get; private set; }
 
     /// <summary>
     /// 产品明细名称
     /// </summary>
-    public string ProductItemName;
+    public string ProductItemName { get; private set; }
 
     /// <summary>
     /// 技术要求
     /// </summary>
-    public string TechnicalRequirements;
+    public string TechnicalRequirements { get; private set; }
 
     /// <summary>
     /// 材料型号
     /// </summary>
-    public string Material;
+    public string Material { get; private set; }
 
     /// <summary>
     /// 直径
     /// </summary>
-    public string Diameter;
+    public string Diameter { get; private set; }
 
     /// <summary>
     /// 长度
     /// </summary>
-    public string Length;
+    public string Length { get; private set; }
 
     /// <summary>
     /// 图号
     /// </summary>
-    public string FigureNo;
+    public string FigureNo { get; private set; }
 
     /// <summary>
     /// 数量
     /// </summary>
-    public int Amount;
+    public int Amount { get; private set; }
 
     /// <summary>
     /// 单位
     /// </summary>
-    public string Unit;
+    public string Unit { get; private set; }
 
     /// <summary>
     ///  产品生产状态
     /// </summary>
-    public int ProductStatusId;
+    public int ProductStatusId { get; private set; }
 
     /// <summary>
     /// 计划时间
     /// </summary>
-    public TimeSpan ScheduledTime;
+    public TimeSpan ScheduledTime { get; private set; }
 
     /// <summary>
     /// 开始时间
     /// </summary>
-    public DateTime? StartTime;
+    public DateTime? StartTime { get; private set; }
 
     /// <summary>
     /// 结束时间
     /// </summary>
-    public DateTime? EndTime;
+    public DateTime? EndTime { get; private set; }
 
     /// <summary>
     ///  工时
     /// </summary>
-    public TimeSpan? ManHour;
+    public TimeSpan? ManHour { get; private set; }
 
-    private ProductItem()
-    {
-        ProductStatusId = ProductStatus.UnProduct.Id;
-    }
 
     public ProductItem(int productTypeId, string productItemName,
         string technicalRequirements, string material, string diameter,
-        string length, string figureNo, int amount, string unit) : this()
+        string length, string figureNo, int amount, string unit)
     {
         ProductTypeId = productTypeId;
         ProductItemName = productItemName;
@@ -94,7 +90,7 @@ public class ProductItem : Entity
         Amount = amount;
         Unit = unit;
     }
-    
+
     /// <summary>
     /// 更新ProductItem
     /// </summary>

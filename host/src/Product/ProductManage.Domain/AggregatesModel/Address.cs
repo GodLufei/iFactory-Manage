@@ -4,14 +4,12 @@ namespace ProductManage.Domain.AggregatesModel;
 
 public class Address : ValueObject
 {
-    public String Street { get; private set; }
-    public String City { get; private set; }
-    public String Province { get; private set; }
-    public String ZipCode { get; private set; }
+    private String Street { get; }
+    private String City { get; }
+    private String Province { get; }
+    private String ZipCode { get; }
 
-    private Address() { }
-
-    public Address(string street, string city, string province, string zipcode) : this()
+    public Address(string street, string city, string province, string zipcode)
     {
         Street = street;
         City = city;
@@ -26,5 +24,10 @@ public class Address : ValueObject
         yield return City;
         yield return Province;
         yield return ZipCode;
+    }
+
+    public override string ToString()
+    {
+        return $"省份：{Province} 城市:{City} 街道：{Street}";
     }
 }

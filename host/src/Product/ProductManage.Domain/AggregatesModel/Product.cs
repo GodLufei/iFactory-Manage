@@ -7,7 +7,7 @@ public class Product : Entity, IAggregateRoot
 {
     public readonly int QuotationId;
 
-    public readonly string Description = null!;
+    public readonly string Description;
 
     public DateTime CreateTime;
 
@@ -15,15 +15,14 @@ public class Product : Entity, IAggregateRoot
 
     public DateTime EndTime;
 
-    private decimal CompletionRate;
+    public decimal CompletionRate;
 
     public ProductStatus ProductStatus { get; private set; }
 
     public int ProductStatusId;
 
-    private TimeSpan? TotalManHour;
+    public TimeSpan? TotalManHour;
 
-    // Address is a Value Object pattern example persisted as EF Core 2.0 owned entity
     public Address Address { get; set; }
 
     private readonly List<ProductItem> _productItems;
