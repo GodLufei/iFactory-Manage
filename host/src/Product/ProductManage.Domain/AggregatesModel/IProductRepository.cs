@@ -18,5 +18,7 @@ public interface IProductRepository : IRepository<Product>
     Task<ProductItem> GetItemAsync(int id);
 
     ProductItem UpdateItem(ProductItem order);
+
+    Task<int> DeleteItemAsync(int id);
     # endregion
 }

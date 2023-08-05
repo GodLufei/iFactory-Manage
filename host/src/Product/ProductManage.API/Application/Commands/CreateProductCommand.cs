@@ -1,10 +1,13 @@
 ﻿using System.Runtime.Serialization;
 using MediatR;
+
 namespace ProductManage.API.Application.Commands;
 
-public class CreateProductCommand : IRequest<int>
+public abstract class CreateProductCommand : IRequest<int>
 {
-    [DataMember] public List<ProductItemDto> ProductItems { get; private set; }
+    [DataMember] private readonly List<ProductItemDto> _productItem;
+
+    [DataMember] public IEnumerable<ProductItemDto> ProductItems => _productItem;
 
     [DataMember] public string City { get; private set; }
 
@@ -18,84 +21,35 @@ public class CreateProductCommand : IRequest<int>
 
     [DataMember] public string Description { get; private set; }
 
-    private CreateProductCommand()
+    public CreateProductCommand()
     {
-
+        _productItem = new List<ProductItemDto>();
     }
 
-    public CreateProductCommand(List<ProductItemDto> productItems,
+    public CreateProductCommand(
         string description, int quotationId,
         string city, string street, string province,
-        string zipcode) : this()
+        string zipcode, List<ProductItemDto> productItemDtos)
     {
-        ProductItems = productItems;
         QuotationId = quotationId;
         Description = description;
         City = city;
         Street = street;
         Province = province;
         ZipCode = zipcode;
+        _productItem = productItemDtos;
     }
 
-    public class ProductItemDto
+    public abstract record ProductItemDto
     {
-        public ProductItemDto(int productTypeId, string name, string technicalRequirements, string material, string diameter, string length, string figureNo, int amount, string unit)
-        {
-            ProductTypeId = productTypeId;
-            Name = name;
-            TechnicalRequirements = technicalRequirements;
-            Material = material;
-            Diameter = diameter;
-            Length = length;
-            FigureNo = figureNo;
-            Amount = amount;
-            Unit = unit;
-        }
-
-        /// <summary>
-        ///  产品类型Id
-        /// </summary>
-        public int ProductTypeId { get; }
-
-        /// <summary>
-        /// 产品名称
-        /// </summary>
-        public string Name { get; }
-
-        /// <summary>
-        /// 技术要求
-        /// </summary>
-        public string TechnicalRequirements { get; }
-
-        /// <summary>
-        /// 材料
-        /// </summary>
-        public string Material { get; }
-
-        /// <summary>
-        /// 直径
-        /// </summary>
-        public string Diameter { get; }
-
-        /// <summary>
-        /// 长度
-        /// </summary>
-        public string Length { get; }
-
-        /// <summary>
-        ///  图号
-        /// </summary>
-        public string FigureNo { get; }
-
-        /// <summary>
-        /// 数量
-        /// </summary>
-        public int Amount { get; }
-
-        /// <summary>
-        /// 单位
-        /// </summary>
-        public string Unit { get; }
-
+        public int ProductTypeId { get; init; }
+        public string Name { get; init; }
+        public string TechnicalRequirements { get; init; }
+        public string Material { get; init; }
+        public string Diameter { get; init; }
+        public string Length { get; init; }
+        public string FigureNo { get; init; }
+        public int Amount { get; init; }
+        public string Unit { get; init; }
     }
 }

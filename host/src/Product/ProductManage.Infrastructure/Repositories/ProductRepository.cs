@@ -60,4 +60,10 @@ public class ProductRepository : IProductRepository
         var entry = _context.ProductItems.Update(productItem);
         return entry.Entity;
     }
+
+    public async Task<int> DeleteItemAsync(int id)
+    {
+       var result= _context.ProductItems.Remove((await _context.ProductItems.FirstOrDefaultAsync(t => t.Id == id))!);
+       return result.Entity.Id;
+    }
 }

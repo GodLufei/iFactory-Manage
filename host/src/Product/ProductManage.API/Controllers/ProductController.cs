@@ -51,7 +51,6 @@ public class ProductController : CommonControllerBase
         return Succeed(result, StatusCodes.Status201Created);
     }
 
-
     [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -63,4 +62,14 @@ public class ProductController : CommonControllerBase
         return Succeed<int>(result, StatusCodes.Status200OK);
     }
 
+    [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [HttpDelete("productItem/{id}")]
+    public async Task<IActionResult> DeleteItem([FromQuery] int id)
+    {
+        var result = await _mediator.Send(new DeleteProductItemCommand(id) );
+        _logger.LogInformation($"update the productItem succeed: id{result}");
+        return Succeed<int>(result, StatusCodes.Status200OK);
+    }
 }
