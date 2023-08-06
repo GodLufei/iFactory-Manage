@@ -1,5 +1,5 @@
-﻿using ProductManage.Domain.Exceptions;
-using ProductManage.Domain.SeedWork;
+﻿using ProductManage.Domain.SeedWork;
+using ProductManage.Domain.Shared.Exceptions;
 
 namespace ProductManage.Domain.AggregatesModel;
 
@@ -27,11 +27,11 @@ public class ProductStatus : Enumeration
     public static ProductStatus FromName(string name)
     {
         var state = List()
-            .SingleOrDefault(s => String.Equals(s.Name, name, StringComparison.CurrentCultureIgnoreCase));
+            .SingleOrDefault(s => string.Equals(s.Name, name, StringComparison.CurrentCultureIgnoreCase));
 
         if (state == null)
         {
-            throw new ProductDomainException($"Possible values for ProductStatus: {String.Join(",", List().Select(s => s.Name))}");
+            throw new ProductDomainException($"Possible values for ProductStatus: {string.Join(",", List().Select(s => s.Name))}");
         }
 
         return state;

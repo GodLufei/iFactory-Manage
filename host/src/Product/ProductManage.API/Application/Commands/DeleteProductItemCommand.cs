@@ -7,7 +7,11 @@ public class DeleteProductItemCommand : IRequest<int>
 {
     public readonly int Id;
 
-    public DeleteProductItemCommand(int id)
+    private DeleteProductItemCommand()
+    {
+    }
+
+    public DeleteProductItemCommand(int id):this()
     {
         Id = id;
     }
@@ -17,11 +21,11 @@ public class DeleteProductItemCommandHandler : IRequestHandler<DeleteProductItem
 {
     private readonly IProductRepository _productRepository;
 
-    private readonly ILogger<CreateProductCommandHandler> _logger;
+    private readonly ILogger<DeleteProductItemCommandHandler> _logger;
 
-    protected DeleteProductItemCommandHandler(
+    public DeleteProductItemCommandHandler(
         IProductRepository productRepository,
-        ILogger<CreateProductCommandHandler> logger)
+        ILogger<DeleteProductItemCommandHandler> logger)
     {
         _productRepository = productRepository;
         _logger = logger;

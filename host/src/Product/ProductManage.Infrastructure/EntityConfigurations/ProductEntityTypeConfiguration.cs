@@ -48,5 +48,10 @@ public class ProductEntityTypeConfiguration : IEntityTypeConfiguration<ProductMa
         productConfiguration
             .Property<int>(x => x.ProductStatusId)
             .UsePropertyAccessMode(PropertyAccessMode.Field);
+
+        productConfiguration.HasMany(b => b.ProductItems)
+            .WithOne()
+            .HasForeignKey("ProductId")
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

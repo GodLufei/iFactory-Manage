@@ -1,5 +1,6 @@
-﻿using ProductManage.Domain.Exceptions;
-using ProductManage.Domain.SeedWork;
+﻿using ProductManage.Domain.SeedWork;
+using ProductManage.Domain.Shared.Exceptions;
+using ProductManage.Domain.Shared.Models;
 
 namespace ProductManage.Domain.AggregatesModel;
 

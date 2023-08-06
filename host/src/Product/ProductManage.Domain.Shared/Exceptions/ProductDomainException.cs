@@ -1,4 +1,4 @@
-﻿namespace ProductManage.Domain.Exceptions;
+﻿namespace ProductManage.Domain.Shared.Exceptions;
 
 public class ProductDomainException : Exception
 {

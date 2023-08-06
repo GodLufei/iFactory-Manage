@@ -42,6 +42,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductManage.Domain", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductManage.Infrastructure", "src\Product\ProductManage.Infrastructure\ProductManage.Infrastructure.csproj", "{5B6D6B48-E825-4148-BB64-99838B2A2169}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductManage.Domain.Shared", "src\Product\ProductManage.Domain.Shared\ProductManage.Domain.Shared.csproj", "{B67DB072-5003-41F5-AC8D-CA9575FF1FF2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,7 @@ Global
 		{B6005031-E11F-4D23-ABC9-2C15CA8890C5} = {F2C3BB21-51ED-4CA5-929A-1627DAFD18C2}
 		{6F832AA6-87EE-4E3B-8964-4A05A66ED286} = {1E46F69C-747B-4A9C-86C4-5C78E3090BF5}
 		{5B6D6B48-E825-4148-BB64-99838B2A2169} = {1E46F69C-747B-4A9C-86C4-5C78E3090BF5}
+		{B67DB072-5003-41F5-AC8D-CA9575FF1FF2} = {1E46F69C-747B-4A9C-86C4-5C78E3090BF5}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{30F7A709-275F-42CD-B888-6ED17BA9CD3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -113,5 +116,9 @@ Global
 		{5B6D6B48-E825-4148-BB64-99838B2A2169}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B6D6B48-E825-4148-BB64-99838B2A2169}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B6D6B48-E825-4148-BB64-99838B2A2169}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B67DB072-5003-41F5-AC8D-CA9575FF1FF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B67DB072-5003-41F5-AC8D-CA9575FF1FF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B67DB072-5003-41F5-AC8D-CA9575FF1FF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B67DB072-5003-41F5-AC8D-CA9575FF1FF2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

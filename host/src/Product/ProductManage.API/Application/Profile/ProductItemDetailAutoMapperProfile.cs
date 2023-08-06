@@ -1,5 +1,6 @@
 ﻿using ProductManage.API.DTOs;
 using ProductManage.Domain.AggregatesModel;
+using ProductManage.Domain.Shared.Enums;
 
 namespace ProductManage.API.Application.Profile;
 

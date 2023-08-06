@@ -19,8 +19,7 @@ public class ProductRepository : IProductRepository
     {
         return _context.Products.Add(order).Entity;
     }
-
-
+    
     public ProductManage.Domain.AggregatesModel.Product Update(ProductManage.Domain.AggregatesModel.Product quotation)
     {
         var entry = _context.Products.Update(quotation);

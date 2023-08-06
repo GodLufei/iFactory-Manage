@@ -8,15 +8,6 @@
 
     <ItemGroup>
       <PackageReference Include="MediatR.Contracts" Version="2.0.1" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.6" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\ProductManage.Domain.Shared\ProductManage.Domain.Shared.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Events" />
     </ItemGroup>
 
 </Project>

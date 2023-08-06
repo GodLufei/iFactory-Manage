@@ -14,6 +14,5 @@ public class ProductDetailAutoMapperProfile : AutoMapper.Profile
             .ForMember(d => d.CompletionRate, o => o.MapFrom(s => s.CompletionRate))
             .ForMember(d => d.TotalManHour, o => o.MapFrom(s => s.TotalManHour))
             .ForMember(d => d.AddressDetail, o => o.MapFrom(s => s.Address.ToString()));
-
     }
 }

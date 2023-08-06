@@ -1,7 +1,7 @@
-﻿using ProductManage.Domain.Exceptions;
-using ProductManage.Domain.SeedWork;
+﻿using ProductManage.Domain.SeedWork;
+using ProductManage.Domain.Shared.Exceptions;
 
-namespace ProductManage.Domain.AggregatesModel;
+namespace ProductManage.Domain.Shared.Enums;
 
 public class ProductType : Enumeration
 {
@@ -15,7 +15,7 @@ public class ProductType : Enumeration
 
     private static readonly ProductType Other = new(5, "其他");
 
-    public ProductType(int id, string name)
+    private ProductType(int id, string name)
         : base(id, name)
     {
     }

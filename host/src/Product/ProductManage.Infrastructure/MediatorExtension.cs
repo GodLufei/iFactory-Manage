@@ -1,11 +1,12 @@
 ﻿using MediatR;
 using ProductManage.Domain.SeedWork;
+using ProductManage.Domain.Shared.Models;
 
 namespace Product.Infrastructure;
 
 static class MediatorExtension
 {
-    public static async Task DispatchDomainEventsAsync(this IMediator mediator, ProductContext ctx)
+    public static async Task DispatchDomainEventsAsync(this IMediator? mediator, ProductContext ctx)
     {
         var domainEntities = ctx.ChangeTracker
             .Entries<Entity>()
