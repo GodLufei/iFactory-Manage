@@ -11,7 +11,7 @@ public class ProductListDto
 
     [DataMember] public DateTime CreateTime { get; set; }
 
-    [DataMember] public decimal CompletionRate { get; set; }
+    [DataMember] public double CompletionRate { get; set; }
 
     [DataMember] public string ProductStatus { get; set; }
 

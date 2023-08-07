@@ -8,7 +8,7 @@ public class ProductItemDetailAutoMapperProfile : AutoMapper.Profile
 {
     public ProductItemDetailAutoMapperProfile()
     {
-        CreateMap<Domain.AggregatesModel.ProductItem, ProductItemDetailDto>()
+        CreateMap<ProductItem, ProductItemDetailDto>()
             .ForMember(d => d.Id, o => o.MapFrom(s => s.Id))
             .ForMember(d => d.ProductItemName, o => o.MapFrom(s => s.ProductItemName))
             .ForMember(d => d.TechnicalRequirements, o => o.MapFrom(s => s.TechnicalRequirements))

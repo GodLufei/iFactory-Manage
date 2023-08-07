@@ -5,13 +5,15 @@ namespace ProductManage.Domain.AggregatesModel;
 public interface IProductRepository : IRepository<Product>
 {
     # region 
-    Product Add(Product order);
+    Product Add(Product product);
 
-    Product Update(Product order);
+    Product Update(Product product);
 
     Task<Product> GetAsync(int id);
-
-    Task<IEnumerable<Product>> GetListAsync();
+    
+    Task<IEnumerable<Product>> GetListAsync(int pageSize,int pageIndex);
+    
+    Task<int> GetCount();
     #endregion
 
     #region ProductItem
@@ -21,4 +23,5 @@ public interface IProductRepository : IRepository<Product>
 
     Task<int> DeleteItemAsync(int id);
     # endregion
+    
 }

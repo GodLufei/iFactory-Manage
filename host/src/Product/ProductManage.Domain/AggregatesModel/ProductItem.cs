@@ -1,5 +1,6 @@
 ﻿
 using ProductManage.Domain.SeedWork;
+using ProductManage.Domain.Shared.Enums;
 using ProductManage.Domain.Shared.Exceptions;
 using ProductManage.Domain.Shared.Models;
 

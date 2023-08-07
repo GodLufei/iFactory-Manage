@@ -19,7 +19,7 @@ public class ProductRepository : IProductRepository
     {
         return _context.Products.Add(order).Entity;
     }
-    
+
     public ProductManage.Domain.AggregatesModel.Product Update(ProductManage.Domain.AggregatesModel.Product quotation)
     {
         var entry = _context.Products.Update(quotation);
@@ -40,11 +40,17 @@ public class ProductRepository : IProductRepository
         return product;
     }
 
-    public async Task<IEnumerable<ProductManage.Domain.AggregatesModel.Product>> GetListAsync()
+    public async Task<IEnumerable<ProductManage.Domain.AggregatesModel.Product>> GetListAsync(int pageSize,
+        int pageIndex)
     {
         return await _context
             .Products
-            .Include(x => x.Address).ToListAsync();
+            .Include(x => x.Address).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+    }
+
+    public async Task<int> GetCount()
+    {
+        return await _context.Products.CountAsync();
     }
 
     public async Task<ProductItem> GetItemAsync(int id)
@@ -62,7 +68,7 @@ public class ProductRepository : IProductRepository
 
     public async Task<int> DeleteItemAsync(int id)
     {
-       var result= _context.ProductItems.Remove((await _context.ProductItems.FirstOrDefaultAsync(t => t.Id == id))!);
-       return result.Entity.Id;
+        var result = _context.ProductItems.Remove((await _context.ProductItems.FirstOrDefaultAsync(t => t.Id == id))!);
+        return result.Entity.Id;
     }
 }

@@ -5,11 +5,17 @@ using ProductManage.Domain.AggregatesModel;
 
 namespace ProductManage.API.Application.Commands;
 
-public class QueryProductListCommand : IRequest<IEnumerable<ProductListDto>>
+public class QueryProductListCommand : IRequest<ProductPageListDto>
 {
+    public QueryProductListCommand(Page page)
+    {
+        Page = page;
+    }
+
+    public Page Page { get;}
 }
 
-public class QueryProductListCommandHandler : IRequestHandler<QueryProductListCommand, IEnumerable<ProductListDto>>
+public class QueryProductListCommandHandler : IRequestHandler<QueryProductListCommand, ProductPageListDto>
 {
     private readonly ILogger<QueryProductListCommandHandler> _logger;
 
@@ -25,10 +31,17 @@ public class QueryProductListCommandHandler : IRequestHandler<QueryProductListCo
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<ProductListDto>> Handle(QueryProductListCommand request,
+    public async Task<ProductPageListDto> Handle(QueryProductListCommand request,
         CancellationToken cancellationToken)
     {
-        var products = await _productRepository.GetListAsync();
-        return products.Select(t => _mapper.Map<ProductListDto>(t));
+        var products =
+            await _productRepository.GetListAsync(request.Page.PageSize, request.Page.PageIndex);
+        var productListDtos = products.Select(t => _mapper.Map<ProductListDto>(t));
+        request.Page.Total= await _productRepository.GetCount();
+        return new ProductPageListDto
+        {
+            ProductListDtos = productListDtos,
+            Page = request.Page
+        };
     }
 }

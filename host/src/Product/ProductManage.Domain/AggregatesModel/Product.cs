@@ -1,4 +1,5 @@
 ﻿using ProductManage.Domain.SeedWork;
+using ProductManage.Domain.Shared.Enums;
 using ProductManage.Domain.Shared.Exceptions;
 using ProductManage.Domain.Shared.Models;
 
@@ -74,7 +75,7 @@ public class Product : Entity, IAggregateRoot
         var existingProductItem = _productItems.SingleOrDefault(o => o.Id == productItemId);
 
         if (existingProductItem is null)
-            throw new ProductDomainException($"productItemI : {productItemId} is not exist!");
+            throw new ProductDomainException($"productItem : {productItemId} is not exist!");
 
         if (ProductStatusId.Equals(ProductStatus.AwaitingProduct.Id)) // product start 
         {

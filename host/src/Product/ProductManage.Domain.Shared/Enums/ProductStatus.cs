@@ -1,7 +1,7 @@
 ﻿using ProductManage.Domain.SeedWork;
 using ProductManage.Domain.Shared.Exceptions;
 
-namespace ProductManage.Domain.AggregatesModel;
+namespace ProductManage.Domain.Shared.Enums;
 
 public class ProductStatus : Enumeration
 {

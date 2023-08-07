@@ -31,41 +31,41 @@ public class ProductController : CommonControllerBase
         return Succeed<int>(result, StatusCodes.Status201Created);
     }
 
-    [ProducesResponseType(typeof(IEnumerable<ProductListDto>), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(IEnumerable<ProductListDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpGet("")]
-    public async Task<IActionResult> GetListAsync()
+    public async Task<IActionResult> GetListAsync([FromQuery]Page page)
     {
-        var result = await _mediator.Send(new QueryProductListCommand());
-        return Succeed(result, StatusCodes.Status201Created);
+        var result = await _mediator.Send(new QueryProductListCommand(page));
+        return Succeed(result, StatusCodes.Status200OK);
     }
 
-    [ProducesResponseType(typeof(IEnumerable<ProductListDto>), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ProductDetailDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetAsync([FromQuery] int id)
     {
         var result = await _mediator.Send(new QueryProductDetailCommand(id));
-        return Succeed(result, StatusCodes.Status201Created);
+        return Succeed(result, StatusCodes.Status200OK);
     }
 
     [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [HttpPost("productItem/{id}")]
+    [HttpPost("productItem/{id:int}")]
     public async Task<IActionResult> UpdateItem([FromBody] ChangeProductItemCommand changeProductItemCommand)
     {
         var result = await _mediator.Send(changeProductItemCommand);
         _logger.LogInformation($"update the productItem succeed: id{result}");
-        return Succeed<int>(result, StatusCodes.Status200OK);
+        return Succeed<int>(result, StatusCodes.Status201Created);
     }
 
     [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [HttpDelete("productItem/{id}")]
+    [HttpDelete("productItem/{id:int}")]
     public async Task<IActionResult> DeleteItem([FromQuery] int id)
     {
         var result = await _mediator.Send(new DeleteProductItemCommand(id) );
