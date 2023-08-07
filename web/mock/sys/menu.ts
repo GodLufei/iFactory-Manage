@@ -236,7 +236,7 @@ const linkRoute = {
 
 export default [
   {
-    url: '/basic-api/getMenuList',
+    url: '/api/getMenuList',
     timeout: 1000,
     method: 'get',
     response: (request: requestParams) => {
@@ -266,4 +266,4 @@ export default [
       return resultSuccess(menu);
     },
   },
-] as MockMethod[];
+] as unknown as MockMethod[];

@@ -1,60 +1,41 @@
-import { BasicColumn, FormSchema } from '/@/components/Table';
+import { BasicColumn } from '/@/components/Table';
 import { list } from '/@/api/product/product';
-import { toRaw } from 'vue';
+import { Tag } from 'ant-design-vue';
+import { h } from 'vue';
+import { ProductStatusEnum } from '/@/api/product/model/productModel';
 
 export const columns: BasicColumn[] = [
   {
-    title: '货品名称',
-    dataIndex: 'name',
+    title: '描述',
+    dataIndex: 'description',
     width: 100,
-  },
-  {
-    title: '货品类别',
-    dataIndex: 'productType',
-    width: 100,
-    customRender: ({ text }) => {
-      return text === 1 ? '轴系' : '舵系';
-    },
   },
   {
     title: '地址',
-    dataIndex: 'address',
-    width: 120,
-    customRender: function ({ text }) {
-      const address = toRaw(text);
-      return `${address.province} ${address.city} ${address.street}`;
-    },
-  },
-  {
-    title: '报价单Id',
-    dataIndex: 'quotationId',
+    dataIndex: 'addressDetail',
     width: 120,
   },
   {
-    title: '描述',
-    dataIndex: 'description',
-  },
-];
-
-export const searchFormSchema: FormSchema[] = [
-  {
-    field: 'name',
-    label: '货品名称',
-    component: 'Input',
-    colProps: { span: 8 },
+    title: '工时',
+    dataIndex: 'totalManHour',
+    width: 120,
   },
   {
-    field: 'productType',
-    label: '货品类别',
-    component: 'Select',
-    componentProps: {
-      options: [
-        { label: '全部', value: '0' },
-        { label: '轴系', value: '1' },
-        { label: '舵系', value: '2' },
-      ],
+    title: '完成率',
+    dataIndex: 'completionRate',
+    width: 120,
+    customRender: ({ text }) => {
+      return `${text} %`;
     },
-    colProps: { span: 8 },
+  },
+  {
+    title: '状态',
+    dataIndex: 'productStatus',
+    width: 100,
+    customRender: ({ text }) => {
+      const status = ProductStatusEnum.fromName(text);
+      return h(Tag, { color: status?.color ?? 'black' }, () => status?.name);
+    },
   },
 ];
 

@@ -8,7 +8,7 @@
 
   import { BasicTable, useTable } from '/@/components/Table';
 
-  import { columns, searchFormSchema, datas } from '../data';
+  import { columns, datas } from '../data';
 
   export default defineComponent({
     name: 'ProductDetailPage',
@@ -17,11 +17,6 @@
       const [registerTable] = useTable({
         columns,
         dataSource: datas,
-        formConfig: {
-          labelWidth: 100,
-          schemas: searchFormSchema,
-        },
-        useSearchForm: true,
         showTableSetting: false,
         bordered: true,
         showIndexColumn: false,

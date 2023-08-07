@@ -102,7 +102,6 @@
             };
           });
       });
-
       const getDropdownList = computed((): any[] => {
         return (toRaw(props.dropDownActions) || [])
           .filter((action) => {
