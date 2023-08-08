@@ -31,7 +31,7 @@ public class ProductController : CommonControllerBase
         return Succeed<int>(result, StatusCodes.Status201Created);
     }
 
-    [ProducesResponseType(typeof(IEnumerable<ProductListDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProductPageListDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpGet("")]

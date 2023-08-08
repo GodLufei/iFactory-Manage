@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ProductManage.API.Application.Commands;
+using ProductManage.API.Application.Queries;
+using ProductManage.API.DTOs;
 
 namespace ProductManage.API.Controllers;
 
@@ -13,12 +15,13 @@ public class ProductTechnologyController:CommonControllerBase
 
     private readonly ILogger<ProductController> _logger;
 
-    public ProductTechnologyController(IMediator mediator, ILogger<ProductController> logger)
+    private readonly IProductTechnologyQueries _productTechnologyQueries;
+    public ProductTechnologyController(IMediator mediator, ILogger<ProductController> logger, IProductTechnologyQueries productTechnologyQueries)
     {
         _mediator = mediator;
         _logger = logger;
+        _productTechnologyQueries = productTechnologyQueries;
     }
-    
     
     [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -27,8 +30,19 @@ public class ProductTechnologyController:CommonControllerBase
     public async Task<IActionResult> Create([FromBody] CreateProductTechnologyCommand createProductTechnologyCommand)
     {
         var result = await _mediator.Send(createProductTechnologyCommand);
-        _logger.LogInformation($"create the product succeed: id{result}");
-        return Succeed<int>(result, StatusCodes.Status201Created);
+        _logger.LogInformation($"create the productTechnology succeed: id{result}");
+        return Succeed(result, StatusCodes.Status201Created);
     }
-
+    
+    
+    [ProducesResponseType(typeof(ProductTechnologyPageListDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [HttpGet("")]
+    public async Task<IActionResult> GetListAsync([FromQuery]Page page)
+    {
+        var result = await _productTechnologyQueries.GetListAsync(page.PageSize, page.PageIndex);
+        return Succeed(result, StatusCodes.Status200OK);
+    }
+    
 }

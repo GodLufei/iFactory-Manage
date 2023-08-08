@@ -2,9 +2,9 @@
 
 public class Page
 {
-    public int PageSize { get; } = 10;
+    public int PageSize { get; set; } = 10;
 
-    public int PageIndex { get; } = 1;
+    public int PageIndex { get; set; } = 1;
 
-    public int Total { get; set; }
+    public int? Total { get; set; }
 }

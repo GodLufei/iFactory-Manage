@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Product.Infrastructure;
 using ProductManage.API.Application.Commands;
+using ProductManage.API.Application.Queries;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -13,6 +14,8 @@ public static class ApiDependencyInjection
             cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
         
         services.AddAutoMapper(typeof(CreateProductCommand).Assembly);
+        
+        services.AddScoped<IProductTechnologyQueries,ProductTechnologyQueries>();
         
         // services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidatorBehavior<,>));
         // services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionBehaviour<,>));

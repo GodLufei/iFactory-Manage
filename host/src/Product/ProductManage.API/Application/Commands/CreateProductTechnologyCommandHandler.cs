@@ -5,19 +5,30 @@ namespace ProductManage.API.Application.Commands;
 
 public class CreateProductTechnologyCommandHandler : IRequestHandler<CreateProductTechnologyCommand, int>
 {
-    private readonly IProductRepository _productRepository;
+    private readonly IProductTechnologyRepository _productTechnologyRepository;
 
     private readonly ILogger<CreateProductTechnologyCommandHandler> _logger;
 
-    public CreateProductTechnologyCommandHandler(IProductRepository productRepository,
-        ILogger<CreateProductTechnologyCommandHandler> logger)
+    public CreateProductTechnologyCommandHandler(
+        ILogger<CreateProductTechnologyCommandHandler> logger,
+        IProductTechnologyRepository productTechnologyRepository)
     {
-        _productRepository = productRepository;
         _logger = logger;
+        _productTechnologyRepository = productTechnologyRepository;
     }
 
-    public Task<int> Handle(CreateProductTechnologyCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(CreateProductTechnologyCommand request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var productTechnology = new ProductTechnology(request.ProductTypeId);
+        foreach (var itemDto in request.ProductTechnologyItemDtos)
+        {
+            productTechnology.AddProductTechnologyDetail(itemDto.TechnologyTypeId, itemDto.StepIndex,
+                itemDto.WorkStationNo);
+        }
+
+        var result = _productTechnologyRepository.Add(productTechnology);
+        await _productTechnologyRepository.UnitOfWork
+            .SaveEntitiesAsync(cancellationToken);
+        return result.Id;
     }
 }
