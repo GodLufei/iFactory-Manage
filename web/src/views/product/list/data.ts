@@ -1,5 +1,4 @@
 import { BasicColumn } from '/@/components/Table';
-import { list } from '/@/api/product/product';
 import { Tag } from 'ant-design-vue';
 import { h } from 'vue';
 import { ProductStatusEnum } from '/@/api/product/model/productModel';
@@ -38,9 +37,3 @@ export const columns: BasicColumn[] = [
     },
   },
 ];
-
-export const datas = [];
-
-export function getProducts() {
-  return list();
-}

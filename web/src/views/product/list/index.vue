@@ -7,7 +7,7 @@
             {
               label: '详情',
               icon: 'clarity:note-edit-line',
-              onClick: handleDelete.bind(null, record),
+              onClick: handleDetail.bind(null, record),
               // auth: 'super',
             },
             {
@@ -16,7 +16,7 @@
               color: 'success',
               popConfirm: {
                 title: '是否确认下发',
-                confirm: handleDelete.bind(null, record),
+                confirm: handleAssignTask.bind(null, record),
               },
             },
           ]"
@@ -29,13 +29,15 @@
   import { defineComponent } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { PageWrapper } from '/@/components/Page';
-  import { columns } from '../data';
+  import { columns } from './data';
   import { list } from '/@/api/product/product';
-
+  import { useGo } from '/@/hooks/web/usePage';
+  import { PageEnum } from '/@/enums/pageEnum';
   export default defineComponent({
     name: 'ProductPage',
     components: { BasicTable, PageWrapper, TableAction },
     setup() {
+      const go = useGo();
       const [registerTable] = useTable({
         api: list,
         columns: columns,
@@ -51,12 +53,18 @@
           slots: { customRender: 'action' },
         },
       });
-      function handleDelete(record: Recordable) {
+      function handleAssignTask(record: Recordable) {
         console.log('点击了删除', record);
+      }
+      function handleDetail(record: Recordable) {
+        const { id } = record;
+        go(`${PageEnum.PRODUCT_DETAIL}/${id}`);
+        return {};
       }
       return {
         registerTable,
-        handleDelete,
+        handleAssignTask,
+        handleDetail,
       };
     },
   });

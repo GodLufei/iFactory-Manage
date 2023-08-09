@@ -32,12 +32,16 @@ const product: AppRouteModule = {
       },
     },
     {
-      path: 'detail',
+      path: 'detail/:id',
       name: 'ProductDetailPage',
       component: () => import('/@/views/product/detail/index.vue'),
       meta: {
         title: '货品详情',
         icon: 'ant-design:inbox-outlined',
+        realPath: 'product/detail',
+        hideTab: true,
+        hideBreadcrumb: true,
+        hideMenu: true,
       },
     },
   ],
