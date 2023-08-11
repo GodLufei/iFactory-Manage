@@ -59,7 +59,7 @@
   const loading = ref(false);
 
   const formData = reactive({
-    account: 'vben',
+    account: 'admin',
     password: '123456',
   });
 
