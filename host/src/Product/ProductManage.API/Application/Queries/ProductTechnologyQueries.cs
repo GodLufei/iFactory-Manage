@@ -30,9 +30,4 @@ public class ProductTechnologyQueries:IProductTechnologyQueries
             Total = total
         });
     }
-
-    public Task<int> GetCountAsync()
-    {
-        throw new NotImplementedException();
-    }
 }

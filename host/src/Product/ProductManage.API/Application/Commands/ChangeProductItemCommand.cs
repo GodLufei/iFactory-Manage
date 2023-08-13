@@ -1,5 +1,6 @@
 ﻿using System.Runtime.Serialization;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ProductManage.API.Application.Commands;
 
@@ -18,8 +19,7 @@ public class ChangeProductItemCommand : IRequest<int>
         Amount = amount;
         Unit = unit;
     }
-
-    [DataMember]
+    [FromRoute]
     public int Id { get; private set; }
 
     [DataMember]
