@@ -10,15 +10,6 @@
               onClick: handleDetail.bind(null, record),
               // auth: 'super',
             },
-            {
-              label: '下发',
-              icon: 'ant-design:arrow-down-outlined',
-              color: 'success',
-              popConfirm: {
-                title: '是否确认下发',
-                confirm: handleAssignTask.bind(null, record),
-              },
-            },
           ]"
         />
       </template>

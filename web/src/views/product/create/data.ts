@@ -1,6 +1,57 @@
 import { FormSchema } from '/@/components/Form';
 import { BasicColumn } from '/@/components/Table';
 
+const provincesOptions = [
+  {
+    id: 'guangdong',
+    label: '广东省',
+    value: '1',
+    key: '1',
+  },
+  {
+    id: 'jiangsu',
+    label: '江苏省',
+    value: '2',
+    key: '2',
+  },
+];
+const citiesOptionsData = {
+  guangdong: [
+    {
+      label: '珠海市',
+      value: '1',
+      key: '1',
+    },
+    {
+      label: '深圳市',
+      value: '2',
+      key: '2',
+    },
+    {
+      label: '广州市',
+      value: '3',
+      key: '3',
+    },
+  ],
+  jiangsu: [
+    {
+      label: '南京市',
+      value: '1',
+      key: '1',
+    },
+    {
+      label: '无锡市',
+      value: '2',
+      key: '2',
+    },
+    {
+      label: '苏州市',
+      value: '3',
+      key: '3',
+    },
+  ],
+};
+
 export const productSchemas: FormSchema[] = [
   {
     field: 'description',
@@ -8,124 +59,178 @@ export const productSchemas: FormSchema[] = [
     label: '描述',
     required: true,
     colProps: {
-      span: 6,
+      span: 8,
     },
   },
   {
-    field: 'addressDetail',
-    component: 'Cascader',
-    label: '地址',
+    field: 'divider-linked',
+    component: 'Divider',
+    label: '甲方信息',
+    colProps: {
+      span: 24,
+    },
+  },
+  {
+    field: 'companyName',
+    component: 'Input',
+    label: '甲方',
     required: true,
     colProps: {
-      span: 6,
+      span: 4,
+    },
+  },
+  {
+    field: 'taxNo',
+    component: 'Input',
+    label: '税号',
+    required: true,
+    colProps: {
+      span: 4,
+      offset: 2,
+    },
+  },
+  {
+    field: 'taxNo',
+    component: 'Input',
+    label: '委托代理人',
+    required: true,
+    colProps: {
+      span: 4,
+      offset: 2,
+    },
+  },
+  {
+    field: 'taxNo',
+    component: 'Input',
+    label: '开票电话',
+    required: true,
+    colProps: {
+      span: 4,
+      offset: 2,
+    },
+  },
+  {
+    field: 'taxNo',
+    component: 'Input',
+    label: '开户银行',
+    required: true,
+    colProps: {
+      span: 4,
+    },
+  },
+  {
+    field: 'taxNo',
+    component: 'Input',
+    label: '账号',
+    required: true,
+    colProps: {
+      span: 4,
+      offset: 2,
+    },
+  },
+  {
+    field: 'taxNo',
+    component: 'Input',
+    label: '联系电话',
+    required: true,
+    colProps: {
+      span: 4,
+      offset: 2,
+    },
+  },
+  {
+    field: 'taxNo',
+    component: 'Input',
+    label: 'E-mail',
+    required: true,
+    colProps: {
+      span: 4,
+      offset: 2,
+    },
+  },
+  {
+    field: 'taxNo',
+    component: 'Input',
+    label: '传真',
+    required: true,
+    colProps: {
+      span: 4,
+    },
+  },
+  {
+    field: 'divider-linked',
+    component: 'Divider',
+    label: '甲方地址',
+    colProps: {
+      span: 24,
+    },
+  },
+  {
+    field: 'province',
+    component: 'Select',
+    label: '省份',
+    required: true,
+    colProps: {
+      span: 4,
+    },
+    componentProps: ({ formModel, formActionType }) => {
+      return {
+        options: provincesOptions,
+        placeholder: '请选择省份',
+        onChange: (e: any) => {
+          // console.log(e)
+          let citiesOptions =
+            e == 1
+              ? citiesOptionsData[provincesOptions[0].id]
+              : citiesOptionsData[provincesOptions[1].id];
+          // console.log(citiesOptions)
+          if (e === undefined) {
+            citiesOptions = [];
+          }
+          formModel.city = undefined; //  reset city value
+          const { updateSchema } = formActionType;
+          updateSchema({
+            field: 'city',
+            componentProps: {
+              options: citiesOptions,
+            },
+          });
+        },
+      };
+    },
+  },
+  {
+    field: 'city',
+    component: 'Select',
+    label: '城市',
+    required: true,
+    colProps: {
+      span: 4,
       offset: 2,
     },
     componentProps: {
-      options: [
-        {
-          value: '浙江省',
-          label: '浙江省',
-          children: [
-            {
-              value: '杭州市',
-              label: '杭州市',
-              children: [
-                {
-                  value: '西湖区',
-                  label: '西湖区',
-                },
-              ],
-            },
-          ],
-        },
-        {
-          value: '江苏省',
-          label: '江苏省',
-          children: [
-            {
-              value: '南京市',
-              label: '南京市',
-              children: [
-                {
-                  value: '鼓楼区',
-                  label: '鼓楼区',
-                },
-                {
-                  value: '秦淮区',
-                  label: '秦淮区',
-                },
-                {
-                  value: '江宁区',
-                  label: '江宁区',
-                },
-                {
-                  value: '六合区',
-                  label: '六合区',
-                },
-                {
-                  value: '雨花台区',
-                  label: '雨花台区',
-                },
-                {
-                  value: '建邺区',
-                  label: '建邺区',
-                },
-                {
-                  value: '浦口区',
-                  label: '浦口区',
-                },
-                {
-                  value: '溧水区',
-                  label: '溧水区',
-                },
-              ],
-            },
-            {
-              value: '无锡市',
-              label: '无锡市',
-              children: [
-                {
-                  value: '江阴市',
-                  label: '江阴市',
-                },
-                {
-                  value: '宜兴市',
-                  label: '宜兴市',
-                },
-                {
-                  value: '崇安区',
-                  label: '崇安区',
-                },
-                {
-                  value: '无锡新区',
-                  label: '无锡新区',
-                },
-                {
-                  value: '锡山区',
-                  label: '锡山区',
-                },
-                {
-                  value: '惠山区',
-                  label: '惠山区',
-                },
-                {
-                  value: '滨湖区',
-                  label: '滨湖区',
-                },
-                {
-                  value: '梁溪区',
-                  label: '梁溪区',
-                },
-                {
-                  value: '新吴区',
-                  label: '新吴区',
-                },
-              ],
-            },
-          ],
-        },
-      ],
-      displayRender: ({ labels }) => labels.join(' '),
+      options: [], // defalut []
+      placeholder: '请选择城市',
+    },
+  },
+  {
+    field: 'street',
+    component: 'Input',
+    label: '街道',
+    required: true,
+    colProps: {
+      span: 4,
+      offset: 2,
+    },
+  },
+  {
+    field: 'zipCode',
+    component: 'Input',
+    label: '邮政编码',
+    required: true,
+    colProps: {
+      span: 4,
+      offset: 2,
     },
   },
 ];
@@ -185,8 +290,5 @@ export const productItemFormSchemas: FormSchema[] = [
     component: 'Input',
     label: '地址',
     required: true,
-    colProps: {
-      offset: 2,
-    },
   },
 ];

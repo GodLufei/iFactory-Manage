@@ -11,6 +11,7 @@
       <a-button type="info" @click="resetInput">重置</a-button>
       <a-button type="primary" @click="createProduct" class="!ml-5">提交</a-button>
     </a-card>
+    <CreateProductItemModal @register="registerModal" />
   </PageWrapper>
 </template>
 <script lang="ts">
@@ -19,13 +20,16 @@
   import { PageWrapper } from '/@/components/Page';
   import { Card, Space } from 'ant-design-vue';
   import { productSchemas, productItemTableSchemas } from './data';
+  import CreateProductItemModal from './CreateProductItemModal.vue';
   import { defineComponent } from 'vue';
+  import { useModal } from '/@/components/Modal';
   export default defineComponent({
     name: 'CreateProductPage',
     components: {
       BasicForm,
       PageWrapper,
       BasicTable,
+      CreateProductItemModal,
       [Card.name]: Card,
       [Space.name]: Space,
     },
@@ -44,8 +48,12 @@
         scroll: { y: 100 },
         pagination: false,
       });
+      const [registerModal, { openModal: openModal }] = useModal();
       const addProductItem = () => {
-        alert('OK');
+        openModal(true, {
+          data: 'content',
+          info: 'Info',
+        });
       };
       const createProduct = () => {
         alert('OK');
@@ -56,6 +64,7 @@
       return {
         register,
         registerTable,
+        registerModal,
         addProductItem,
         createProduct,
         resetInput,
