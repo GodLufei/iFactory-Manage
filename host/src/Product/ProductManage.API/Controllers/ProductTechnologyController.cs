@@ -34,7 +34,17 @@ public class ProductTechnologyController:CommonControllerBase
         return Succeed(result, StatusCodes.Status201Created);
     }
     
-    
+    [ProducesResponseType(typeof(bool), StatusCodes.Status202Accepted)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> DeleteAsync([FromRoute] DeleteProductTechnologyCommand deleteProductTechnologyCommand)
+    {
+        var result = await _mediator.Send(deleteProductTechnologyCommand);
+        _logger.LogInformation($"delete the productTechnology succeed: id{deleteProductTechnologyCommand.Id}");
+        return Succeed(result, StatusCodes.Status201Created);
+    }
+
     [ProducesResponseType(typeof(ProductTechnologyPageListDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -44,5 +54,4 @@ public class ProductTechnologyController:CommonControllerBase
         var result = await _productTechnologyQueries.GetListAsync(page.PageSize, page.PageIndex);
         return Succeed(result, StatusCodes.Status200OK);
     }
-    
 }
