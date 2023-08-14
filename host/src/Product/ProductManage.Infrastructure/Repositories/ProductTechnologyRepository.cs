@@ -4,7 +4,7 @@ using ProductManage.Domain.SeedWork;
 
 namespace Product.Infrastructure.Repositories;
 
-public class ProductTechnologyRepository:IProductTechnologyRepository
+public class ProductTechnologyRepository : IProductTechnologyRepository
 {
     private readonly ProductContext _context;
     public IUnitOfWork UnitOfWork => _context;

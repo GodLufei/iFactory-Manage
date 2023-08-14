@@ -10,9 +10,9 @@ public interface IProductRepository : IRepository<Product>
     Product Update(Product product);
 
     Task<Product> GetAsync(int id);
-    
-    Task<IEnumerable<Product>> GetListAsync(int pageSize,int pageIndex);
-    
+
+    Task<IEnumerable<Product>> GetListAsync(int pageSize, int pageIndex);
+
     Task<int> GetCount();
     #endregion
 
@@ -22,6 +22,6 @@ public interface IProductRepository : IRepository<Product>
     ProductItem UpdateItem(ProductItem order);
 
     Task<int> DeleteItemAsync(int id);
-    # endregion
-    
+    #endregion
+
 }

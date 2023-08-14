@@ -1,6 +1,5 @@
 ﻿namespace ProductManage.API.DTOs;
 
-
 public class ProductTechnologyPageListDto
 {
     public ProductTechnologyPageListDto(IEnumerable<ProductTechnologyListDto> productTechnologyListDtos, Page page)
@@ -9,9 +8,9 @@ public class ProductTechnologyPageListDto
         Page = page;
     }
 
-    private IEnumerable<ProductTechnologyListDto> ProductTechnologyListDtos { get;  }
+    private IEnumerable<ProductTechnologyListDto> ProductTechnologyListDtos { get; }
 
-    private Page Page { get;  }
+    private Page Page { get; }
 }
 
 public class ProductTechnologyListDto
@@ -34,11 +33,11 @@ public class ProductTechnologyListDto
     public IEnumerable<ProductTechnologyItemDto> ProductTechnologyItemDtos { get; set; }
 }
 
-public abstract record ProductTechnologyItemDto
+public class ProductTechnologyItemDto
 {
-    public int StepIndex { get; init; }
+    public int StepIndex { get; set; }
 
-    public int TechnologyTypeId { get; init; }
+    public string TechnologyType { get; set; }
 
-    public string WorkStationNo { get; init; }
+    public string WorkStationNo { get; set; }
 }

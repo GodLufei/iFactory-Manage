@@ -7,7 +7,7 @@ public class QuotationChangeDomainEventHandler : INotificationHandler<QuotationC
 {
     public Task Handle(QuotationChangeDomainEvent notification, CancellationToken cancellationToken)
     {
-        //todo print the quotation page
+        // todo print the quotation page
         throw new NotImplementedException();
     }
 }

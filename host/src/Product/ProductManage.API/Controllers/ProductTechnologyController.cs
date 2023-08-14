@@ -9,7 +9,7 @@ namespace ProductManage.API.Controllers;
 [ApiController]
 [Produces("application/json")]
 [Route("[controller]")]
-public class ProductTechnologyController:CommonControllerBase
+public class ProductTechnologyController : CommonControllerBase
 {
     private readonly IMediator _mediator;
 
@@ -22,18 +22,19 @@ public class ProductTechnologyController:CommonControllerBase
         _logger = logger;
         _productTechnologyQueries = productTechnologyQueries;
     }
-    
+
     [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpPost("")]
     public async Task<IActionResult> Create([FromBody] CreateProductTechnologyCommand createProductTechnologyCommand)
     {
+        // TODO 校验不能创建重复的
         var result = await _mediator.Send(createProductTechnologyCommand);
         _logger.LogInformation($"create the productTechnology succeed: id{result}");
         return Succeed(result, StatusCodes.Status201Created);
     }
-    
+
     [ProducesResponseType(typeof(bool), StatusCodes.Status202Accepted)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -49,9 +50,10 @@ public class ProductTechnologyController:CommonControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpGet("")]
-    public async Task<IActionResult> GetListAsync([FromQuery]Page page)
+    public async Task<IActionResult> GetListAsync([FromQuery] Page page)
     {
         var result = await _productTechnologyQueries.GetListAsync(page.PageSize, page.PageIndex);
         return Succeed(result, StatusCodes.Status200OK);
     }
+
 }

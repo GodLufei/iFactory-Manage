@@ -2,26 +2,26 @@
 
 namespace ProductManage.API.Application.Commands;
 
-public  class CreateProductTechnologyCommand: IRequest<int>
+public class CreateProductTechnologyCommand : IRequest<int>
 {
     public CreateProductTechnologyCommand(int productTypeId,
-        IEnumerable<ProductTechnologyItemDto> productTechnologyItemDtos)
+        IEnumerable<CreateProductTechnologyItemDto> productTechnologyItemDtos)
     {
         ProductTypeId = productTypeId;
         ProductTechnologyItemDtos = productTechnologyItemDtos;
     }
 
-    public int ProductTypeId { get;  }
+    public int ProductTypeId { get; }
 
-    public IEnumerable<ProductTechnologyItemDto> ProductTechnologyItemDtos { get;  }
+    public IEnumerable<CreateProductTechnologyItemDto> ProductTechnologyItemDtos { get; }
 
-    public abstract record ProductTechnologyItemDto
-    {   
+    public record CreateProductTechnologyItemDto
+    {
         public int StepIndex { get; init; }
 
-        public int TechnologyTypeId { get;init; }
+        public int TechnologyTypeId { get; init; }
 
-        public string WorkStationNo { get;init; }
+        public string WorkStationNo { get; init; }
     }
 }
 

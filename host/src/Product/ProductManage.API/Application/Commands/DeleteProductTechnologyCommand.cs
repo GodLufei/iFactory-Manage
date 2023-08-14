@@ -3,7 +3,7 @@ using ProductManage.Domain.AggregatesModel;
 
 namespace ProductManage.API.Application.Commands;
 
-public class DeleteProductTechnologyCommand: IRequest<bool>
+public class DeleteProductTechnologyCommand : IRequest<bool>
 {
     public DeleteProductTechnologyCommand(int id)
     {
@@ -13,7 +13,7 @@ public class DeleteProductTechnologyCommand: IRequest<bool>
     public int Id { get; }
 }
 
-public class DeleteProductTechnologyCommandHandler: IRequestHandler<DeleteProductTechnologyCommand, bool>
+public class DeleteProductTechnologyCommandHandler : IRequestHandler<DeleteProductTechnologyCommand, bool>
 {
     private readonly IProductTechnologyRepository _productTechnologyRepository;
 
@@ -22,13 +22,13 @@ public class DeleteProductTechnologyCommandHandler: IRequestHandler<DeleteProduc
     public DeleteProductTechnologyCommandHandler(IProductTechnologyRepository productTechnologyRepository, ILogger<DeleteProductTechnologyCommandHandler> logger)
     {
         _productTechnologyRepository = productTechnologyRepository;
-        
+
         _logger = logger;
     }
 
     public async Task<bool> Handle(DeleteProductTechnologyCommand request, CancellationToken cancellationToken)
     {
-        var result=await _productTechnologyRepository.DeleteAsync(request.Id);
+        var result = await _productTechnologyRepository.DeleteAsync(request.Id);
         await _productTechnologyRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
         return true;
     }

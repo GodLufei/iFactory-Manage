@@ -4,7 +4,7 @@ using ProductManage.Domain.AggregatesModel;
 
 namespace ProductManage.API.Application.Queries;
 
-public class ProductTechnologyQueries:IProductTechnologyQueries
+public class ProductTechnologyQueries : IProductTechnologyQueries
 {
     private readonly IProductTechnologyRepository _productTechnologyRepository;
 
@@ -18,16 +18,16 @@ public class ProductTechnologyQueries:IProductTechnologyQueries
 
     public async Task<ProductTechnologyPageListDto> GetListAsync(int pageSize, int pageIndex)
     {
-        var productTechnologies= await _productTechnologyRepository.GetListAsync(pageSize, pageIndex);
-        var listDtos= productTechnologies.Select(t => _mapper.Map<ProductTechnologyListDto>(t));
+        var productTechnologies = await _productTechnologyRepository.GetListAsync(pageSize, pageIndex);
+        var listDtos = productTechnologies.Select(t => _mapper.Map<ProductTechnologyListDto>(t));
         var total = await _productTechnologyRepository.GetCount();
         return new ProductTechnologyPageListDto(
-            listDtos, 
+            listDtos,
             new Page
-        {
-            PageSize=pageSize,
-            PageIndex = pageIndex,
-            Total = total
-        });
+            {
+                PageSize = pageSize,
+                PageIndex = pageIndex,
+                Total = total
+            });
     }
 }

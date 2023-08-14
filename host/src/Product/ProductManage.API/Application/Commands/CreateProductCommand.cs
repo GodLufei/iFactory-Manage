@@ -9,19 +9,27 @@ public abstract class CreateProductCommand : IRequest<int>
 
     [DataMember] public IEnumerable<ProductItemDto> ProductItems => _productItem;
 
-    [DataMember] public string City { get; private set; }
+    [DataMember] public string City { get; private set; } = null!;
 
-    [DataMember] public string Street { get; private set; }
+    [DataMember] public string Street { get; private set; } = null!;
 
-    [DataMember] public string Province { get; private set; }
+    [DataMember] public string Province { get; private set; } = null!;
 
-    [DataMember] public string ZipCode { get; private set; }
+    [DataMember] public string ZipCode { get; private set; } = null!;
 
     [DataMember] public int QuotationId { get; private set; }
 
-    [DataMember] public string Description { get; private set; }
+    [DataMember] public string Description { get; private set; } = null!;
 
-    public CreateProductCommand()
+    [DataMember] public string Title { get; set; } = null!;
+
+    [DataMember] public string Tax { get; set; } = null!;
+
+    [DataMember] public string BankInfo { get; set; } = null!;
+
+    [DataMember] public string PhoneNumber { get; set; } = null!;
+
+    protected CreateProductCommand()
     {
         _productItem = new List<ProductItemDto>();
     }
@@ -29,7 +37,8 @@ public abstract class CreateProductCommand : IRequest<int>
     public CreateProductCommand(
         string description, int quotationId,
         string city, string street, string province,
-        string zipcode, List<ProductItemDto> productItemDtos)
+        string zipcode, string title, string tax, string bankInfo, string phoneNumber,
+        List<ProductItemDto> productItemDtos) : this()
     {
         QuotationId = quotationId;
         Description = description;
@@ -38,9 +47,13 @@ public abstract class CreateProductCommand : IRequest<int>
         Province = province;
         ZipCode = zipcode;
         _productItem = productItemDtos;
+        Title = title;
+        Tax = tax;
+        BankInfo = bankInfo;
+        PhoneNumber = phoneNumber;
     }
 
-    public abstract record ProductItemDto
+    public record ProductItemDto
     {
         public int ProductTypeId { get; init; }
         public string Name { get; init; }
@@ -52,4 +65,5 @@ public abstract class CreateProductCommand : IRequest<int>
         public int Amount { get; init; }
         public string Unit { get; init; }
     }
+
 }

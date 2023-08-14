@@ -21,8 +21,7 @@ public abstract class CreateProductCommandHandler : IRequestHandler<CreateProduc
     {
         var address = new Address(request.Street, request.City, request.Province, request.ZipCode);
         var product = new Domain.AggregatesModel.Product(request.QuotationId, request.Description);
-
-        product.InitProduct(address);
+        product.InitProduct(request.Title, request.Tax, request.BankInfo, request.PhoneNumber, address);
         foreach (var productItem in request.ProductItems)
         {
             product.AddProductItem(productItem.ProductTypeId, productItem.Name,
@@ -34,7 +33,6 @@ public abstract class CreateProductCommandHandler : IRequestHandler<CreateProduc
         _logger.LogInformation("----- Creating product - Product: {@Product}", product);
 
         var result = _productRepository.Add(product);
-
         await _productRepository.UnitOfWork
             .SaveEntitiesAsync(cancellationToken);
         return result.Id;

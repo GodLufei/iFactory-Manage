@@ -14,7 +14,7 @@ public sealed class ProductContext : DbContext, IUnitOfWork
     public const string DEFAULT_SCHEMA = "Product";
     public DbSet<ProductManage.Domain.AggregatesModel.Product> Products { get; set; }
     public DbSet<ProductItem> ProductItems { get; set; }
-    
+
     public DbSet<ProductTechnology> ProductTechnologies { get; set; }
 
     public DbSet<ProductTechnologyItem> ProductTechnologyItems { get; set; }
@@ -25,8 +25,8 @@ public sealed class ProductContext : DbContext, IUnitOfWork
 
     public ProductContext(DbContextOptions<ProductContext> options) : base(options)
     { }
-    
-    
+
+
     public ProductContext(DbContextOptions<ProductContext> options, IMediator? mediator) : base(options)
     {
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
@@ -49,7 +49,7 @@ public sealed class ProductContext : DbContext, IUnitOfWork
     public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default(CancellationToken))
     {
         await _mediator.DispatchDomainEventsAsync(this);
-        
+
         var result = await SaveChangesAsync(cancellationToken);
 
         return true;

@@ -4,7 +4,7 @@ using ProductManage.Domain.Shared.Exceptions;
 
 namespace ProductManage.Domain.Shared.Enums;
 
-internal class TechnologyType: Enumeration
+public class TechnologyType : Enumeration
 {
     public static readonly TechnologyType Blanking = new(1, "下料");
 
@@ -17,13 +17,13 @@ internal class TechnologyType: Enumeration
     public static readonly TechnologyType FineMilling = new(5, "精铣");
 
     public static readonly TechnologyType Compounding = new(6, "复配");
-    
+
     public TechnologyType(int id, string name) : base(id, name)
     {
     }
-    
+
     private static IEnumerable<TechnologyType> List() => new[] { Blanking, RoughTurning, FineTurning, Perforate, FineMilling, Compounding };
-    
+
     public static TechnologyType FromName(string name)
     {
         var state = List()

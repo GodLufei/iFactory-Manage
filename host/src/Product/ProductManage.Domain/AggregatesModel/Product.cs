@@ -25,7 +25,7 @@ public class Product : Entity, IAggregateRoot
 
     public TimeSpan? TotalManHour;
 
-    public Address Address { get; set; }
+    public DemandSide DemandSide { get; set; }
 
     private readonly List<ProductItem> _productItems;
 
@@ -42,12 +42,12 @@ public class Product : Entity, IAggregateRoot
         _productItems = new List<ProductItem>();
     }
 
-    public void InitProduct(Address address)
+    public void InitProduct(string title, string tax, string bankInfo, string phoneNumber, Address address)
     {
         CreateTime = DateTime.Now;
         ProductStatusId = ProductStatus.UnProduct.Id;
         CompletionRate = 0;
-        Address = address;
+        DemandSide = new DemandSide(title, tax, bankInfo, phoneNumber, address);
         TotalManHour = new TimeSpan();
     }
 

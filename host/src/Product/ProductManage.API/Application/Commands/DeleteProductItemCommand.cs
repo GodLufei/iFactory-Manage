@@ -11,7 +11,7 @@ public class DeleteProductItemCommand : IRequest<int>
     {
     }
 
-    public DeleteProductItemCommand(int id):this()
+    public DeleteProductItemCommand(int id) : this()
     {
         Id = id;
     }
@@ -33,7 +33,7 @@ public class DeleteProductItemCommandHandler : IRequestHandler<DeleteProductItem
 
     public async Task<int> Handle(DeleteProductItemCommand request, CancellationToken cancellationToken)
     {
-        var result=await _productRepository.DeleteItemAsync(request.Id);
+        var result = await _productRepository.DeleteItemAsync(request.Id);
         await _productRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
         return result;
     }

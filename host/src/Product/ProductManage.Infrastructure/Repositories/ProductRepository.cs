@@ -30,7 +30,7 @@ public class ProductRepository : IProductRepository
     {
         var product = await _context
             .Products
-            .Include(x => x.Address)
+            .Include(x => x.DemandSide)
             .FirstOrDefaultAsync(o => o.Id == id);
         if (product == null) return product!;
         await _context.Entry(product)
@@ -45,7 +45,7 @@ public class ProductRepository : IProductRepository
     {
         return await _context
             .Products
-            .Include(x => x.Address).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+            .Include(x => x.DemandSide).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
     }
 
     public async Task<int> GetCount()

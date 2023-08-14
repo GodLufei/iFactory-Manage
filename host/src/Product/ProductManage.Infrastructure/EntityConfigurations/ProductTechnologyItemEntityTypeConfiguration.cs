@@ -11,9 +11,9 @@ internal class ProductTechnologyItemEntityTypeConfiguration : IEntityTypeConfigu
         builder.ToTable(nameof(ProductTechnologyItem), ProductContext.DEFAULT_SCHEMA);
 
         builder.HasKey(x => x.Id);
-        
+
         builder.Ignore(x => x.DomainEvents);
-        
+
         builder.Property(x => x.StepIndex)
             .UsePropertyAccessMode(PropertyAccessMode.Field)
             .IsRequired();

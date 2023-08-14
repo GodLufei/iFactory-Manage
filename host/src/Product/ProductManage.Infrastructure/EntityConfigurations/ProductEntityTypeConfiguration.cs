@@ -13,15 +13,6 @@ public class ProductEntityTypeConfiguration : IEntityTypeConfiguration<ProductMa
 
         productConfiguration.Ignore(b => b.DomainEvents);
 
-        //Address value object persisted as owned entity type supported since EF Core 2.0
-        productConfiguration
-            .OwnsOne(o => o.Address, a =>
-            {
-                // Explicit configuration of the shadow key property in the owned type 
-                // as a workaround for a documented issue in EF Core 5: https://github.com/dotnet/efcore/issues/20740
-                a.WithOwner();
-            });
-
         productConfiguration
             .Property<DateTime>(x => x.CreateTime)
             .UsePropertyAccessMode(PropertyAccessMode.Field)
@@ -48,6 +39,11 @@ public class ProductEntityTypeConfiguration : IEntityTypeConfiguration<ProductMa
         productConfiguration
             .Property<int>(x => x.ProductStatusId)
             .UsePropertyAccessMode(PropertyAccessMode.Field);
+
+        productConfiguration.HasOne(b => b.DemandSide)
+            .WithMany()
+            .HasForeignKey("ProductId")
+            .OnDelete(DeleteBehavior.Cascade);
 
         productConfiguration.HasMany(b => b.ProductItems)
             .WithOne()

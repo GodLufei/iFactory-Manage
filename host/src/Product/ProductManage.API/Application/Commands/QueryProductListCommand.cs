@@ -12,7 +12,7 @@ public class QueryProductListCommand : IRequest<ProductPageListDto>
         Page = page;
     }
 
-    public Page Page { get;}
+    public Page Page { get; }
 }
 
 public class QueryProductListCommandHandler : IRequestHandler<QueryProductListCommand, ProductPageListDto>
@@ -37,7 +37,7 @@ public class QueryProductListCommandHandler : IRequestHandler<QueryProductListCo
         var products =
             await _productRepository.GetListAsync(request.Page.PageSize, request.Page.PageIndex);
         var productListDtos = products.Select(t => _mapper.Map<ProductListDto>(t));
-        request.Page.Total= await _productRepository.GetCount();
+        request.Page.Total = await _productRepository.GetCount();
         return new ProductPageListDto
         {
             ProductListDtos = productListDtos,

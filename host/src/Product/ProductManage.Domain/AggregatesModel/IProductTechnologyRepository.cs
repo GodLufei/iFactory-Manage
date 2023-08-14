@@ -11,6 +11,6 @@ public interface IProductTechnologyRepository : IRepository<ProductTechnology>
     Task<ProductTechnology> GetAsync(int id);
 
     Task<IEnumerable<ProductTechnology>> GetListAsync(int pageSize, int pageIndex);
-    
+
     Task<int> GetCount();
 }

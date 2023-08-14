@@ -24,7 +24,7 @@ public class ProductController : CommonControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpPost("")]
-    public async Task<IActionResult> Create([FromBody] CreateProductCommand createProductCommand)
+    public async Task<IActionResult> CreateAsync([FromBody] CreateProductCommand createProductCommand)
     {
         var result = await _mediator.Send(createProductCommand);
         _logger.LogInformation($"create the product succeed: id{result}");
@@ -35,7 +35,7 @@ public class ProductController : CommonControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpGet("")]
-    public async Task<IActionResult> GetListAsync([FromQuery]Page page)
+    public async Task<IActionResult> GetListAsync([FromQuery] Page page)
     {
         var result = await _mediator.Send(new QueryProductListCommand(page));
         return Succeed(result, StatusCodes.Status200OK);
@@ -55,7 +55,7 @@ public class ProductController : CommonControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpPost("productItem/{id:int}")]
-    public async Task<IActionResult> UpdateItem([FromBody] ChangeProductItemCommand changeProductItemCommand)
+    public async Task<IActionResult> UpdateItemAsync([FromBody] ChangeProductItemCommand changeProductItemCommand)
     {
         var result = await _mediator.Send(changeProductItemCommand);
         _logger.LogInformation($"update the productItem succeed: id{result}");
@@ -66,10 +66,35 @@ public class ProductController : CommonControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpDelete("productItem/{id:int}")]
-    public async Task<IActionResult> DeleteItem([FromRoute] int id)
+    public async Task<IActionResult> DeleteItemAsync([FromRoute] int id)
     {
         var result = await _mediator.Send(new DeleteProductItemCommand(id));
         _logger.LogInformation($"delete the productItem succeed: id{result}");
         return Succeed<int>(result, StatusCodes.Status200OK);
     }
+
+    [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [HttpPost("{id:int}/productItem")]
+    public async Task<IActionResult> CreateItemAsync([FromRoute] int id)
+    {
+        // todo: add the CreateItemAsync
+        var result = await _mediator.Send(new DeleteProductItemCommand(id));
+        _logger.LogInformation($"delete the productItem succeed: id{result}");
+        return Succeed<int>(result, StatusCodes.Status200OK);
+    }
+
+    // todo : show productItemList  状态是下发 已经审核人员用同一个接口怎么设计
+
+    [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [HttpPatch("productItem/{id:int}/approve")]
+    public async Task<IActionResult> ApproveItemAsync([FromRoute] int id)
+    {
+        // TODO: 审核逻辑 审核 productItem
+        return Succeed<int>(1, StatusCodes.Status200OK);
+    }
+
 }

@@ -25,7 +25,7 @@ public class ChangeProductItemCommandHandler : IRequestHandler<ChangeProductItem
 
         var newProductItem = _productRepository.UpdateItem(productItem);
         await _productRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
-        
+
         _logger.LogInformation("----- Creating product - ProductItem: {@ProductItem}", newProductItem);
         return newProductItem.Id;
     }

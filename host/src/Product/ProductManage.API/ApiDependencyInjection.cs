@@ -12,11 +12,11 @@ public static class ApiDependencyInjection
     {
         services.AddMediatR(cfg =>
             cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
-        
+
         services.AddAutoMapper(typeof(CreateProductCommand).Assembly);
-        
-        services.AddScoped<IProductTechnologyQueries,ProductTechnologyQueries>();
-        
+
+        services.AddScoped<IProductTechnologyQueries, ProductTechnologyQueries>();
+
         // services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidatorBehavior<,>));
         // services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionBehaviour<,>));
 
