@@ -1,10 +1,10 @@
 {
-  "name": "vben-admin",
+  "name": "factory-admin",
   "version": "2.8.0",
   "author": {
-    "name": "vben",
-    "email": "anncwb@126.com",
-    "url": "https://github.com/anncwb"
+    "name": "factory",
+    "email": "",
+    "url": ""
   },
   "scripts": {
     "bootstrap": "yarn install",
@@ -131,15 +131,7 @@
     "bin-wrapper": "npm:bin-wrapper-china",
     "rollup": "^2.56.3"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/anncwb/vue-vben-admin.git"
-  },
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/anncwb/vue-vben-admin/issues"
-  },
-  "homepage": "https://github.com/anncwb/vue-vben-admin",
   "engines": {
     "node": "^12 || >=14"
   }

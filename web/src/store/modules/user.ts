@@ -89,12 +89,10 @@ export const useUserStore = defineStore({
       },
     ): Promise<GetUserInfoModel | null> {
       try {
-        const { goHome = true, mode, ...loginParams } = params;
-        const data = await loginApi(loginParams, mode);
-        const { token } = data;
-
+        const { goHome = true, ...loginParams } = params;
+        const data = loginApi(loginParams);
         // save token
-        this.setToken(token);
+        this.setToken(data);
         return this.afterLoginAction(goHome);
       } catch (error) {
         return Promise.reject(error);
@@ -124,17 +122,16 @@ export const useUserStore = defineStore({
     },
     async getUserInfoAction(): Promise<UserInfo | null> {
       if (!this.getToken) return null;
-      const userInfo = await getUserInfo();
-      const { roles = [] } = userInfo;
-      if (isArray(roles)) {
-        const roleList = roles.map((item) => item.value) as RoleEnum[];
+      const userInfo = getUserInfo(this.getToken);
+      if (isArray(userInfo!.roles)) {
+        const roleList = userInfo!.roles.map((item) => item.value) as RoleEnum[];
         this.setRoleList(roleList);
       } else {
-        userInfo.roles = [];
+        userInfo!.roles = [];
         this.setRoleList([]);
       }
-      this.setUserInfo(userInfo);
-      return userInfo;
+      this.setUserInfo(userInfo!);
+      return userInfo!;
     },
     /**
      * @description: logout

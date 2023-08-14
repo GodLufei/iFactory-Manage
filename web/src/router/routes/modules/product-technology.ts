@@ -4,45 +4,45 @@ import { LAYOUT } from '/@/router/constant';
 import { RoleEnum } from '/@/enums/roleEnum';
 
 const product: AppRouteModule = {
-  path: '/product',
-  name: 'Product',
+  path: '/product-technology',
+  name: 'ProductTechnology',
   component: LAYOUT,
-  redirect: '/product',
+  redirect: '/product-technology',
   meta: {
     icon: 'ant-design:inbox-outlined',
-    title: '货品管理',
-    orderNo: 10,
+    title: '模板管理',
+    orderNo: 100,
     roles: [RoleEnum.MANAGER],
   },
   children: [
     {
       path: 'list',
-      name: 'ProductPage',
-      component: () => import('/@/views/product/list/index.vue'),
+      name: 'ProductTechnologyListPage',
+      component: () => import('/@/views/product-technology/list/index.vue'),
       meta: {
-        title: '货品管理',
+        title: '模板管理',
         icon: 'ant-design:inbox-outlined',
         roles: [RoleEnum.MANAGER],
       },
     },
     {
       path: 'create',
-      name: 'CreateProductPage',
-      component: () => import('/@/views/product/create/index.vue'),
+      name: 'CreateProductTechnologyPage',
+      component: () => import('/@/views/product-technology/create/index.vue'),
       meta: {
-        title: '货品创建',
+        title: '模板创建',
         icon: 'ant-design:inbox-outlined',
         roles: [RoleEnum.MANAGER],
       },
     },
     {
       path: 'detail/:id',
-      name: 'ProductDetailPage',
-      component: () => import('/@/views/product/detail/index.vue'),
+      name: 'ProductTechnologyDetailPage',
+      component: () => import('/@/views/product-technology/detail/index.vue'),
       meta: {
-        title: '货品详情',
+        title: '模板详情',
         icon: 'ant-design:inbox-outlined',
-        realPath: 'product/detail',
+        realPath: 'product-technology/detail',
         hideTab: true,
         hideBreadcrumb: true,
         hideMenu: true,
