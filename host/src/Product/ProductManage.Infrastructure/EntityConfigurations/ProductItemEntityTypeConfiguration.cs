@@ -57,5 +57,13 @@ public class ProductItemEntityTypeConfiguration : IEntityTypeConfiguration<Produ
 
         productItemConfiguration.Property(x => x.ScheduledTime)
             .UsePropertyAccessMode(PropertyAccessMode.Field);
+        
+        productItemConfiguration
+            .Property(x => x.StartTime)
+            .UsePropertyAccessMode(PropertyAccessMode.Field);
+
+        productItemConfiguration
+            .Property(x => x.EndTime)
+            .UsePropertyAccessMode(PropertyAccessMode.Field);
     }
 }

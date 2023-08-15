@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProductManage.Domain.AggregatesModel;
 using ProductManage.Domain.SeedWork;
+using ProductManage.Domain.Shared.Enums;
 
 namespace Product.Infrastructure.Repositories;
 
@@ -58,6 +59,13 @@ public class ProductRepository : IProductRepository
         return (await _context
             .ProductItems
             .FirstOrDefaultAsync(o => o.Id == id))!;
+    }
+
+    public async Task<IEnumerable<ProductManage.Domain.AggregatesModel.Product>> GetListAsync()
+    {
+        return await _context
+            .Products
+            .Include(x => x.ProductItems).ToListAsync();
     }
 
     public ProductItem UpdateItem(ProductItem productItem)

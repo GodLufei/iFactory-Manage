@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ProductManage.API.Application.Commands;
+using ProductManage.API.Application.Queries;
 using ProductManage.API.DTOs;
 
 namespace ProductManage.API.Controllers;
@@ -12,12 +13,15 @@ public class ProductController : CommonControllerBase
 {
     private readonly IMediator _mediator;
 
+    private IProductQueries _productQueries;
+
     private readonly ILogger<ProductController> _logger;
 
-    public ProductController(IMediator mediator, ILogger<ProductController> logger)
+    public ProductController(IMediator mediator, ILogger<ProductController> logger, IProductQueries productQueries)
     {
         _mediator = mediator;
         _logger = logger;
+        _productQueries = productQueries;
     }
 
     [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
@@ -70,31 +74,39 @@ public class ProductController : CommonControllerBase
     {
         var result = await _mediator.Send(new DeleteProductItemCommand(id));
         _logger.LogInformation($"delete the productItem succeed: id{result}");
-        return Succeed<int>(result, StatusCodes.Status200OK);
+        return Succeed(result, StatusCodes.Status200OK);
     }
 
     [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpPost("{id:int}/productItem")]
-    public async Task<IActionResult> CreateItemAsync([FromRoute] int id)
+    public async Task<IActionResult> CreateItemAsync([FromBody] CreateProductItemCommand createProductItemCommand)
     {
-        // todo: add the CreateItemAsync
-        var result = await _mediator.Send(new DeleteProductItemCommand(id));
-        _logger.LogInformation($"delete the productItem succeed: id{result}");
-        return Succeed<int>(result, StatusCodes.Status200OK);
+        var result = await _mediator.Send(createProductItemCommand);
+        _logger.LogInformation($"create the productItem succeed: id{result}");
+        return Succeed(result, StatusCodes.Status200OK);
     }
-
-    // todo : show productItemList  状态是下发 已经审核人员用同一个接口怎么设计
-
-    [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+    
+    [ProducesResponseType(typeof(IEnumerable<AwaitApproveProductItemsGroupDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [HttpPatch("productItem/{id:int}/approve")]
-    public async Task<IActionResult> ApproveItemAsync([FromRoute] int id)
+    [HttpGet("productItem")]
+    public async Task<IActionResult> GetAwaitApproveAsync([FromRoute] int id)
     {
-        // TODO: 审核逻辑 审核 productItem
-        return Succeed<int>(1, StatusCodes.Status200OK);
+        var result = await _productQueries.GetAwaitApproveAsync();
+        return Succeed(result, StatusCodes.Status200OK);
     }
+    
+    // [ProducesResponseType(typeof(IEnumerable<AwaitApproveProductItemsGroupDto>), StatusCodes.Status200OK)]
+    // [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    // [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    // [HttpPatch("productItem/{id:int}/approve")]
+    // public async Task<IActionResult> ApproveItemAsync([FromRoute] int id)
+    // {
+    //     var result = await _productQueries.GetAwaitApproveAsync();
+    //     return Succeed(result, StatusCodes.Status200OK);
+    //     // TODO: 审核逻辑 审核 productItem
+    // }
 
 }

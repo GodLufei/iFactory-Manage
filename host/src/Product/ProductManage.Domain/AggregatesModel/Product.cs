@@ -18,7 +18,6 @@ public class Product : Entity, IAggregateRoot
     public DateTime EndTime;
 
     public decimal CompletionRate;
-
     public ProductStatus ProductStatus { get; private set; }
 
     public int ProductStatusId;

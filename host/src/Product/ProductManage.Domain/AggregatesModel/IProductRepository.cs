@@ -13,6 +13,8 @@ public interface IProductRepository : IRepository<Product>
 
     Task<IEnumerable<Product>> GetListAsync(int pageSize, int pageIndex);
 
+    Task<IEnumerable<Product>> GetListAsync();
+    
     Task<int> GetCount();
     #endregion
 
