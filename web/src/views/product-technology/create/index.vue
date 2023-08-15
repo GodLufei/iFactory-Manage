@@ -1,7 +1,7 @@
 <template>
   <PageWrapper class="high-form" title="产品创建" content="请输入产品信息后添加产品项">
     <a-card title="模板创建" :bordered="false">
-      <h2 style="margin-top: 10px">产品类型：</h2>
+      <h2>产品类型：</h2>
       <a-select
         ref="productTypeOptionsRef"
         placeholder="请选择"
@@ -68,9 +68,9 @@
       const productTypeOptionsRef = ref(productTypeOptions);
       const selectedProductType = ref(null);
       const productTechnologySteps = reactive([
-        { stepIndex: 1, technologyType: '1', workStationNo: '1' },
-        { stepIndex: 2, technologyType: '2', workStationNo: '2' },
-        { stepIndex: 3, technologyType: '3', workStationNo: '3' },
+        { key: 1, stepIndex: 1, technologyType: '1', workStationNo: '1' },
+        { key: 2, stepIndex: 2, technologyType: '2', workStationNo: '2' },
+        { key: 3, stepIndex: 3, technologyType: '3', workStationNo: '3' },
       ]);
       const addStep = () => {
         showEditModel.title = '新增';
@@ -109,6 +109,9 @@
                 .stepIndex + 1,
             technologyType: modalData.technologyType,
             workStationNo: modalData.workStationNo,
+            key:
+              productTechnologySteps.sort((s) => s.stepIndex)[productTechnologySteps.length - 1]
+                .stepIndex + 1,
           });
         } else {
           productTechnologySteps.forEach((item) => {
