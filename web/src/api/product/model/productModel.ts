@@ -44,6 +44,7 @@ export class ProductStatusEnum {
   static readonly DoneProduct = new ProductStatusEnum(4, '生产完成', 'green');
   static readonly CancelledProduct = new ProductStatusEnum(5, '生产取消', 'orange');
   static readonly ScarpProduct = new ProductStatusEnum(6, '生产报废', 'red');
+  static readonly ApproveProduct = new ProductStatusEnum(7, '已审批', 'black');
   private static readonly Mapper = new Map([
     [ProductStatusEnum.UnProduct.id.toString(), ProductStatusEnum.UnProduct],
     [ProductStatusEnum.AwaitingProduct.id.toString(), ProductStatusEnum.AwaitingProduct],
@@ -51,12 +52,14 @@ export class ProductStatusEnum {
     [ProductStatusEnum.DoneProduct.id.toString(), ProductStatusEnum.DoneProduct],
     [ProductStatusEnum.CancelledProduct.id.toString(), ProductStatusEnum.CancelledProduct],
     [ProductStatusEnum.ScarpProduct.id.toString(), ProductStatusEnum.ScarpProduct],
+    [ProductStatusEnum.ApproveProduct.id.toString(), ProductStatusEnum.ApproveProduct],
     [ProductStatusEnum.UnProduct.name, ProductStatusEnum.UnProduct],
     [ProductStatusEnum.AwaitingProduct.name, ProductStatusEnum.AwaitingProduct],
     [ProductStatusEnum.DoingProduct.name, ProductStatusEnum.DoingProduct],
     [ProductStatusEnum.DoneProduct.name, ProductStatusEnum.DoneProduct],
     [ProductStatusEnum.CancelledProduct.name, ProductStatusEnum.CancelledProduct],
     [ProductStatusEnum.ScarpProduct.name, ProductStatusEnum.ScarpProduct],
+    [ProductStatusEnum.ApproveProduct.name, ProductStatusEnum.ApproveProduct],
   ]);
 
   static from = (id: number) => ProductStatusEnum.Mapper.get(`${id}`);
