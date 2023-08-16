@@ -8,7 +8,7 @@ public class AwaitApproveProductItemsGroupDto
         ProductItemDetailDtos = productItemDetailDtos;
     }
 
-    public ProductListDto ProductListDto { get; set; }
+    private ProductListDto ProductListDto { get; set; }
 
-    public IEnumerable<ProductItemDetailDto> ProductItemDetailDtos { get; set; }
+    private IEnumerable<ProductItemDetailDto> ProductItemDetailDtos { get; set; }
 }

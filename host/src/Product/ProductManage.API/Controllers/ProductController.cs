@@ -13,7 +13,7 @@ public class ProductController : CommonControllerBase
 {
     private readonly IMediator _mediator;
 
-    private IProductQueries _productQueries;
+    private readonly IProductQueries _productQueries;
 
     private readonly ILogger<ProductController> _logger;
 
@@ -92,21 +92,21 @@ public class ProductController : CommonControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpGet("productItem")]
-    public async Task<IActionResult> GetAwaitApproveAsync([FromRoute] int id)
+    public async Task<IActionResult> GetAwaitApproveAsync()
     {
         var result = await _productQueries.GetAwaitApproveAsync();
         return Succeed(result, StatusCodes.Status200OK);
     }
     
-    // [ProducesResponseType(typeof(IEnumerable<AwaitApproveProductItemsGroupDto>), StatusCodes.Status200OK)]
-    // [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    // [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    // [HttpPatch("productItem/{id:int}/approve")]
-    // public async Task<IActionResult> ApproveItemAsync([FromRoute] int id)
-    // {
-    //     var result = await _productQueries.GetAwaitApproveAsync();
-    //     return Succeed(result, StatusCodes.Status200OK);
-    //     // TODO: 审核逻辑 审核 productItem
-    // }
+    [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [HttpPatch("{id:int}/productItem/{itemId:int}/approve")]
+    public async Task<IActionResult> ApproveItemAsync([FromRoute] int id,[FromRoute] int itemId)
+    {
+        var result = await _mediator.Send(new ApproveProductItemCommand(id,itemId));
+        _logger.LogInformation($"approve the productItem succeed: id{result}");
+        return Succeed(result, StatusCodes.Status200OK);
+    }
 
 }

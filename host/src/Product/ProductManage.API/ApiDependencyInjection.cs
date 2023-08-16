@@ -17,12 +17,14 @@ public static class ApiDependencyInjection
 
         services.AddScoped<IProductTechnologyQueries, ProductTechnologyQueries>();
 
+        services.AddScoped<IProductQueries, ProductQueries>();
+        
         // services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidatorBehavior<,>));
         // services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionBehaviour<,>));
 
         services.AddDbContext<ProductContext>(options =>
             {
-                options.UseSqlite("Data Source=QuotationServiceManagement.db;Cache=Shared",
+                options.UseSqlServer("data source=192.168.1.6;initial catalog=productManage;user=sa;password=123456",
                     sqliteOptionsAction =>
                     {
                         sqliteOptionsAction.MigrationsAssembly(typeof(Program).GetTypeInfo().Assembly.GetName().Name);

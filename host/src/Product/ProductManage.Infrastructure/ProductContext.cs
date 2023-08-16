@@ -42,6 +42,7 @@ public sealed class ProductContext : DbContext, IUnitOfWork
     {
         modelBuilder.ApplyConfiguration(new ProductItemEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new ProductEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new DemandSideEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new ProductTechnologyEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new ProductTechnologyItemEntityTypeConfiguration());
     }

@@ -63,6 +63,16 @@ public class Product : Entity, IAggregateRoot
         }
     }
 
+    public void ApproveProductItem(int itemId)
+    {
+        var productItem = _productItems.SingleOrDefault(o => o.Id == itemId);
+        
+        productItem?.ApproveProductItem();
+
+        if (_productItems.All(t => t.ProductStatusId == ProductStatus.ApproveProduct.Id))
+            ProductStatusId = ProductStatus.ApproveProduct.Id;
+    }
+
     public void DownProduct()
     {
         StartTime = DateTime.Now;
@@ -84,6 +94,7 @@ public class Product : Entity, IAggregateRoot
         {
             existingProductItem.TransferStatus();
         }
+
         CalculateCompletionRate();
     }
 
@@ -120,5 +131,4 @@ public class Product : Entity, IAggregateRoot
         ProductStatusId = ProductStatus.CancelledProduct.Id;
         EndTime = DateTime.Now;
     }
-
 }

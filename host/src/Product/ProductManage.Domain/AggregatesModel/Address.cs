@@ -4,10 +4,15 @@ namespace ProductManage.Domain.AggregatesModel;
 
 public class Address : ValueObject
 {
-    private string Street { get; }
-    private string City { get; }
-    private string Province { get; }
-    private string ZipCode { get; }
+    public string Street { get; }
+    public  string City { get; }
+    public  string Province { get; }
+    public  string ZipCode { get; }
+
+    public Address()
+    {
+        
+    }
 
     public Address(string street, string city, string province, string zipcode)
     {

@@ -5,7 +5,11 @@ namespace ProductManage.Domain.AggregatesModel;
 
 public class DemandSide : Entity
 {
-    public DemandSide(string title, string tax, string bankInfo, string phoneNumber, Address address)
+    public DemandSide()
+    {
+    }
+
+    public DemandSide(string title, string tax, string bankInfo, string phoneNumber, Address address):this()
     {
         Title = title;
         Address = address;

@@ -16,7 +16,8 @@ public class ProductDbContextFactory : IDesignTimeDbContextFactory<ProductContex
 
         var optionsBuilder = new DbContextOptionsBuilder<ProductContext>();
 
-        optionsBuilder.UseSqlServer(config["ConnectionString"], sqlServerOptionsAction: o => o.MigrationsAssembly("Ordering.API"));
+        optionsBuilder.UseSqlServer("data source=192.168.1.6;initial catalog=productManage;user=sa;password=123456",
+            sqlServerOptionsAction: o => o.MigrationsAssembly("ProductManage.API"));
 
         return new ProductContext(optionsBuilder.Options);
     }

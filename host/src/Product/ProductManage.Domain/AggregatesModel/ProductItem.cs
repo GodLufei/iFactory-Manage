@@ -162,6 +162,11 @@ public class ProductItem : Entity
         ProductStatusId = ProductStatus.ScarpProduct.Id;
     }
 
+    public void ApproveProductItem()
+    {
+        ProductStatusId = ProductStatus.ApproveProduct.Id;
+    }
+
     /// <summary>
     /// 更新数量
     /// </summary>
