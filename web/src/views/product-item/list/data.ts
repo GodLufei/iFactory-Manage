@@ -2,6 +2,9 @@ import { BasicColumn } from '/@/components/Table';
 import { Tag } from 'ant-design-vue';
 import { h } from 'vue';
 import { ProductStatusEnum } from '/@/api/product/model/productModel';
+import { getProductItemList, getWaitToApproveProductItems } from '/@/api/product/productApi';
+import { GetUserInfoModel } from '/@/api/sys/model/userModel';
+import { RoleEnum } from '/@/enums/roleEnum';
 
 export const columns: BasicColumn[] = [
   {
@@ -37,3 +40,9 @@ export const columns: BasicColumn[] = [
     },
   },
 ];
+
+export const getList = async (userInfo: GetUserInfoModel) => {
+  return userInfo.roles.map((role) => role.value).includes(RoleEnum.APPROVER.toString())
+    ? await getWaitToApproveProductItems()
+    : await getProductItemList(userInfo.username);
+};

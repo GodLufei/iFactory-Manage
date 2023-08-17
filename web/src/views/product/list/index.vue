@@ -21,7 +21,7 @@
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { PageWrapper } from '/@/components/Page';
   import { columns } from './data';
-  import { list } from '/@/api/product/product';
+  import { getList } from '/@/api/product/productApi';
   import { useGo } from '/@/hooks/web/usePage';
   import { PageEnum } from '/@/enums/pageEnum';
   export default defineComponent({
@@ -30,7 +30,7 @@
     setup() {
       const go = useGo();
       const [registerTable] = useTable({
-        api: list,
+        api: getList,
         columns: columns,
         useSearchForm: false,
         showTableSetting: false,

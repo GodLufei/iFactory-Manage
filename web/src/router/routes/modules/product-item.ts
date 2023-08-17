@@ -12,6 +12,7 @@ const product: AppRouteModule = {
     icon: 'ant-design:inbox-outlined',
     title: '成品管理',
     orderNo: 100,
+    hideChildrenInMenu: true,
     roles: [RoleEnum.WORKER, RoleEnum.APPROVER],
   },
   children: [

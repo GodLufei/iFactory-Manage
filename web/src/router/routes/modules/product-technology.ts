@@ -7,45 +7,22 @@ const product: AppRouteModule = {
   path: '/product-technology',
   name: 'ProductTechnology',
   component: LAYOUT,
-  redirect: '/product-technology',
+  redirect: '/product-technology/create',
   meta: {
     icon: 'ant-design:inbox-outlined',
     title: '模板管理',
     orderNo: 100,
+    hideChildrenInMenu: true,
     roles: [RoleEnum.MANAGER],
   },
   children: [
-    {
-      path: 'list',
-      name: 'ProductTechnologyListPage',
-      component: () => import('/@/views/product-technology/list/index.vue'),
-      meta: {
-        title: '模板管理',
-        icon: 'ant-design:inbox-outlined',
-        roles: [RoleEnum.MANAGER],
-      },
-    },
     {
       path: 'create',
       name: 'CreateProductTechnologyPage',
       component: () => import('/@/views/product-technology/create/index.vue'),
       meta: {
-        title: '模板创建',
+        title: '模板管理',
         icon: 'ant-design:inbox-outlined',
-        roles: [RoleEnum.MANAGER],
-      },
-    },
-    {
-      path: 'detail/:id',
-      name: 'ProductTechnologyDetailPage',
-      component: () => import('/@/views/product-technology/detail/index.vue'),
-      meta: {
-        title: '模板详情',
-        icon: 'ant-design:inbox-outlined',
-        realPath: 'product-technology/detail',
-        hideTab: true,
-        hideBreadcrumb: true,
-        hideMenu: true,
         roles: [RoleEnum.MANAGER],
       },
     },
