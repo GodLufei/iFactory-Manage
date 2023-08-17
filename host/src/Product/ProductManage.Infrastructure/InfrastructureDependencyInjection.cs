@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Product.Infrastructure;
+﻿using Product.Infrastructure;
 using Product.Infrastructure.Repositories;
 using ProductManage.Domain.AggregatesModel;
 using ProductManage.Domain.SeedWork;

@@ -58,7 +58,7 @@ public class ProductController : CommonControllerBase
     [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [HttpPost("productItem/{id:int}")]
+    [HttpPost("{id:int}/productItem/{itemId:int}")]
     public async Task<IActionResult> UpdateItemAsync([FromBody] ChangeProductItemCommand changeProductItemCommand)
     {
         var result = await _mediator.Send(changeProductItemCommand);

@@ -8,10 +8,10 @@ public class ChangeProductItemCommandHandler : IRequestHandler<ChangeProductItem
 {
     private readonly IProductRepository _productRepository;
 
-    private readonly ILogger<CreateProductCommandHandler> _logger;
+    private readonly ILogger<ChangeProductItemCommandHandler> _logger;
 
     public ChangeProductItemCommandHandler(IProductRepository productRepository,
-        ILogger<CreateProductCommandHandler> logger)
+        ILogger<ChangeProductItemCommandHandler> logger)
     {
         _productRepository = productRepository;
         _logger = logger;

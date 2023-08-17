@@ -45,7 +45,7 @@ public class ProductRepository : IProductRepository
         int pageIndex)
     {
         return await _context
-            .Products
+            .Products.OrderBy(p=>p.CreateTime)
             .Include(x => x.DemandSide).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
     }
 

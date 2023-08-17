@@ -3,13 +3,13 @@ using ProductManage.Domain.AggregatesModel;
 
 namespace ProductManage.API.Application.Commands;
 
-public abstract class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, int>
+public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, int>
 {
     private readonly IProductRepository _productRepository;
 
     private readonly ILogger<CreateProductCommandHandler> _logger;
 
-    protected CreateProductCommandHandler(
+    public CreateProductCommandHandler(
         IProductRepository productRepository,
         ILogger<CreateProductCommandHandler> logger)
     {

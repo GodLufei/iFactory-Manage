@@ -20,7 +20,7 @@ public class ChangeProductItemCommand : IRequest<int>
         Unit = unit;
     }
     [FromRoute]
-    public int Id { get; private set; }
+    public int Id { get; set; }
 
     [DataMember]
     public int ProductTypeId { get; private set; }

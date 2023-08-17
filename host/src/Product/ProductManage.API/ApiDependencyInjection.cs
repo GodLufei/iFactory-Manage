@@ -11,7 +11,7 @@ public static class ApiDependencyInjection
     public static IServiceCollection AddApiServices(this IServiceCollection services)
     {
         services.AddMediatR(cfg =>
-            cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+            cfg.RegisterServicesFromAssembly(typeof(CreateProductCommand).Assembly));
 
         services.AddAutoMapper(typeof(CreateProductCommand).Assembly);
 
@@ -24,7 +24,7 @@ public static class ApiDependencyInjection
 
         services.AddDbContext<ProductContext>(options =>
             {
-                options.UseSqlServer("data source=192.168.1.6;initial catalog=productManage;user=sa;password=123456",
+                options.UseSqlServer("Data Source=192.168.1.6,1433;Initial Catalog=ProductManage;Persist Security Info=True;User ID=sa;Password=123456;TrustServerCertificate=true",
                     sqliteOptionsAction =>
                     {
                         sqliteOptionsAction.MigrationsAssembly(typeof(Program).GetTypeInfo().Assembly.GetName().Name);

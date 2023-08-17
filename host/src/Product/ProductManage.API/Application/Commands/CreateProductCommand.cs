@@ -1,44 +1,35 @@
-﻿using System.Runtime.Serialization;
-using MediatR;
+﻿using MediatR;
 
 namespace ProductManage.API.Application.Commands;
 
-public abstract class CreateProductCommand : IRequest<int>
+public class CreateProductCommand : IRequest<int>
 {
-    [DataMember] private readonly List<ProductItemDto> _productItem;
+    public string City { get;  set; }
 
-    [DataMember] public IEnumerable<ProductItemDto> ProductItems => _productItem;
+    public string Street { get;  set; } 
 
-    [DataMember] public string City { get; private set; } = null!;
+    public string Province { get;  set; }
 
-    [DataMember] public string Street { get; private set; } = null!;
+    public string ZipCode { get;  set; } 
 
-    [DataMember] public string Province { get; private set; } = null!;
+    public int QuotationId { get;  set; }
 
-    [DataMember] public string ZipCode { get; private set; } = null!;
+    public string Description { get;  set; } 
+    public string Title { get; set; }
 
-    [DataMember] public int QuotationId { get; private set; }
+    public string Tax { get; set; } 
 
-    [DataMember] public string Description { get; private set; } = null!;
+    public string BankInfo { get; set; }
 
-    [DataMember] public string Title { get; set; } = null!;
+    public string PhoneNumber { get; set; }
 
-    [DataMember] public string Tax { get; set; } = null!;
-
-    [DataMember] public string BankInfo { get; set; } = null!;
-
-    [DataMember] public string PhoneNumber { get; set; } = null!;
-
-    protected CreateProductCommand()
-    {
-        _productItem = new List<ProductItemDto>();
-    }
-
+    public IEnumerable<ProductItemDto> ProductItems { get; set; }
+    
     public CreateProductCommand(
         string description, int quotationId,
         string city, string street, string province,
         string zipcode, string title, string tax, string bankInfo, string phoneNumber,
-        List<ProductItemDto> productItemDtos) : this()
+        IEnumerable<ProductItemDto> productItems) 
     {
         QuotationId = quotationId;
         Description = description;
@@ -46,24 +37,23 @@ public abstract class CreateProductCommand : IRequest<int>
         Street = street;
         Province = province;
         ZipCode = zipcode;
-        _productItem = productItemDtos;
+        ProductItems = productItems;
         Title = title;
         Tax = tax;
         BankInfo = bankInfo;
         PhoneNumber = phoneNumber;
     }
-
     public record ProductItemDto
     {
-        public int ProductTypeId { get; init; }
-        public string Name { get; init; }
-        public string TechnicalRequirements { get; init; }
-        public string Material { get; init; }
-        public string Diameter { get; init; }
-        public string Length { get; init; }
-        public string FigureNo { get; init; }
-        public int Amount { get; init; }
-        public string Unit { get; init; }
+        public int ProductTypeId { get; set; }
+        public string Name { get; set; }
+        public string TechnicalRequirements { get; set; }
+        public string Material { get; set; }
+        public string Diameter { get; set; }
+        public string Length { get; set; }
+        public string FigureNo { get; set; }
+        public int Amount { get; set; }
+        public string Unit { get; set; }
     }
 
 }
