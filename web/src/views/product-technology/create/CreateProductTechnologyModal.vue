@@ -2,7 +2,7 @@
   <BasicModal
     v-bind="$attrs"
     @register="register"
-    title="创建产品明细项"
+    title="新增"
     @visible-change="handleVisibleChange"
   >
     <BasicForm @register="registerForm" :model="model" />
@@ -12,7 +12,7 @@
   import { defineComponent, ref, nextTick } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
-  import { productItemFormSchemas } from './data';
+  import { productTechnologyFormSchemas } from './data';
 
   export default defineComponent({
     components: { BasicModal, BasicForm },
@@ -29,7 +29,7 @@
         },
       ] = useForm({
         labelWidth: 120,
-        schemas: productItemFormSchemas,
+        schemas: productTechnologyFormSchemas,
         showActionButtonGroup: false,
         actionColOptions: {
           span: 24,
@@ -55,7 +55,7 @@
 
       return {
         register,
-        productItemFormSchemas,
+        productTechnologyFormSchemas,
         registerForm,
         model: modelRef,
         handleVisibleChange,

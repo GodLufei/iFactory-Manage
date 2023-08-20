@@ -11,3 +11,8 @@ export interface BasicFetchResult<T> {
 export interface Page extends BasicPageParams {
   total: number;
 }
+
+export interface Pagable {
+  page: number;
+  pageSize: number;
+}

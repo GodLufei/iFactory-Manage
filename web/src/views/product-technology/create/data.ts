@@ -156,18 +156,24 @@ export const productItemTableSchemas: BasicColumn[] = [
   },
 ];
 
-export const productItemFormSchemas: FormSchema[] = [
+export const productTechnologyFormSchemas: FormSchema[] = [
   {
-    field: 'description',
-    component: 'Input',
-    label: '描述',
+    field: 'technologyType',
+    component: 'Select',
+    label: '技术要求',
     required: true,
+    componentProps: {
+      options: technologyTypeOptions, // defalut []
+    },
   },
   {
-    field: 'addressDetail',
-    component: 'Input',
-    label: '地址',
+    field: 'workStationNo',
+    component: 'Select',
+    label: '工作车间',
     required: true,
+    componentProps: {
+      options: workStationNoOptions, // defalut []
+    },
   },
 ];
 

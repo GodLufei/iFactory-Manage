@@ -32,7 +32,8 @@
     <a-card :bordered="false" :align="'center'" class="!mt-5 center">
       <a-button type="primary" @click="saveProductTech" class="!ml-5">保存</a-button>
     </a-card>
-    <a-modal v-model:visible="showEditModel.isShown" :title="showEditModel.title" @ok="handleOk">
+    <CreateProductTechnologyModal ref="modalData" @register="registerModal" />
+    <!-- <a-modal v-model:visible="showEditModel.isShown" :title="showEditModel.title" @ok="handleOk">
       <a-card :bordered="false">
         <h2>技术类型:</h2>
         <a-select
@@ -41,7 +42,6 @@
           v-model:value="modalData.technologyType"
           :options="technologyTypeOptions"
         />
-        <!-- <a-input v-model:value="modalData.technologyType" /> -->
         <h2 class="!mt-5">工作区:</h2>
         <a-select
           :placeholder="'请选择'"
@@ -49,14 +49,13 @@
           v-model:value="modalData.workStationNo"
           :options="workStationNoOptions"
         />
-        <!-- <a-input v-model:value="modalData.workStationNo" /> -->
       </a-card>
-    </a-modal>
+    </a-modal> -->
   </PageWrapper>
 </template>
 <script lang="ts">
   import { PageWrapper } from '/@/components/Page';
-  import { Card, Space, Select, Table, Divider, Modal } from 'ant-design-vue';
+  import { Card, Space, Select, Table, Divider } from 'ant-design-vue';
   import {
     productTypeOptions,
     technologyTypeOptions,
@@ -64,9 +63,10 @@
     productTechnologyStepSchemas,
     StepTechnology,
   } from './data';
-
+  import CreateProductTechnologyModal from './CreateProductTechnologyModal.vue';
   import { defineComponent, ref, reactive, toRaw, computed } from 'vue';
   import { useMessage } from '/@/hooks/web/useMessage';
+  import { useModal } from '/@/components/Modal/src/hooks/useModal';
   export default defineComponent({
     name: 'CreateProductTechnologyPage',
     components: {
@@ -76,13 +76,14 @@
       [Select.name]: Select,
       [Table.name]: Table,
       [Divider.name]: Divider,
-      [Modal.name]: Modal,
+      CreateProductTechnologyModal,
     },
     setup() {
       const {
         notification,
         //createErrorModal
       } = useMessage();
+      const [registerModal, { openModal: openModal }] = useModal();
       const showEditModel = reactive({ isShown: false, title: '编辑' });
       const modalData = reactive({
         technologyType: 1,
@@ -98,11 +99,12 @@
           : 0;
       });
       const addStep = () => {
-        showEditModel.title = '新增';
-        showEditModel.isShown = true;
+        openModal(true, {});
+        // showEditModel.title = '新增';
+        // showEditModel.isShown = true;
         modalData.stepIndex = 0;
-        modalData.technologyType = 1;
-        modalData.workStationNo = 1;
+        modalData.technologyType = 0;
+        modalData.workStationNo = 0;
       };
       const saveProductTech = () => {
         notification.success({
@@ -159,6 +161,7 @@
         workStationNoOptions,
         showEditModel,
         modalData,
+        registerModal,
         handleOk,
         handleChange,
         addStep,

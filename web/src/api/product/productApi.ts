@@ -8,7 +8,7 @@ import {
   ProductDetailDto,
   ProductPageListDto,
 } from './model/productModel';
-import { BasicFetchResult } from '../model/baseModel';
+import { BasicFetchResult, Pagable, Page } from '../model/baseModel';
 
 enum Api {
   Product = '/product',
@@ -18,9 +18,9 @@ enum Api {
 /**
  * @description: get products
  */
-export function getList(mode: ErrorMessageMode = 'modal') {
+export function getList(page: Pagable, mode: ErrorMessageMode = 'modal') { debugger;
   return defHttp.get<BasicFetchResult<ProductPageListDto>>(
-    { url: Api.Product },
+    { url: Api.Product, params: { pageIndex: page.page, pageSize: page.pageSize } },
     { errorMessageMode: mode },
   );
 }
@@ -28,9 +28,9 @@ export function getList(mode: ErrorMessageMode = 'modal') {
 /**
  * @description: get wait to approve product items
  */
-export function getWaitToApproveProductItems(mode: ErrorMessageMode = 'modal') {
+export function getWaitToApproveProductItems(page: Pagable, mode: ErrorMessageMode = 'modal') {
   return defHttp.get<BasicFetchResult<ProductPageListDto>>(
-    { url: Api.Product },
+    { url: Api.Product, params: { pageIndex: page.page, pageSize: page.pageSize } },
     { errorMessageMode: mode },
   );
 }

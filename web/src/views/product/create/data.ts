@@ -1,56 +1,65 @@
 import { FormSchema } from '/@/components/Form';
 import { BasicColumn } from '/@/components/Table';
+import pc from './pc';
+import { ProductTypeEnum } from '/@/api/product/model/productModel';
+import { TechnologyTypeEnum } from '/@/api/product/model/technologyModel';
 
-const provincesOptions = [
+const provincesOptions = pc.map((city) => ({
+  id: city.code,
+  label: city.name,
+  value: city.code,
+  key: city.code,
+}));
+
+export const productTypeOptions = [
   {
-    id: 'guangdong',
-    label: '广东省',
-    value: '1',
-    key: '1',
+    label: ProductTypeEnum.ShaftingSystem.name,
+    value: ProductTypeEnum.ShaftingSystem.id,
   },
   {
-    id: 'jiangsu',
-    label: '江苏省',
-    value: '2',
-    key: '2',
+    label: ProductTypeEnum.RudderSystem.name,
+    value: ProductTypeEnum.RudderSystem.id,
+  },
+  {
+    label: ProductTypeEnum.NonStandardPart.name,
+    value: ProductTypeEnum.NonStandardPart.id,
+  },
+  {
+    label: ProductTypeEnum.StandardPart.name,
+    value: ProductTypeEnum.StandardPart.id,
+  },
+  {
+    label: ProductTypeEnum.Other.name,
+    value: ProductTypeEnum.Other.id,
   },
 ];
-const citiesOptionsData = {
-  guangdong: [
-    {
-      label: '珠海市',
-      value: '1',
-      key: '1',
-    },
-    {
-      label: '深圳市',
-      value: '2',
-      key: '2',
-    },
-    {
-      label: '广州市',
-      value: '3',
-      key: '3',
-    },
-  ],
-  jiangsu: [
-    {
-      label: '南京市',
-      value: '1',
-      key: '1',
-    },
-    {
-      label: '无锡市',
-      value: '2',
-      key: '2',
-    },
-    {
-      label: '苏州市',
-      value: '3',
-      key: '3',
-    },
-  ],
-};
+
+export const technologyTypeOptions = [
+  {
+    label: TechnologyTypeEnum.Blanking.name,
+    value: TechnologyTypeEnum.Blanking.id,
+  },
+  {
+    label: TechnologyTypeEnum.RoughTurning.name,
+    value: TechnologyTypeEnum.RoughTurning.id,
+  },
+  {
+    label: TechnologyTypeEnum.FineTurning.name,
+    value: TechnologyTypeEnum.FineTurning.id,
+  },
+  {
+    label: TechnologyTypeEnum.Perforate.name,
+    value: TechnologyTypeEnum.Perforate.id,
+  },
+  {
+    label: TechnologyTypeEnum.FineMilling.name,
+    value: TechnologyTypeEnum.FineMilling.id,
+  },
+  {
+    label: TechnologyTypeEnum.Compounding.name,
+    value: TechnologyTypeEnum.Compounding.id,
+  },
+];
 
 export const productSchemas: FormSchema[] = [
   {
@@ -59,11 +68,31 @@ export const productSchemas: FormSchema[] = [
     label: '描述',
     required: true,
     colProps: {
-      span: 8,
+      span: 4,
     },
   },
   {
-    field: 'divider-linked',
+    field: 'quotationId',
+    component: 'Input',
+    label: '报账单',
+    // required: true,
+    // rules: [
+    //   {
+    //     required: true,
+    //     message: '请输入报账单',
+    //     trigger: 'change',
+    //     validator: async (rule, value) => {
+    //       console.log(rule, value);
+    //     },
+    //   },
+    // ],
+    colProps: {
+      span: 4,
+      offset: 2,
+    },
+  },
+  {
+    field: 'divider-info-linked',
     component: 'Divider',
     label: '甲方信息',
     colProps: {
@@ -71,16 +100,16 @@ export const productSchemas: FormSchema[] = [
     },
   },
   {
-    field: 'companyName',
+    field: 'title',
     component: 'Input',
-    label: '甲方',
+    label: '报账单',
     required: true,
     colProps: {
       span: 4,
     },
   },
   {
-    field: 'taxNo',
+    field: 'tax',
     component: 'Input',
     label: '税号',
     required: true,
@@ -89,47 +118,48 @@ export const productSchemas: FormSchema[] = [
       offset: 2,
     },
   },
+  // {
+  //   field: 'agent',
+  //   component: 'Input',
+  //   label: '委托代理人',
+  //   required: true,
+  //   colProps: {
+  //     span: 4,
+  //     offset: 2,
+  //   },
+  // },
+  // {
+  //   field: 'phoneNumber',
+  //   component: 'Input',
+  //   label: '开票电话',
+  //   required: true,
+  //   colProps: {
+  //     span: 4,
+  //     offset: 2,
+  //   },
+  // },
   {
-    field: 'taxNo',
-    component: 'Input',
-    label: '委托代理人',
-    required: true,
-    colProps: {
-      span: 4,
-      offset: 2,
-    },
-  },
-  {
-    field: 'taxNo',
-    component: 'Input',
-    label: '开票电话',
-    required: true,
-    colProps: {
-      span: 4,
-      offset: 2,
-    },
-  },
-  {
-    field: 'taxNo',
+    field: 'bankInfo',
     component: 'Input',
     label: '开户银行',
     required: true,
     colProps: {
       span: 4,
-    },
-  },
-  {
-    field: 'taxNo',
-    component: 'Input',
-    label: '账号',
-    required: true,
-    colProps: {
-      span: 4,
       offset: 2,
     },
   },
+  // {
+  //   field: 'bankAccount',
+  //   component: 'Input',
+  //   label: '账号',
+  //   required: true,
+  //   colProps: {
+  //     span: 4,
+  //     offset: 2,
+  //   },
+  // },
   {
-    field: 'taxNo',
+    field: 'phoneNumber',
     component: 'Input',
     label: '联系电话',
     required: true,
@@ -138,27 +168,27 @@ export const productSchemas: FormSchema[] = [
       offset: 2,
     },
   },
+  // {
+  //   field: 'email',
+  //   component: 'Input',
+  //   label: 'E-mail',
+  //   required: true,
+  //   colProps: {
+  //     span: 4,
+  //     offset: 2,
+  //   },
+  // },
+  // {
+  //   field: 'fax',
+  //   component: 'Input',
+  //   label: '传真',
+  //   required: true,
+  //   colProps: {
+  //     span: 4,
+  //   },
+  // },
   {
-    field: 'taxNo',
-    component: 'Input',
-    label: 'E-mail',
-    required: true,
-    colProps: {
-      span: 4,
-      offset: 2,
-    },
-  },
-  {
-    field: 'taxNo',
-    component: 'Input',
-    label: '传真',
-    required: true,
-    colProps: {
-      span: 4,
-    },
-  },
-  {
-    field: 'divider-linked',
+    field: 'divider-address-linked',
     component: 'Divider',
     label: '甲方地址',
     colProps: {
@@ -178,15 +208,14 @@ export const productSchemas: FormSchema[] = [
         options: provincesOptions,
         placeholder: '请选择省份',
         onChange: (e: any) => {
-          // console.log(e)
-          let citiesOptions =
-            e == 1
-              ? citiesOptionsData[provincesOptions[0].id]
-              : citiesOptionsData[provincesOptions[1].id];
-          // console.log(citiesOptions)
-          if (e === undefined) {
-            citiesOptions = [];
-          }
+          const citiesOptions = pc
+            .find((p) => p.code == e)
+            ?.children.map((city) => ({
+              id: city.code,
+              label: city.name,
+              value: city.code,
+              key: city.code,
+            }));
           formModel.city = undefined; //  reset city value
           const { updateSchema } = formActionType;
           updateSchema({
@@ -242,9 +271,22 @@ export const productItemTableSchemas: BasicColumn[] = [
     width: 100,
   },
   {
-    title: '类别',
-    dataIndex: 'productType',
+    title: '产品类型',
+    dataIndex: 'productTypeId',
     width: 100,
+    customRender: ({ text }) => {
+      const status = ProductTypeEnum.from(text);
+      return status?.name;
+    },
+  },
+  {
+    title: '技术要求',
+    dataIndex: 'technicalRequirements',
+    width: 100,
+    customRender: ({ text }) => {
+      const status = TechnologyTypeEnum.from(text);
+      return status?.name;
+    },
   },
   {
     title: '材料',
@@ -280,15 +322,63 @@ export const productItemTableSchemas: BasicColumn[] = [
 
 export const productItemFormSchemas: FormSchema[] = [
   {
-    field: 'description',
+    field: 'name',
     component: 'Input',
-    label: '描述',
+    label: '名字',
     required: true,
   },
   {
-    field: 'addressDetail',
+    field: 'productTypeId',
+    component: 'Select',
+    label: '产品类型',
+    required: true,
+    componentProps: {
+      options: productTypeOptions, // defalut []
+    },
+  },
+  {
+    field: 'technicalRequirements',
+    component: 'Select',
+    label: '技术要求',
+    required: true,
+    componentProps: {
+      options: technologyTypeOptions, // defalut []
+    },
+  },
+  {
+    field: 'material',
     component: 'Input',
-    label: '地址',
+    label: '材料',
+    required: true,
+  },
+  {
+    field: 'diameter',
+    component: 'Input',
+    label: '规格',
+    required: true,
+  },
+  {
+    field: 'length',
+    component: 'Input',
+    label: '长度',
+    required: true,
+  },
+  {
+    field: 'figureNo',
+    component: 'Input',
+    label: '指纹码',
+    required: true,
+  },
+  {
+    field: 'amount',
+    component: 'Input',
+    label: '总计',
+    required: true,
+  },
+  {
+    field: 'unit',
+    component: 'Input',
+    label: '单位',
     required: true,
   },
 ];

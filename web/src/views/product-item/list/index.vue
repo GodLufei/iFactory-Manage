@@ -36,7 +36,11 @@
         showTableSetting: false,
         bordered: true,
         showIndexColumn: false,
-        pagination: { pageSize: 10 },
+        pagination: {
+          pageSize: 10,
+          showQuickJumper: false,
+          showSizeChanger: false,
+        },
         actionColumn: {
           width: 160,
           title: '操作',
