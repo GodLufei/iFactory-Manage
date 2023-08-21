@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using ProductManage.Domain.AggregatesModel;
 
 namespace ProductManage.API.Application.Commands;
@@ -9,7 +10,8 @@ public class DeleteProductTechnologyCommand : IRequest<bool>
     {
         Id = id;
     }
-
+    
+    [FromRoute] 
     public int Id { get; }
 }
 

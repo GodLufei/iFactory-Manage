@@ -34,6 +34,16 @@ public class ProductController : CommonControllerBase
         _logger.LogInformation($"create the product succeed: id{result}");
         return Succeed<int>(result, StatusCodes.Status201Created);
     }
+    [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [HttpPost("{id:int}")]
+    public async Task<IActionResult> PudateAsync([FromBody] CreateProductCommand createProductCommand)
+    {
+        var result = await _mediator.Send(createProductCommand);
+        _logger.LogInformation($"create the product succeed: id{result}");
+        return Succeed<int>(result, StatusCodes.Status201Created);
+    }
 
     [ProducesResponseType(typeof(ProductPageListDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

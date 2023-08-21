@@ -50,6 +50,13 @@ public class Product : Entity, IAggregateRoot
         TotalManHour = new TimeSpan();
     }
 
+    public void UpdateDemandSide(string title, string tax, string bankInfo, string phoneNumber,string street,string city,
+        string province,string  zipCode)
+    {
+        var address = new Address(street, city, province, zipCode);
+        DemandSide = new DemandSide(title, tax, bankInfo, phoneNumber, address);
+    }
+
     public void AddProductItem(int productTypeId, string productItemName, string technicalRequirements, string material,
         string diameter,
         string length, string figureNo, int amount, string unit)

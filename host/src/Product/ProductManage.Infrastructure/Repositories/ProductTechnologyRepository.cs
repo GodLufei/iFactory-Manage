@@ -45,4 +45,13 @@ public class ProductTechnologyRepository : IProductTechnologyRepository
     {
         return await _context.ProductTechnologies.CountAsync();
     }
+
+    public async Task<ProductTechnology> GetByProductTypeIdAsync(int productTypeId)
+    {
+        var productTechnology = await _context
+            .ProductTechnologies
+            .Include(x => x.ProductTechnologyItems)
+            .FirstOrDefaultAsync(o => o.ProductTypeId == productTypeId);
+        return productTechnology!;
+    }
 }

@@ -30,4 +30,10 @@ public class ProductTechnologyQueries : IProductTechnologyQueries
                 Total = total
             });
     }
+
+    public async Task<ProductTechnologyListDto> GetAsync(int productTypeId)
+    {
+        var productTechnologies = await _productTechnologyRepository.GetByProductTypeIdAsync(productTypeId);
+     return _mapper.Map<ProductTechnologyListDto>(productTechnologies);
+    }
 }

@@ -5,4 +5,6 @@ namespace ProductManage.API.Application.Queries;
 public interface IProductTechnologyQueries
 {
     Task<ProductTechnologyPageListDto> GetListAsync(int pageSize, int pageIndex);
+    
+    Task<ProductTechnologyListDto> GetAsync(int productTypeId);
 }
