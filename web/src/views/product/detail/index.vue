@@ -35,7 +35,8 @@
   import { PageWrapper } from '/@/components/Page';
   import { Card, Space } from 'ant-design-vue';
   import { productSchemas, productItemTableSchemas } from './data';
-  import { defineComponent } from 'vue';
+  import { defineComponent, ref } from 'vue';
+  import { useRoute } from 'vue-router';
   export default defineComponent({
     name: 'ProductDetailPage',
     components: {
@@ -47,6 +48,9 @@
       [Space.name]: Space,
     },
     setup() {
+      const route = useRoute();
+      const id = ref(route.params?.id);
+      console.log(id.value);
       const [register] = useForm({
         layout: 'vertical',
         baseColProps: {

@@ -8,7 +8,7 @@ import {
   ProductDetailDto,
   ProductPageListDto,
 } from './model/productModel';
-import { BasicFetchResult, Pagable, Page } from '../model/baseModel';
+import { BasicFetchResult, Pagable } from '../model/baseModel';
 
 enum Api {
   Product = '/product',

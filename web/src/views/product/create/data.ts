@@ -1,13 +1,13 @@
 import { FormSchema } from '/@/components/Form';
 import { BasicColumn } from '/@/components/Table';
-import pc from './pc';
+import pc from '../pc';
 import { ProductTypeEnum } from '/@/api/product/model/productModel';
 import { TechnologyTypeEnum } from '/@/api/product/model/technologyModel';
 
 const provincesOptions = pc.map((city) => ({
   id: city.code,
   label: city.name,
-  value: city.code,
+  value: city.name,
   key: city.code,
 }));
 
@@ -102,7 +102,7 @@ export const productSchemas: FormSchema[] = [
   {
     field: 'title',
     component: 'Input',
-    label: '报账单',
+    label: '甲方',
     required: true,
     colProps: {
       span: 4,
@@ -208,12 +208,13 @@ export const productSchemas: FormSchema[] = [
         options: provincesOptions,
         placeholder: '请选择省份',
         onChange: (e: any) => {
+          console.log(e);
           const citiesOptions = pc
-            .find((p) => p.code == e)
+            .find((p) => p.name == e)
             ?.children.map((city) => ({
               id: city.code,
               label: city.name,
-              value: city.code,
+              value: city.name,
               key: city.code,
             }));
           formModel.city = undefined; //  reset city value
@@ -267,7 +268,7 @@ export const productSchemas: FormSchema[] = [
 export const productItemTableSchemas: BasicColumn[] = [
   {
     title: '名称',
-    dataIndex: 'Name',
+    dataIndex: 'name',
     width: 100,
   },
   {

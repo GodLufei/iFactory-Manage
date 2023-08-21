@@ -3,31 +3,23 @@
     v-bind="$attrs"
     @register="register"
     title="创建产品明细项"
-    @visible-change="handleVisibleChange"
+    @ok="addProductItem"
+    @cancel="closeModal"
   >
-    <BasicForm @register="registerForm" :model="model" />
+    <BasicForm @register="registerForm" />
   </BasicModal>
 </template>
 <script lang="ts">
-  import { defineComponent, ref, nextTick } from 'vue';
+  import { defineComponent } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { productItemFormSchemas } from './data';
 
   export default defineComponent({
     components: { BasicModal, BasicForm },
-    props: {
-      userData: { type: Object },
-    },
-    setup(props) {
-      const modelRef = ref({});
-      const [
-        registerForm,
-        {
-          // setFieldsValue,
-          // setProps
-        },
-      ] = useForm({
+    emits: ['ok'],
+    setup(_props, { emit }) {
+      const [registerForm, { validate, resetFields }] = useForm({
         labelWidth: 120,
         schemas: productItemFormSchemas,
         showActionButtonGroup: false,
@@ -36,29 +28,23 @@
         },
       });
 
-      const [register] = useModalInner((data) => {
-        data && onDataReceive(data);
+      const [register, { closeModal }] = useModalInner((data: any) => {
+        console.log(data);
       });
 
-      function onDataReceive(data) {
-        console.log('Data Received', data);
-        modelRef.value = { field2: data.data, field1: data.info };
-
-        // setProps({
-        //   model:{ field2: data.data, field1: data.info }
-        // })
-      }
-
-      function handleVisibleChange(v) {
-        v && props.userData && nextTick(() => onDataReceive(props.userData));
-      }
+      const addProductItem = async () => {
+        const data = await validate();
+        emit('ok', data);
+        closeModal();
+        resetFields();
+      };
 
       return {
         register,
         productItemFormSchemas,
         registerForm,
-        model: modelRef,
-        handleVisibleChange,
+        addProductItem,
+        closeModal,
       };
     },
   });

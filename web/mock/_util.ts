@@ -26,7 +26,7 @@ export function resultPageSuccess<T = any>(
   };
 }
 
-export function resultError(message = 'Request failed', { code = -1, result = null } = {}) {
+export function resultError(message = '请求失败', { code = -1, result = null } = {}) {
   return {
     code,
     result,

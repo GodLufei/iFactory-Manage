@@ -81,7 +81,7 @@ export interface ProductListDto {
   addressDetail: string;
 }
 export interface CreateProductCommand {
-  productItem: ProductItemDto[];
+  productItems: ProductItemDto[];
   quotationId: number;
   city: string;
   street: string;
