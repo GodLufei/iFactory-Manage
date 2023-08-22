@@ -20,17 +20,26 @@
   import { defineComponent } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { PageWrapper } from '/@/components/Page';
-  import { columns } from './data';
-  import { getList } from '/@/api/product/productApi';
+  import { columns, getList } from './data';
   import { useGo } from '/@/hooks/web/usePage';
   import { PageEnum } from '/@/enums/pageEnum';
+  import { useUserStore } from '/@/store/modules/user';
   export default defineComponent({
     name: 'ProductItemListPage',
     components: { BasicTable, PageWrapper, TableAction },
     setup() {
       const go = useGo();
-      const [registerTable] = useTable({
-        api: getList,
+      const userStore = useUserStore();
+      const [registerTable, { setPagination }] = useTable({
+        api: async (param) => {
+          const data = await getList(param, userStore.getUserInfo);
+          setPagination({
+            current: data.data.page.pageIndex,
+            pageSize: data.data.page.pageSize,
+            total: data.data.page.total,
+          });
+          return data.data.productItemDetailDtos;
+        },
         columns: columns,
         useSearchForm: false,
         showTableSetting: false,
@@ -42,7 +51,7 @@
           showSizeChanger: false,
         },
         actionColumn: {
-          width: 160,
+          width: 100,
           title: '操作',
           dataIndex: 'action',
           slots: { customRender: 'action' },

@@ -151,3 +151,8 @@ export interface CreateProductItemCommand {
   figureNo: string;
   unit: string;
 }
+
+export interface ProductItemPageListDto {
+  page: Page;
+  productItemDetailDtos: ProductItemDetailDto[];
+}

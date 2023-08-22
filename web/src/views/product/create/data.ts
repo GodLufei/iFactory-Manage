@@ -72,26 +72,6 @@ export const productSchemas: FormSchema[] = [
     },
   },
   {
-    field: 'quotationId',
-    component: 'Input',
-    label: '报账单',
-    // required: true,
-    // rules: [
-    //   {
-    //     required: true,
-    //     message: '请输入报账单',
-    //     trigger: 'change',
-    //     validator: async (rule, value) => {
-    //       console.log(rule, value);
-    //     },
-    //   },
-    // ],
-    colProps: {
-      span: 4,
-      offset: 2,
-    },
-  },
-  {
     field: 'divider-info-linked',
     component: 'Divider',
     label: '甲方信息',
@@ -102,7 +82,7 @@ export const productSchemas: FormSchema[] = [
   {
     field: 'title',
     component: 'Input',
-    label: '甲方',
+    label: '公司名称',
     required: true,
     colProps: {
       span: 4,
@@ -118,26 +98,6 @@ export const productSchemas: FormSchema[] = [
       offset: 2,
     },
   },
-  // {
-  //   field: 'agent',
-  //   component: 'Input',
-  //   label: '委托代理人',
-  //   required: true,
-  //   colProps: {
-  //     span: 4,
-  //     offset: 2,
-  //   },
-  // },
-  // {
-  //   field: 'phoneNumber',
-  //   component: 'Input',
-  //   label: '开票电话',
-  //   required: true,
-  //   colProps: {
-  //     span: 4,
-  //     offset: 2,
-  //   },
-  // },
   {
     field: 'bankInfo',
     component: 'Input',
@@ -148,21 +108,30 @@ export const productSchemas: FormSchema[] = [
       offset: 2,
     },
   },
-  // {
-  //   field: 'bankAccount',
-  //   component: 'Input',
-  //   label: '账号',
-  //   required: true,
-  //   colProps: {
-  //     span: 4,
-  //     offset: 2,
-  //   },
-  // },
+  {
+    field: 'bankAccount',
+    component: 'Input',
+    label: '银行账号',
+    required: true,
+    colProps: {
+      span: 4,
+      offset: 2,
+    },
+  },
   {
     field: 'phoneNumber',
     component: 'Input',
     label: '联系电话',
     required: true,
+    colProps: {
+      span: 4,
+    },
+  },
+  {
+    field: 'clientPerson',
+    component: 'Input',
+    label: '委托代理人',
+    required: false,
     colProps: {
       span: 4,
       offset: 2,
@@ -284,10 +253,6 @@ export const productItemTableSchemas: BasicColumn[] = [
     title: '技术要求',
     dataIndex: 'technicalRequirements',
     width: 100,
-    customRender: ({ text }) => {
-      const status = TechnologyTypeEnum.from(text);
-      return status?.name;
-    },
   },
   {
     title: '材料',
@@ -305,7 +270,7 @@ export const productItemTableSchemas: BasicColumn[] = [
     width: 100,
   },
   {
-    title: '指纹码',
+    title: '图号',
     dataIndex: 'figureNo',
     width: 100,
   },
@@ -339,12 +304,9 @@ export const productItemFormSchemas: FormSchema[] = [
   },
   {
     field: 'technicalRequirements',
-    component: 'Select',
+    component: 'Input',
     label: '技术要求',
     required: true,
-    componentProps: {
-      options: technologyTypeOptions, // defalut []
-    },
   },
   {
     field: 'material',
@@ -367,7 +329,7 @@ export const productItemFormSchemas: FormSchema[] = [
   {
     field: 'figureNo',
     component: 'Input',
-    label: '指纹码',
+    label: '图号',
     required: true,
   },
   {

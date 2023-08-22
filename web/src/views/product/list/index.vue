@@ -10,6 +10,12 @@
               onClick: handleDetail.bind(null, record),
               // auth: 'super',
             },
+            {
+              label: '下发',
+              icon: 'clarity:add-line',
+              onClick: handleDetail.bind(null, record),
+              // auth: 'super',
+            },
           ]"
         />
       </template>
@@ -42,7 +48,7 @@
           showSizeChanger: false,
         },
         actionColumn: {
-          width: 160,
+          width: 100,
           title: '操作',
           dataIndex: 'action',
           slots: { customRender: 'action' },

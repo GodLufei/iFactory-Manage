@@ -6,6 +6,8 @@ import {
   CreateProductCommand,
   CreateProductItemCommand,
   ProductDetailDto,
+  ProductItemDetailDto,
+  ProductItemPageListDto,
   ProductPageListDto,
 } from './model/productModel';
 import { BasicFetchResult, Pagable } from '../model/baseModel';
@@ -18,7 +20,7 @@ enum Api {
 /**
  * @description: get products
  */
-export function getList(page: Pagable, mode: ErrorMessageMode = 'modal') { debugger;
+export function getList(page: Pagable, mode: ErrorMessageMode = 'modal') {
   return defHttp.get<BasicFetchResult<ProductPageListDto>>(
     { url: Api.Product, params: { pageIndex: page.page, pageSize: page.pageSize } },
     { errorMessageMode: mode },
@@ -29,7 +31,7 @@ export function getList(page: Pagable, mode: ErrorMessageMode = 'modal') { debug
  * @description: get wait to approve product items
  */
 export function getWaitToApproveProductItems(page: Pagable, mode: ErrorMessageMode = 'modal') {
-  return defHttp.get<BasicFetchResult<ProductPageListDto>>(
+  return defHttp.get<BasicFetchResult<ProductItemPageListDto>>(
     { url: Api.Product, params: { pageIndex: page.page, pageSize: page.pageSize } },
     { errorMessageMode: mode },
   );
@@ -150,9 +152,13 @@ export async function updateProductItemStatus(
 /**
  * @description: get product items
  */
-export function getProductItemList(workStationNo: string, mode: ErrorMessageMode = 'modal') {
-  return defHttp.get<BasicFetchResult<CreateProductItemCommand>>(
-    { url: `${Api.ProductItem}/${workStationNo}` },
+export function getProductItemList(
+  page: Pagable,
+  workStationNo: string,
+  mode: ErrorMessageMode = 'modal',
+) {
+  return defHttp.get<BasicFetchResult<ProductItemPageListDto>>(
+    { url: `${Api.ProductItem}/${workStationNo}?pageIndex=${page.page}&pageSize=${page.pageSize}` },
     { errorMessageMode: mode },
   );
 }

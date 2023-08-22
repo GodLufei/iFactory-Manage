@@ -21,9 +21,6 @@
         <template #action="{ record }">
           <span>
             <a @click="deleteStep(record)">删除</a>
-            <!-- <a-divider type="vertical" />   -->
-            <!-- <a @click="editStep(record)">编辑</a> -->
-            <!-- <a-divider type="vertical" /> -->
           </span>
         </template>
       </a-table>
