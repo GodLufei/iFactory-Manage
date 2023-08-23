@@ -15,8 +15,4 @@
       <ProjectReference Include="..\ProductManage.Domain.Shared\ProductManage.Domain.Shared.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Events" />
-    </ItemGroup>
-
 </Project>

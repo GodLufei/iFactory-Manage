@@ -41,5 +41,7 @@ public class UpdateProductCommand : IRequest<int>
 
     public string BankInfo { get; set; }
 
+    public string BankAccount { get; set; }
+
     public string PhoneNumber { get; set; }
 }

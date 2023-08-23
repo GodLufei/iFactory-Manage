@@ -35,6 +35,11 @@ public class DemandSideEntityTypeConfiguration : IEntityTypeConfiguration<Demand
             .Property<string>(x => x.BankInfo)
             .UsePropertyAccessMode(PropertyAccessMode.Field)
             .IsRequired();
+        
+        builder
+            .Property<string>(x => x.BankAccount)
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .IsRequired();
 
         builder
             .Property<string>(x => x.PhoneNumber)

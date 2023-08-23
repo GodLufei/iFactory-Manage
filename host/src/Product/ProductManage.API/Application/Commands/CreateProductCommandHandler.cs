@@ -21,7 +21,9 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
     {
         var address = new Address(request.Street, request.City, request.Province, request.ZipCode);
         var product = new Domain.AggregatesModel.Product(request.QuotationId, request.Description);
-        product.InitProduct(request.Title, request.Tax, request.BankInfo, request.PhoneNumber, address);
+        product.InitProduct(request.Title, request.Tax, request.BankInfo, request.PhoneNumber, request.BankAccount,
+            address);
+        
         foreach (var productItem in request.ProductItems)
         {
             product.AddProductItem(productItem.ProductTypeId, productItem.Name,

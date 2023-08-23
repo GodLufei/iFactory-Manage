@@ -1,5 +1,4 @@
 ﻿using System.Data;
-using System.Diagnostics;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -18,6 +17,8 @@ public sealed class ProductContext : DbContext, IUnitOfWork
     public DbSet<ProductTechnology> ProductTechnologies { get; set; }
 
     public DbSet<ProductTechnologyItem> ProductTechnologyItems { get; set; }
+    
+    public DbSet<ProductItemStep> ProductItemSteps { get; set; }
 
     private readonly IMediator? _mediator;
 
@@ -45,6 +46,7 @@ public sealed class ProductContext : DbContext, IUnitOfWork
         modelBuilder.ApplyConfiguration(new DemandSideEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new ProductTechnologyEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new ProductTechnologyItemEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new ProductItemStepTypeConfiguration());
     }
 
     public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default(CancellationToken))

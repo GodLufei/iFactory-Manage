@@ -13,10 +13,10 @@ public class ProductTechnologyController : CommonControllerBase
 {
     private readonly IMediator _mediator;
 
-    private readonly ILogger<ProductController> _logger;
+    private readonly ILogger<ProductTechnologyController> _logger;
 
     private readonly IProductTechnologyQueries _productTechnologyQueries;
-    public ProductTechnologyController(IMediator mediator, ILogger<ProductController> logger, IProductTechnologyQueries productTechnologyQueries)
+    public ProductTechnologyController(IMediator mediator, ILogger<ProductTechnologyController> logger, IProductTechnologyQueries productTechnologyQueries)
     {
         _mediator = mediator;
         _logger = logger;

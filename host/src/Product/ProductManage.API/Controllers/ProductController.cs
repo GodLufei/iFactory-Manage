@@ -34,15 +34,27 @@ public class ProductController : CommonControllerBase
         _logger.LogInformation($"create the product succeed: id{result}");
         return Succeed<int>(result, StatusCodes.Status201Created);
     }
+    
     [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpPost("{id:int}")]
-    public async Task<IActionResult> PudateAsync([FromBody] CreateProductCommand createProductCommand)
+    public async Task<IActionResult> UpdateAsync([FromBody] CreateProductCommand createProductCommand)
     {
         var result = await _mediator.Send(createProductCommand);
-        _logger.LogInformation($"create the product succeed: id{result}");
-        return Succeed<int>(result, StatusCodes.Status201Created);
+        _logger.LogInformation($"update the product succeed: id{result}");
+        return Succeed(result, StatusCodes.Status201Created);
+    }
+    
+    [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [HttpPost("{id:int}/down")]
+    public async Task<IActionResult> DownAsync( [FromRoute]int id)
+    {
+        var result = await _mediator.Send(new DownProductCommand(id));
+        _logger.LogInformation($"down the product succeed: id{result}");
+        return Succeed(result, StatusCodes.Status201Created);
     }
 
     [ProducesResponseType(typeof(ProductPageListDto), StatusCodes.Status200OK)]
@@ -98,13 +110,13 @@ public class ProductController : CommonControllerBase
         return Succeed(result, StatusCodes.Status200OK);
     }
     
-    [ProducesResponseType(typeof(IEnumerable<AwaitApproveProductItemsGroupDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<AwaitReverseProductItemsGroupDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpGet("productItem")]
     public async Task<IActionResult> GetAwaitApproveAsync()
     {
-        var result = await _productQueries.GetAwaitApproveAsync();
+        var result = await _productQueries.GetAwaitApproveListAsync();
         return Succeed(result, StatusCodes.Status200OK);
     }
     

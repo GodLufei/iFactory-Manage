@@ -9,13 +9,14 @@ public class DemandSide : Entity
     {
     }
 
-    public DemandSide(string title, string tax, string bankInfo, string phoneNumber, Address address):this()
+    public DemandSide(string title, string tax, string bankInfo, string phoneNumber, Address address, string bankAccount):this()
     {
         Title = title;
         Address = address;
         Tax = tax;
         BankInfo = bankInfo;
         PhoneNumber = phoneNumber;
+        BankAccount = bankAccount;
     }
 
     public string Title { get; set; }
@@ -25,6 +26,8 @@ public class DemandSide : Entity
     public string Tax { get; set; }
 
     public string BankInfo { get; set; }
+
+    public string BankAccount { get; set; }
 
     public string PhoneNumber { get; set; }
 }

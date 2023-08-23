@@ -26,11 +26,6 @@ public class ProductItemDetailDto
     public string Unit { get; set; }
 
     public string ProductStatus { get; set; }
-
-    public TimeSpan ScheduledTime { get; set; }
-
-    public DateTime? StartTime { get; set; }
-
-    public DateTime? EndTime { get; set; }
+    
 
 }

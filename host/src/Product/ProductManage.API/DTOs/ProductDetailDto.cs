@@ -3,13 +3,37 @@
 namespace ProductManage.API.DTOs;
 
 [DataContract]
-public abstract class ProductDetailDto : ProductListDto
+public class ProductDetailDto
 {
-    protected ProductDetailDto(IList<ProductItemDetailDto> productItemDetailDtos)
+    public ProductDetailDto(IList<ProductItemDetailDto> productItemDetailDtos)
     {
         ProductItemDetailDtos = productItemDetailDtos;
     }
+    
+    [DataMember]
+    public int Id { get; set; }
 
+    [DataMember]
+    public string Description { get;  set; } 
+    
+    [DataMember] public string Title { get; set; }
+
+    [DataMember] public string Tax { get; set; }
+
+    [DataMember] public string BankInfo { get; set; }
+
+    [DataMember] public string BankAccount { get; set; }
+
+    [DataMember] public string PhoneNumber { get; set; }
+
+    [DataMember] public string City { get; set; }
+
+    [DataMember] public string Street { get; set; }
+
+    [DataMember] public string Province { get; set; }
+
+    [DataMember] public string ZipCode { get; set; }
+
+    [DataMember]
     public IList<ProductItemDetailDto> ProductItemDetailDtos { get; set; }
-
 }

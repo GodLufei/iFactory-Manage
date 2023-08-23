@@ -16,9 +16,9 @@ public class ProductRepository : IProductRepository
         _context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
-    public ProductManage.Domain.AggregatesModel.Product Add(ProductManage.Domain.AggregatesModel.Product order)
+    public ProductManage.Domain.AggregatesModel.Product Add(ProductManage.Domain.AggregatesModel.Product product)
     {
-        return _context.Products.Add(order).Entity;
+        return _context.Products.Add(product).Entity;
     }
 
     public ProductManage.Domain.AggregatesModel.Product Update(ProductManage.Domain.AggregatesModel.Product quotation)
@@ -47,6 +47,19 @@ public class ProductRepository : IProductRepository
         return await _context
             .Products.OrderBy(p=>p.CreateTime)
             .Include(x => x.DemandSide).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+    }
+
+    public Task<ProductManage.Domain.AggregatesModel.Product> GetIdByProductItemIdAsync(int productItemId)
+    {
+        return _context
+            .Products.Include(x => x.ProductItems).FirstOrDefaultAsync(t=>t.ProductItems.Select(productItem=>productItem.Id).Contains(productItemId))!;
+    }
+
+    public async Task<IEnumerable<ProductManage.Domain.AggregatesModel.Product>> GetListByProductStatusAsync(int productStatusId)
+    {
+        return await _context
+            .Products.OrderBy(p=>p.CreateTime)
+            .Include(x => x.ProductItems).Where(t=>t.ProductItems.Select(productItem=>productItem.ProductStatusId).Contains(productStatusId)).ToListAsync();
     }
 
     public async Task<int> GetCount()
@@ -78,5 +91,15 @@ public class ProductRepository : IProductRepository
     {
         var result = _context.ProductItems.Remove((await _context.ProductItems.FirstOrDefaultAsync(t => t.Id == id))!);
         return result.Entity.Id;
+    }
+
+    public ProductItemStep Add(ProductItemStep productItemStep)
+    {
+        return _context.ProductItemSteps.Add(productItemStep).Entity;
+    }
+
+    public Task<List<ProductItemStep>> GetByWorkStationNoAndProductStatusIdAsync(string workStationNo,int productStatusId)
+    {
+        return _context.ProductItemSteps.Where(t => t.WorkStationNo==workStationNo && t.ProductStatusId==productStatusId).ToListAsync();
     }
 }

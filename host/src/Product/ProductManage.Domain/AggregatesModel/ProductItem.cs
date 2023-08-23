@@ -1,5 +1,4 @@
-﻿
-using ProductManage.Domain.SeedWork;
+﻿using ProductManage.Domain.Events;
 using ProductManage.Domain.Shared.Enums;
 using ProductManage.Domain.Shared.Exceptions;
 using ProductManage.Domain.Shared.Models;
@@ -77,8 +76,8 @@ public class ProductItem : Entity
     ///  工时
     /// </summary>
     public TimeSpan? ManHour { get; private set; }
-
-
+    
+    
     public ProductItem(int productTypeId, string productItemName,
         string technicalRequirements, string material, string diameter,
         string length, string figureNo, int amount, string unit)
@@ -143,6 +142,12 @@ public class ProductItem : Entity
             FinishProductItem();
         }
     }
+
+    public void DownProductItemProductEvent(List<string> workStationNos)
+    {
+        AddDomainEvent(new DownProductItemDomainEvent(this.Id,workStationNos));
+    }
+
 
     /// <summary>
     /// 完成产品

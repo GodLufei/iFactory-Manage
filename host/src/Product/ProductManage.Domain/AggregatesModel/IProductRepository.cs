@@ -15,7 +15,12 @@ public interface IProductRepository : IRepository<Product>
 
     Task<IEnumerable<Product>> GetListAsync();
     
+    Task<Product> GetIdByProductItemIdAsync(int productItemId);
+    
+    Task<IEnumerable<Product>> GetListByProductStatusAsync(int productStatusId);
+    
     Task<int> GetCount();
+    
     #endregion
 
     #region ProductItem
@@ -25,5 +30,9 @@ public interface IProductRepository : IRepository<Product>
 
     Task<int> DeleteItemAsync(int id);
     #endregion
+    
+    ProductItemStep Add(ProductItemStep productItemStep);
+    
+    Task<List<ProductItemStep>> GetByWorkStationNoAndProductStatusIdAsync(string workStationNo,int productStatusId);
 
 }

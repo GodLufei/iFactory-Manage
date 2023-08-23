@@ -19,9 +19,6 @@ public class ProductItemDetailAutoMapperProfile : AutoMapper.Profile
             .ForMember(d => d.Length, o => o.MapFrom(s => s.Length))
             .ForMember(d => d.Unit, o => o.MapFrom(s => s.Unit))
             .ForMember(d => d.Material, o => o.MapFrom(s => s.Material))
-            .ForMember(d => d.FigureNo, o => o.MapFrom(s => s.FigureNo))
-            .ForMember(d => d.ScheduledTime, o => o.MapFrom(s => s.ScheduledTime))
-            .ForMember(d => d.StartTime, o => o.MapFrom(s => s.StartTime))
-            .ForMember(d => d.EndTime, o => o.MapFrom(s => s.EndTime));
+            .ForMember(d => d.FigureNo, o => o.MapFrom(s => s.FigureNo));
     }
 }

@@ -1,5 +1,4 @@
-﻿using ProductManage.API.Application.Commands;
-using ProductManage.API.DTOs;
+﻿using ProductManage.API.DTOs;
 using ProductManage.Domain.Shared.Enums;
 
 namespace ProductManage.API.Application.Profile;
