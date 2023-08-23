@@ -6,8 +6,8 @@ import {
   CreateProductCommand,
   CreateProductItemCommand,
   ProductDetailDto,
+  ProductGroupListDto,
   ProductItemDetailDto,
-  ProductItemPageListDto,
   ProductPageListDto,
 } from './model/productModel';
 import { BasicFetchResult, Pagable } from '../model/baseModel';
@@ -30,9 +30,137 @@ export function getList(page: Pagable, mode: ErrorMessageMode = 'modal') {
 /**
  * @description: get wait to approve product items
  */
-export function getWaitToApproveProductItems(page: Pagable, mode: ErrorMessageMode = 'modal') {
-  return defHttp.get<BasicFetchResult<ProductItemPageListDto>>(
-    { url: Api.Product, params: { pageIndex: page.page, pageSize: page.pageSize } },
+export function getWaitToApproveProductItems(mode: ErrorMessageMode = 'modal') {
+  return Promise.resolve({
+    data: [
+      {
+        productListDto: {
+          id: 1,
+          description: '1',
+          title: '1',
+          tax: 1,
+          bankInfo: '1',
+          bankAccount: '1',
+          phoneNumber: '1',
+          clientPerson: '1',
+          addressDetail: '1',
+        },
+        productItemDetailDtos: [
+          {
+            id: 1,
+            productType: '1',
+            productItemName: '1',
+            technicalRequirements: '1',
+            material: '1',
+            diameter: '1',
+            length: '1',
+            figureNo: '1',
+            amount: 1,
+            unit: '1',
+            productStatus: '2',
+            scheduledTime: '1',
+            startTime: '1',
+            endTime: '1',
+          },
+        ] as ProductItemDetailDto[],
+      },
+      {
+        productListDto: {
+          id: 2,
+          description: '2',
+          title: '1',
+          tax: 1,
+          bankInfo: '1',
+          bankAccount: '1',
+          phoneNumber: '1',
+          clientPerson: '1',
+          addressDetail: '1',
+        },
+        productItemDetailDtos: [
+          {
+            id: 3,
+            productType: '1',
+            productItemName: '1',
+            technicalRequirements: '1',
+            material: '1',
+            diameter: '1',
+            length: '1',
+            figureNo: '1',
+            amount: 1,
+            unit: '1',
+            productStatus: '4',
+            scheduledTime: '1',
+            startTime: '1',
+            endTime: '1',
+          },
+        ] as ProductItemDetailDto[],
+      },
+      {
+        productListDto: {
+          id: 1,
+          description: '1',
+          title: '1',
+          tax: 1,
+          bankInfo: '1',
+          bankAccount: '1',
+          phoneNumber: '1',
+          clientPerson: '1',
+          addressDetail: '1',
+        },
+        productItemDetailDtos: [
+          {
+            id: 1,
+            productType: '1',
+            productItemName: '1',
+            technicalRequirements: '1',
+            material: '1',
+            diameter: '1',
+            length: '1',
+            figureNo: '1',
+            amount: 1,
+            unit: '1',
+            productStatus: '2',
+            scheduledTime: '1',
+            startTime: '1',
+            endTime: '1',
+          },
+        ] as ProductItemDetailDto[],
+      },
+      {
+        productListDto: {
+          id: 2,
+          description: '2',
+          title: '1',
+          tax: 1,
+          bankInfo: '1',
+          bankAccount: '1',
+          phoneNumber: '1',
+          clientPerson: '1',
+          addressDetail: '1',
+        },
+        productItemDetailDtos: [
+          {
+            id: 3,
+            productType: '1',
+            productItemName: '1',
+            technicalRequirements: '1',
+            material: '1',
+            diameter: '1',
+            length: '1',
+            figureNo: '1',
+            amount: 1,
+            unit: '1',
+            productStatus: '4',
+            scheduledTime: '1',
+            startTime: '1',
+            endTime: '1',
+          },
+        ] as ProductItemDetailDto[],
+      },
+    ],
+  });
+  return defHttp.get<BasicFetchResult<ProductGroupListDto[]>>(
+    { url: Api.ProductItem },
     { errorMessageMode: mode },
   );
 }
@@ -152,13 +280,9 @@ export async function updateProductItemStatus(
 /**
  * @description: get product items
  */
-export function getProductItemList(
-  page: Pagable,
-  workStationNo: string,
-  mode: ErrorMessageMode = 'modal',
-) {
-  return defHttp.get<BasicFetchResult<ProductItemPageListDto>>(
-    { url: `${Api.ProductItem}/${workStationNo}?pageIndex=${page.page}&pageSize=${page.pageSize}` },
+export function getProductItemList(workStationNo: string, mode: ErrorMessageMode = 'modal') {
+  return defHttp.get<BasicFetchResult<ProductGroupListDto[]>>(
+    { url: `${Api.ProductItem}/${workStationNo}` },
     { errorMessageMode: mode },
   );
 }

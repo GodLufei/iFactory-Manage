@@ -1,5 +1,65 @@
 import { FormSchema } from '/@/components/Form';
 import { BasicColumn } from '/@/components/Table';
+import pc from '../pc';
+import { ProductTypeEnum } from '/@/api/product/model/productModel';
+import { TechnologyTypeEnum } from '/@/api/product/model/technologyModel';
+
+const provincesOptions = pc.map((city) => ({
+  id: city.code,
+  label: city.name,
+  value: city.name,
+  key: city.code,
+}));
+
+export const productTypeOptions = [
+  {
+    label: ProductTypeEnum.ShaftingSystem.name,
+    value: ProductTypeEnum.ShaftingSystem.id,
+  },
+  {
+    label: ProductTypeEnum.RudderSystem.name,
+    value: ProductTypeEnum.RudderSystem.id,
+  },
+  {
+    label: ProductTypeEnum.NonStandardPart.name,
+    value: ProductTypeEnum.NonStandardPart.id,
+  },
+  {
+    label: ProductTypeEnum.StandardPart.name,
+    value: ProductTypeEnum.StandardPart.id,
+  },
+  {
+    label: ProductTypeEnum.Other.name,
+    value: ProductTypeEnum.Other.id,
+  },
+];
+
+export const technologyTypeOptions = [
+  {
+    label: TechnologyTypeEnum.Blanking.name,
+    value: TechnologyTypeEnum.Blanking.id,
+  },
+  {
+    label: TechnologyTypeEnum.RoughTurning.name,
+    value: TechnologyTypeEnum.RoughTurning.id,
+  },
+  {
+    label: TechnologyTypeEnum.FineTurning.name,
+    value: TechnologyTypeEnum.FineTurning.id,
+  },
+  {
+    label: TechnologyTypeEnum.Perforate.name,
+    value: TechnologyTypeEnum.Perforate.id,
+  },
+  {
+    label: TechnologyTypeEnum.FineMilling.name,
+    value: TechnologyTypeEnum.FineMilling.id,
+  },
+  {
+    label: TechnologyTypeEnum.Compounding.name,
+    value: TechnologyTypeEnum.Compounding.id,
+  },
+];
 
 export const productSchemas: FormSchema[] = [
   {
@@ -8,124 +68,168 @@ export const productSchemas: FormSchema[] = [
     label: '描述',
     required: true,
     colProps: {
-      span: 6,
+      span: 4,
     },
   },
   {
-    field: 'addressDetail',
-    component: 'Cascader',
-    label: '地址',
+    field: 'divider-info-linked',
+    component: 'Divider',
+    label: '甲方信息',
+    colProps: {
+      span: 24,
+    },
+  },
+  {
+    field: 'title',
+    component: 'Input',
+    label: '公司名称',
     required: true,
     colProps: {
-      span: 6,
+      span: 4,
+    },
+  },
+  {
+    field: 'tax',
+    component: 'Input',
+    label: '税号',
+    required: true,
+    colProps: {
+      span: 4,
+      offset: 2,
+    },
+  },
+  {
+    field: 'bankInfo',
+    component: 'Input',
+    label: '开户银行',
+    required: true,
+    colProps: {
+      span: 4,
+      offset: 2,
+    },
+  },
+  {
+    field: 'bankAccount',
+    component: 'Input',
+    label: '银行账号',
+    required: true,
+    colProps: {
+      span: 4,
+      offset: 2,
+    },
+  },
+  {
+    field: 'phoneNumber',
+    component: 'Input',
+    label: '联系电话',
+    required: true,
+    colProps: {
+      span: 4,
+    },
+  },
+  {
+    field: 'clientPerson',
+    component: 'Input',
+    label: '委托代理人',
+    required: false,
+    colProps: {
+      span: 4,
+      offset: 2,
+    },
+  },
+  // {
+  //   field: 'email',
+  //   component: 'Input',
+  //   label: 'E-mail',
+  //   required: true,
+  //   colProps: {
+  //     span: 4,
+  //     offset: 2,
+  //   },
+  // },
+  // {
+  //   field: 'fax',
+  //   component: 'Input',
+  //   label: '传真',
+  //   required: true,
+  //   colProps: {
+  //     span: 4,
+  //   },
+  // },
+  {
+    field: 'divider-address-linked',
+    component: 'Divider',
+    label: '甲方地址',
+    colProps: {
+      span: 24,
+    },
+  },
+  {
+    field: 'province',
+    component: 'Select',
+    label: '省份',
+    required: true,
+    colProps: {
+      span: 4,
+    },
+    componentProps: ({ formModel, formActionType }) => {
+      return {
+        options: provincesOptions,
+        placeholder: '请选择省份',
+        onChange: (e: any) => {
+          console.log(e);
+          const citiesOptions = pc
+            .find((p) => p.name == e)
+            ?.children.map((city) => ({
+              id: city.code,
+              label: city.name,
+              value: city.name,
+              key: city.code,
+            }));
+          formModel.city = undefined; //  reset city value
+          const { updateSchema } = formActionType;
+          updateSchema({
+            field: 'city',
+            componentProps: {
+              options: citiesOptions,
+            },
+          });
+        },
+      };
+    },
+  },
+  {
+    field: 'city',
+    component: 'Select',
+    label: '城市',
+    required: true,
+    colProps: {
+      span: 4,
       offset: 2,
     },
     componentProps: {
-      options: [
-        {
-          value: '浙江省',
-          label: '浙江省',
-          children: [
-            {
-              value: '杭州市',
-              label: '杭州市',
-              children: [
-                {
-                  value: '西湖区',
-                  label: '西湖区',
-                },
-              ],
-            },
-          ],
-        },
-        {
-          value: '江苏省',
-          label: '江苏省',
-          children: [
-            {
-              value: '南京市',
-              label: '南京市',
-              children: [
-                {
-                  value: '鼓楼区',
-                  label: '鼓楼区',
-                },
-                {
-                  value: '秦淮区',
-                  label: '秦淮区',
-                },
-                {
-                  value: '江宁区',
-                  label: '江宁区',
-                },
-                {
-                  value: '六合区',
-                  label: '六合区',
-                },
-                {
-                  value: '雨花台区',
-                  label: '雨花台区',
-                },
-                {
-                  value: '建邺区',
-                  label: '建邺区',
-                },
-                {
-                  value: '浦口区',
-                  label: '浦口区',
-                },
-                {
-                  value: '溧水区',
-                  label: '溧水区',
-                },
-              ],
-            },
-            {
-              value: '无锡市',
-              label: '无锡市',
-              children: [
-                {
-                  value: '江阴市',
-                  label: '江阴市',
-                },
-                {
-                  value: '宜兴市',
-                  label: '宜兴市',
-                },
-                {
-                  value: '崇安区',
-                  label: '崇安区',
-                },
-                {
-                  value: '无锡新区',
-                  label: '无锡新区',
-                },
-                {
-                  value: '锡山区',
-                  label: '锡山区',
-                },
-                {
-                  value: '惠山区',
-                  label: '惠山区',
-                },
-                {
-                  value: '滨湖区',
-                  label: '滨湖区',
-                },
-                {
-                  value: '梁溪区',
-                  label: '梁溪区',
-                },
-                {
-                  value: '新吴区',
-                  label: '新吴区',
-                },
-              ],
-            },
-          ],
-        },
-      ],
-      displayRender: ({ labels }) => labels.join(' '),
+      options: [], // defalut []
+      placeholder: '请选择城市',
+    },
+  },
+  {
+    field: 'street',
+    component: 'Input',
+    label: '街道',
+    required: true,
+    colProps: {
+      span: 4,
+      offset: 2,
+    },
+  },
+  {
+    field: 'zipCode',
+    component: 'Input',
+    label: '邮政编码',
+    required: true,
+    colProps: {
+      span: 4,
+      offset: 2,
     },
   },
 ];
@@ -133,12 +237,21 @@ export const productSchemas: FormSchema[] = [
 export const productItemTableSchemas: BasicColumn[] = [
   {
     title: '名称',
-    dataIndex: 'Name',
+    dataIndex: 'name',
     width: 100,
   },
   {
-    title: '类别',
-    dataIndex: 'productType',
+    title: '产品类型',
+    dataIndex: 'productTypeId',
+    width: 100,
+    customRender: ({ text }) => {
+      const status = ProductTypeEnum.from(text);
+      return status?.name;
+    },
+  },
+  {
+    title: '技术要求',
+    dataIndex: 'technicalRequirements',
     width: 100,
   },
   {
@@ -157,7 +270,7 @@ export const productItemTableSchemas: BasicColumn[] = [
     width: 100,
   },
   {
-    title: '指纹码',
+    title: '图号',
     dataIndex: 'figureNo',
     width: 100,
   },
@@ -171,27 +284,64 @@ export const productItemTableSchemas: BasicColumn[] = [
     dataIndex: 'unit',
     width: 100,
   },
-  {
-    title: '操作',
-    dataIndex: 'action',
-    width: 100,
-  },
 ];
 
 export const productItemFormSchemas: FormSchema[] = [
   {
-    field: 'description',
+    field: 'name',
     component: 'Input',
-    label: '描述',
+    label: '名字',
     required: true,
   },
   {
-    field: 'addressDetail',
-    component: 'Input',
-    label: '地址',
+    field: 'productTypeId',
+    component: 'Select',
+    label: '产品类型',
     required: true,
-    colProps: {
-      offset: 2,
+    componentProps: {
+      options: productTypeOptions, // defalut []
     },
+  },
+  {
+    field: 'technicalRequirements',
+    component: 'Input',
+    label: '技术要求',
+    required: true,
+  },
+  {
+    field: 'material',
+    component: 'Input',
+    label: '材料',
+    required: true,
+  },
+  {
+    field: 'diameter',
+    component: 'Input',
+    label: '规格',
+    required: true,
+  },
+  {
+    field: 'length',
+    component: 'Input',
+    label: '长度',
+    required: true,
+  },
+  {
+    field: 'figureNo',
+    component: 'Input',
+    label: '图号',
+    required: true,
+  },
+  {
+    field: 'amount',
+    component: 'Input',
+    label: '总计',
+    required: true,
+  },
+  {
+    field: 'unit',
+    component: 'Input',
+    label: '单位',
+    required: true,
   },
 ];

@@ -152,7 +152,7 @@ export interface CreateProductItemCommand {
   unit: string;
 }
 
-export interface ProductItemPageListDto {
-  page: Page;
+export interface ProductGroupListDto {
+  productListDto: ProductListDto;
   productItemDetailDtos: ProductItemDetailDto[];
 }

@@ -43,11 +43,11 @@ export function getUserList() {
       realName: '审计',
       avatar: '',
       desc: 'approver',
-      token: 'worker-token',
+      token: 'approver-token',
       homePath: '/product-item/list',
       roles: [
         {
-          roleName: '员工',
+          roleName: '审计',
           value: RoleEnum.APPROVER,
         },
       ],

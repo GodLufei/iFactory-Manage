@@ -7,9 +7,7 @@
       <BasicTable @register="registerTable" />
       <a-button block class="mt-5" @click="addProductItem"> 新增产品项 </a-button>
     </a-card>
-    <a-card :bordered="false" :align="'center'" class="!mt-5 center">
-      <!-- <a-button type="info" @click="resetInput">重置</a-button>
-      <a-button type="primary" @click="createProduct" class="!ml-5"></a-button> -->
+    <a-card :bordered="false" :align="'center'" class="!mt-5">
       <a-space>
         <PopConfirmButton type="info" title="确认重置？" @confirm="resetInput"
           >重置</PopConfirmButton

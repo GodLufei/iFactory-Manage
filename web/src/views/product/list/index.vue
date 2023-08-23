@@ -6,15 +6,17 @@
           :actions="[
             {
               label: '详情',
-              icon: 'clarity:note-edit-line',
               onClick: handleDetail.bind(null, record),
-              // auth: 'super',
+              auth: [RoleEnum.MANAGER],
             },
             {
               label: '下发',
-              icon: 'clarity:add-line',
-              onClick: handleDetail.bind(null, record),
-              // auth: 'super',
+              color: 'success',
+              popConfirm: {
+                title: '是否下发？',
+                confirm: handleDown.bind(null, record),
+              },
+              auth: [RoleEnum.MANAGER],
             },
           ]"
         />
@@ -30,6 +32,7 @@
   import { getList } from '/@/api/product/productApi';
   import { useGo } from '/@/hooks/web/usePage';
   import { PageEnum } from '/@/enums/pageEnum';
+  import { RoleEnum } from '/@/enums/roleEnum';
   export default defineComponent({
     name: 'ProductPage',
     components: { BasicTable, PageWrapper, TableAction },
@@ -62,10 +65,17 @@
         go(`${PageEnum.PRODUCT_DETAIL}/${id}`);
         return {};
       }
+      function handleDown(record: Recordable) {
+        const { id } = record;
+        go(`${PageEnum.PRODUCT_DETAIL}/${id}`);
+        return {};
+      }
       return {
         registerTable,
         handleAssignTask,
         handleDetail,
+        handleDown,
+        RoleEnum,
       };
     },
   });

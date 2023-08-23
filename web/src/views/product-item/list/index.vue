@@ -1,62 +1,36 @@
 <template>
-  <PageWrapper contentBackground contentClass="flex" dense contentFullHeight fixedHeight>
-    <BasicTable @register="registerTable">
-      <template #action="{ record }">
-        <TableAction
-          :actions="[
-            {
-              label: '操作',
-              icon: 'clarity:note-edit-line',
-              onClick: handleDetail.bind(null, record),
-              // auth: 'super',
-            },
-          ]"
-        />
-      </template>
-    </BasicTable>
-  </PageWrapper>
+  <a-row
+    style="background-color: whitesmoke"
+    v-for="p in productsCompute"
+    :key="p.productListDto.id"
+    class="!mt-5 !mb-5"
+  >
+    <a-col :span="24">
+      <ProductInfoCard :product="p.productListDto" :productItems="p.productItemDetailDtos" />
+    </a-col>
+  </a-row>
 </template>
 <script lang="ts">
   import { defineComponent } from 'vue';
-  import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { PageWrapper } from '/@/components/Page';
-  import { columns, getList } from './data';
+  import { getList } from './data';
   import { useGo } from '/@/hooks/web/usePage';
   import { PageEnum } from '/@/enums/pageEnum';
   import { useUserStore } from '/@/store/modules/user';
+  import ProductInfoCard from './productInfoCard.vue';
+  import { reactive } from 'vue';
+  import { ProductGroupListDto } from '/@/api/product/model/productModel';
+  import { Row, Col } from 'ant-design-vue';
   export default defineComponent({
     name: 'ProductItemListPage',
-    components: { BasicTable, PageWrapper, TableAction },
+    components: { ProductInfoCard, [Row.name]: Row, [Col.name]: Col },
     setup() {
       const go = useGo();
       const userStore = useUserStore();
-      const [registerTable, { setPagination }] = useTable({
-        api: async (param) => {
-          const data = await getList(param, userStore.getUserInfo);
-          setPagination({
-            current: data.data.page.pageIndex,
-            pageSize: data.data.page.pageSize,
-            total: data.data.page.total,
-          });
-          return data.data.productItemDetailDtos;
-        },
-        columns: columns,
-        useSearchForm: false,
-        showTableSetting: false,
-        bordered: true,
-        showIndexColumn: false,
-        pagination: {
-          pageSize: 10,
-          showQuickJumper: false,
-          showSizeChanger: false,
-        },
-        actionColumn: {
-          width: 100,
-          title: '操作',
-          dataIndex: 'action',
-          slots: { customRender: 'action' },
-        },
+      const datas = reactive([] as ProductGroupListDto[]);
+      getList(userStore.getUserInfo).then((d) => {
+        d.data.forEach((m) => datas.push(m));
       });
+
       function handleAssignTask(record: Recordable) {
         console.log('点击了删除', record);
       }
@@ -66,7 +40,8 @@
         return {};
       }
       return {
-        registerTable,
+        ProductInfoCard,
+        productsCompute: datas,
         handleAssignTask,
         handleDetail,
       };
