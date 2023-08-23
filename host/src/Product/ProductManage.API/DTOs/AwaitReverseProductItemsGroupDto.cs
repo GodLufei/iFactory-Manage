@@ -1,8 +1,8 @@
 ﻿namespace ProductManage.API.DTOs;
 
-public class AwaitApproveProductItemsGroupDto
+public class AwaitReverseProductItemsGroupDto
 {
-    public AwaitApproveProductItemsGroupDto(ProductListDto productListDto, IEnumerable<ProductItemDetailDto> productItemDetailDtos)
+    public AwaitReverseProductItemsGroupDto(ProductListDto productListDto, IEnumerable<ProductItemDetailDto> productItemDetailDtos)
     {
         ProductListDto = productListDto;
         ProductItemDetailDtos = productItemDetailDtos;

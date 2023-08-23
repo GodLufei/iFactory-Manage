@@ -13,9 +13,9 @@ public class ProductListDto
 
     [DataMember] public double CompletionRate { get; set; }
 
-    [DataMember] public string ProductStatus { get; set; }
+    [DataMember] public string ProductStatusId { get; set; }
 
     [DataMember] public TimeSpan TotalManHour { get; set; }
-
+    
     [DataMember] public string AddressDetail { get; set; }
 }

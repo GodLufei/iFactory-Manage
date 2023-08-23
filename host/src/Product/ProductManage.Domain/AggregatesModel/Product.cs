@@ -41,20 +41,20 @@ public class Product : Entity, IAggregateRoot
         _productItems = new List<ProductItem>();
     }
 
-    public void InitProduct(string title, string tax, string bankInfo, string phoneNumber, Address address)
+    public void InitProduct(string title, string tax, string bankInfo, string phoneNumber,string bankAccount, Address address)
     {
         CreateTime = DateTime.Now;
         ProductStatusId = ProductStatus.UnProduct.Id;
         CompletionRate = 0;
-        DemandSide = new DemandSide(title, tax, bankInfo, phoneNumber, address);
+        DemandSide = new DemandSide(title, tax, bankInfo, phoneNumber, address,bankAccount);
         TotalManHour = new TimeSpan();
     }
 
     public void UpdateDemandSide(string title, string tax, string bankInfo, string phoneNumber,string street,string city,
-        string province,string  zipCode)
+        string province,string  zipCode,string bankAccount)
     {
         var address = new Address(street, city, province, zipCode);
-        DemandSide = new DemandSide(title, tax, bankInfo, phoneNumber, address);
+        DemandSide = new DemandSide(title, tax, bankInfo, phoneNumber, address,bankAccount);
     }
 
     public void AddProductItem(int productTypeId, string productItemName, string technicalRequirements, string material,
@@ -73,9 +73,7 @@ public class Product : Entity, IAggregateRoot
     public void ApproveProductItem(int itemId)
     {
         var productItem = _productItems.SingleOrDefault(o => o.Id == itemId);
-        
         productItem?.ApproveProductItem();
-
         if (_productItems.All(t => t.ProductStatusId == ProductStatus.ApproveProduct.Id))
             ProductStatusId = ProductStatus.ApproveProduct.Id;
     }
@@ -85,6 +83,7 @@ public class Product : Entity, IAggregateRoot
         StartTime = DateTime.Now;
         ProductStatusId = ProductStatus.AwaitingProduct.Id;
     }
+    
 
     public void UpdateProduct(int productItemId, TimeSpan scheduleTime)
     {
