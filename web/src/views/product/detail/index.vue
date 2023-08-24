@@ -48,11 +48,11 @@
   import { Card, Space } from 'ant-design-vue';
   import { productSchemas, productItemTableSchemas } from './data';
   import EditProductItemModal from './EditProductItemModal.vue';
-  import { defineComponent, reactive, computed } from 'vue';
+  import { defineComponent, reactive, computed, ref } from 'vue';
   import { useModal } from '/@/components/Modal';
   import { CreateProductCommand, ProductItemDto } from '/@/api/product/model/productModel';
   import { PopConfirmButton } from '/@/components/Button';
-  import { create } from '/@/api/product/productApi';
+  import { create, detail } from '/@/api/product/productApi';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { useRoute } from 'vue-router';
   import { RoleEnum } from '/@/enums/roleEnum';
@@ -71,6 +71,9 @@
     setup() {
       const route = useRoute();
       console.log(route.params.id);
+      const idRef = ref(route.params.id);
+      const productRef = reactive({ product: Object });
+      detail(idRef.value as unknown as number).then((data) => ( productRef.product = data.data));
       const productItemModel = reactive({});
       const productItems = reactive([] as ProductItemDto[]);
       const productItemCompute = computed(() => productItems);

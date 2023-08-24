@@ -63,6 +63,16 @@ export const technologyTypeOptions = [
 
 export const productSchemas: FormSchema[] = [
   {
+    field: 'id',
+    component: 'Input',
+    label: 'id',
+    required: true,
+    show: false,
+    colProps: {
+      span: 4,
+    },
+  },
+  {
     field: 'description',
     component: 'Input',
     label: '描述',

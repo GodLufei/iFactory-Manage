@@ -91,7 +91,9 @@ export interface CreateProductCommand {
   title: string;
   tax: string;
   bankInfo: string;
+  bankAccount: string;
   phoneNumber: string;
+  clientPerson: string;
 }
 export interface ProductItemDto {
   productTypeId: number;
@@ -105,13 +107,26 @@ export interface ProductItemDto {
   unit: string;
 }
 
-export interface ProductDetailDto extends ProductListDto {
-  productItemDetailDtos: ProductItemDetailDto[];
+export interface ProductDetailDto {
+  productItemDetailDtos: ProductItemDto[];
+  quotationId: number;
+  city: string;
+  street: string;
+  province: string;
+  zipCode: string;
+  description: string;
+  title: string;
+  tax: string;
+  bankInfo: string;
+  bankAccount: string;
+  phoneNumber: string;
+  clientPerson: string;
+  id: number;
 }
 
 export interface ProductItemDetailDto {
   id: number;
-  productType: string;
+  productTypeId: number;
   productItemName: string;
   technicalRequirements: string;
   material: string;
@@ -120,10 +135,10 @@ export interface ProductItemDetailDto {
   figureNo: string;
   amount: number;
   unit: string;
-  productStatus: string;
-  scheduledTime: string;
-  startTime: string;
-  endTime: string;
+  productStatusId: number;
+  // scheduledTime: string;
+  // startTime: string;
+  // endTime: string;
 }
 
 export interface ChangeProductItemCommand {
@@ -139,20 +154,25 @@ export interface ChangeProductItemCommand {
 }
 
 export interface CreateProductItemCommand {
-  id: number;
-  productName: string;
   productTypeId: number;
-  amount: number;
-  name: string;
+  productItemName: string;
   technicalRequirements: string;
   material: string;
   diameter: string;
   length: string;
   figureNo: string;
+  amount: number;
   unit: string;
+  productStatusId: number;
+  scheduledTime?: string;
 }
 
-export interface ProductGroupListDto {
+export interface AwaitReverseProductItemsGroupDto {
+  productListDto: ProductListDto;
+  productItemDetailDtos: ProductItemDetailDto[];
+}
+
+export interface AwaitReverseProductItemsGroupDto {
   productListDto: ProductListDto;
   productItemDetailDtos: ProductItemDetailDto[];
 }
