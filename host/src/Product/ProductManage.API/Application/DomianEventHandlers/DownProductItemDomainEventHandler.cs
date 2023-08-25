@@ -19,8 +19,8 @@ public class DownProductItemDomainEventHandler:  INotificationHandler<DownProduc
         for (var i = 0; i < notification.WorkStationNos.Count; i++)
         {
            var s= notification.WorkStationNos[i];
-           var productItemStep = new ProductItemStep(notification.ProductItemId, i, notification.WorkStationNos[i],
-               ProductStatus.AwaitingProduct.Id);
+           var productStatusId = i == 0 ? ProductStatus.AwaitingProduct.Id : ProductStatus.UnProduct.Id;
+           var productItemStep = new ProductItemStep(notification.ProductItemId, i, notification.WorkStationNos[i], productStatusId);
            var result=_productRepository.Add(productItemStep);
         }
         await _productRepository.UnitOfWork

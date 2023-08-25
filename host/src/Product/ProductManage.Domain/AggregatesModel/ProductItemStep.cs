@@ -19,4 +19,11 @@ public class ProductItemStep: Entity
     public string WorkStationNo { get; set; }
     
     public int ProductStatusId { get; set; }
+
+    public void UpdateStatus(int productStatusId)
+    {
+        this.ProductStatusId = productStatusId;
+    }
+    
+    public  void SendAllSteps
 }

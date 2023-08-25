@@ -17,13 +17,14 @@ public class ProductItemStepController : CommonControllerBase
     public ProductItemStepController(IProductQueries productQueries)
     {
         _productQueries = productQueries;
+        _mediator = mediator;
     }
 
     [ProducesResponseType(typeof(IEnumerable<AwaitReverseProductItemsGroupDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [HttpPost("{stationNo}")]
-    public async Task<IActionResult> Get([FromRoute] string stationNo)
+    [HttpGet("{stationNo}")]
+    public async Task<IActionResult> GetAsync([FromRoute] string stationNo)
     {
         var result = await _productQueries.GetListByStationNoAsync(stationNo);
         return Succeed(result, StatusCodes.Status201Created);
@@ -32,10 +33,21 @@ public class ProductItemStepController : CommonControllerBase
     [ProducesResponseType(typeof(IEnumerable<AwaitReverseProductItemsGroupDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [HttpPut("{stationNo}/{productItemId:int}")]
-    public async Task<IActionResult> UpdateStatus([FromRoute] string stationNo)
+    [HttpGet("{stationNo}")]
+    public async Task<IActionResult> GetListAsync([FromRoute] string stationNo)
     {
         var result = await _productQueries.GetListByStationNoAsync(stationNo);
         return Succeed(result, StatusCodes.Status201Created);
+    }
+    
+    [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [HttpPut("{stationNo}/{productItemId:int}")]
+    public async Task<IActionResult> UpdateProductItemStatus(UpdateProductItemStatusCommand updateProductItemStatusCommand )
+    {
+        var result = await _mediator.Send(updateProductItemStatusCommand);
+
+        return Succeed(result, StatusCodes.Status200OK);
     }
 }

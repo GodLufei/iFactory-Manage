@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProductManage.Domain.AggregatesModel;
 using ProductManage.Domain.SeedWork;
-using ProductManage.Domain.Shared.Enums;
 
 namespace Product.Infrastructure.Repositories;
 
@@ -96,6 +95,11 @@ public class ProductRepository : IProductRepository
     public ProductItemStep Add(ProductItemStep productItemStep)
     {
         return _context.ProductItemSteps.Add(productItemStep).Entity;
+    }
+
+    public Task<List<ProductItemStep>> GetByProductItemIdAsync(int productItemId)
+    {
+        return _context.ProductItemSteps.Where(t=>t.ProductItemId==productItemId).ToListAsync();
     }
 
     public Task<List<ProductItemStep>> GetByWorkStationNoAndProductStatusIdAsync(string workStationNo,int productStatusId)
