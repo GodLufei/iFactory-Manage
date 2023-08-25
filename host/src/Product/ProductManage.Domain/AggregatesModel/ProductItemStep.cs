@@ -25,5 +25,5 @@ public class ProductItemStep: Entity
         this.ProductStatusId = productStatusId;
     }
     
-    public  void SendAllSteps
+
 }
