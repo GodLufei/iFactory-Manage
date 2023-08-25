@@ -34,6 +34,8 @@ public class ProductDetailDto
 
     [DataMember] public string ZipCode { get; set; }
 
+    [DataMember]  public string ClientPerson { get; set; }
+
     [DataMember]
     public IList<ProductItemDetailDto> ProductItemDetailDtos { get; set; }
 }

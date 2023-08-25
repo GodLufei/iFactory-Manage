@@ -1,6 +1,7 @@
 import type { AppRouteModule } from '/@/router/types';
 
 import { LAYOUT } from '/@/router/constant';
+import { RoleEnum } from '/@/enums/roleEnum';
 
 const product: AppRouteModule = {
   path: '/product',
@@ -10,7 +11,8 @@ const product: AppRouteModule = {
   meta: {
     icon: 'ant-design:inbox-outlined',
     title: '货品管理',
-    orderNo: 100,
+    orderNo: 10,
+    roles: [RoleEnum.MANAGER],
   },
   children: [
     {
@@ -20,6 +22,7 @@ const product: AppRouteModule = {
       meta: {
         title: '货品管理',
         icon: 'ant-design:inbox-outlined',
+        roles: [RoleEnum.MANAGER],
       },
     },
     {
@@ -29,6 +32,7 @@ const product: AppRouteModule = {
       meta: {
         title: '货品创建',
         icon: 'ant-design:inbox-outlined',
+        roles: [RoleEnum.MANAGER],
       },
     },
     {
@@ -42,6 +46,7 @@ const product: AppRouteModule = {
         hideTab: true,
         hideBreadcrumb: true,
         hideMenu: true,
+        roles: [RoleEnum.MANAGER],
       },
     },
   ],

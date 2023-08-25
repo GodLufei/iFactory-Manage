@@ -6,18 +6,17 @@
           :actions="[
             {
               label: '详情',
-              icon: 'clarity:note-edit-line',
               onClick: handleDetail.bind(null, record),
-              // auth: 'super',
+              auth: [RoleEnum.MANAGER],
             },
             {
               label: '下发',
-              icon: 'ant-design:arrow-down-outlined',
               color: 'success',
               popConfirm: {
-                title: '是否确认下发',
-                confirm: handleAssignTask.bind(null, record),
+                title: '是否下发？',
+                confirm: handleDown.bind(null, record),
               },
+              auth: [RoleEnum.MANAGER],
             },
           ]"
         />
@@ -30,24 +29,29 @@
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { PageWrapper } from '/@/components/Page';
   import { columns } from './data';
-  import { list } from '/@/api/product/product';
+  import { getList } from '/@/api/product/productApi';
   import { useGo } from '/@/hooks/web/usePage';
   import { PageEnum } from '/@/enums/pageEnum';
+  import { RoleEnum } from '/@/enums/roleEnum';
   export default defineComponent({
     name: 'ProductPage',
     components: { BasicTable, PageWrapper, TableAction },
     setup() {
       const go = useGo();
       const [registerTable] = useTable({
-        api: list,
+        api: getList,
         columns: columns,
         useSearchForm: false,
         showTableSetting: false,
         bordered: true,
         showIndexColumn: false,
-        pagination: { pageSize: 10 },
+        pagination: {
+          pageSize: 10,
+          showQuickJumper: false,
+          showSizeChanger: false,
+        },
         actionColumn: {
-          width: 160,
+          width: 100,
           title: '操作',
           dataIndex: 'action',
           slots: { customRender: 'action' },
@@ -61,10 +65,17 @@
         go(`${PageEnum.PRODUCT_DETAIL}/${id}`);
         return {};
       }
+      function handleDown(record: Recordable) {
+        const { id } = record;
+        go(`${PageEnum.PRODUCT_DETAIL}/${id}`);
+        return {};
+      }
       return {
         registerTable,
         handleAssignTask,
         handleDetail,
+        handleDown,
+        RoleEnum,
       };
     },
   });

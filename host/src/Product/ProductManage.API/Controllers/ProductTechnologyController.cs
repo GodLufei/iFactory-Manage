@@ -8,7 +8,7 @@ namespace ProductManage.API.Controllers;
 
 [ApiController]
 [Produces("application/json")]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class ProductTechnologyController : CommonControllerBase
 {
     private readonly IMediator _mediator;
@@ -43,7 +43,7 @@ public class ProductTechnologyController : CommonControllerBase
     {
         var result = await _mediator.Send(deleteProductTechnologyCommand);
         _logger.LogInformation($"delete the productTechnology succeed: id{deleteProductTechnologyCommand.Id}");
-        return Succeed(result, StatusCodes.Status201Created);
+        return Succeed(result, StatusCodes.Status202Accepted);
     }
 
     [ProducesResponseType(typeof(ProductTechnologyPageListDto), StatusCodes.Status200OK)]

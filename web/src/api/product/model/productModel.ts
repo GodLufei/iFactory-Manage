@@ -1,33 +1,4 @@
-export class Product {
-  id?: number;
-  description!: string;
-  completionRate!: number;
-  productStatus!: string;
-  addressDetail!: string;
-  totalManHour!: number;
-  createTime!: string;
-}
-
-export class ProductItemDTO {
-  id?: number;
-  productType!: string;
-  productItemName!: string;
-  technicalRequirements!: string;
-  material!: string;
-  diameter!: string;
-  length!: string;
-  figureNo!: string;
-  amount!: number;
-  unit!: string;
-  productStatus!: string;
-  scheduledTime!: string;
-  startTime?: string;
-  endTime?: string;
-}
-
-export class ProductDetail extends Product {
-  productItemDetailDtos!: ProductItemDTO[];
-}
+import { Page } from '../../model/baseModel';
 
 export class ProductStatusEnum {
   id: number;
@@ -44,6 +15,7 @@ export class ProductStatusEnum {
   static readonly DoneProduct = new ProductStatusEnum(4, '生产完成', 'green');
   static readonly CancelledProduct = new ProductStatusEnum(5, '生产取消', 'orange');
   static readonly ScarpProduct = new ProductStatusEnum(6, '生产报废', 'red');
+  static readonly ApproveProduct = new ProductStatusEnum(7, '已审批', 'black');
   private static readonly Mapper = new Map([
     [ProductStatusEnum.UnProduct.id.toString(), ProductStatusEnum.UnProduct],
     [ProductStatusEnum.AwaitingProduct.id.toString(), ProductStatusEnum.AwaitingProduct],
@@ -51,12 +23,14 @@ export class ProductStatusEnum {
     [ProductStatusEnum.DoneProduct.id.toString(), ProductStatusEnum.DoneProduct],
     [ProductStatusEnum.CancelledProduct.id.toString(), ProductStatusEnum.CancelledProduct],
     [ProductStatusEnum.ScarpProduct.id.toString(), ProductStatusEnum.ScarpProduct],
+    [ProductStatusEnum.ApproveProduct.id.toString(), ProductStatusEnum.ApproveProduct],
     [ProductStatusEnum.UnProduct.name, ProductStatusEnum.UnProduct],
     [ProductStatusEnum.AwaitingProduct.name, ProductStatusEnum.AwaitingProduct],
     [ProductStatusEnum.DoingProduct.name, ProductStatusEnum.DoingProduct],
     [ProductStatusEnum.DoneProduct.name, ProductStatusEnum.DoneProduct],
     [ProductStatusEnum.CancelledProduct.name, ProductStatusEnum.CancelledProduct],
     [ProductStatusEnum.ScarpProduct.name, ProductStatusEnum.ScarpProduct],
+    [ProductStatusEnum.ApproveProduct.name, ProductStatusEnum.ApproveProduct],
   ]);
 
   static from = (id: number) => ProductStatusEnum.Mapper.get(`${id}`);
@@ -93,38 +67,112 @@ export class ProductTypeEnum {
   static fromName = (name: string) => ProductTypeEnum.Mapper.get(`${name}`);
 }
 
-export class TechnologyTypeEnum {
-  id: number;
-  name: string;
-  constructor(id: number, name: string) {
-    this.id = id;
-    this.name = name;
-  }
-  static readonly Blanking = new TechnologyTypeEnum(1, '下料');
-  static readonly RoughTurning = new TechnologyTypeEnum(2, '粗车');
-  static readonly FineTurning = new TechnologyTypeEnum(3, '精车');
-  static readonly Perforate = new TechnologyTypeEnum(4, '打孔');
-  static readonly FineMilling = new TechnologyTypeEnum(5, '精铣');
-  static readonly Compounding = new TechnologyTypeEnum(6, '复配');
-
-  private static readonly Mapper = new Map([
-    [TechnologyTypeEnum.Blanking.id.toString(), TechnologyTypeEnum.Blanking],
-    [TechnologyTypeEnum.RoughTurning.id.toString(), TechnologyTypeEnum.RoughTurning],
-    [TechnologyTypeEnum.FineTurning.id.toString(), TechnologyTypeEnum.FineTurning],
-    [TechnologyTypeEnum.Perforate.id.toString(), TechnologyTypeEnum.Perforate],
-    [TechnologyTypeEnum.FineMilling.id.toString(), TechnologyTypeEnum.FineMilling],
-    [TechnologyTypeEnum.Compounding.id.toString(), TechnologyTypeEnum.Compounding],
-    [TechnologyTypeEnum.Blanking.name, TechnologyTypeEnum.Blanking],
-    [TechnologyTypeEnum.RoughTurning.name, TechnologyTypeEnum.RoughTurning],
-    [TechnologyTypeEnum.FineTurning.name, TechnologyTypeEnum.FineTurning],
-    [TechnologyTypeEnum.Perforate.name, TechnologyTypeEnum.Perforate],
-    [TechnologyTypeEnum.FineMilling.name, TechnologyTypeEnum.FineMilling],
-    [TechnologyTypeEnum.Compounding.name, TechnologyTypeEnum.Compounding],
-  ]);
-
-  static from = (id: number) => TechnologyTypeEnum.Mapper.get(`${id}`);
-  static fromName = (name: string) => TechnologyTypeEnum.Mapper.get(`${name}`);
+export interface ProductPageListDto {
+  page: Page;
+  productListDtos: ProductListDto[];
 }
-export type CreateProductRequest = Product;
-export type UpdateProductItemRequest = ProductItemDTO;
-export type AddProductItemRequest = ProductItemDTO;
+export interface ProductListDto {
+  id: number;
+  description: string;
+  createTime: string;
+  completionRate: number;
+  productStatus: string;
+  totalManHour: string;
+  addressDetail: string;
+}
+export interface CreateProductCommand {
+  productItems: ProductItemDto[];
+  quotationId: number;
+  city: string;
+  street: string;
+  province: string;
+  zipCode: string;
+  description: string;
+  title: string;
+  tax: string;
+  bankInfo: string;
+  bankAccount: string;
+  phoneNumber: string;
+  clientPerson: string;
+}
+export interface ProductItemDto {
+  productTypeId: number;
+  amount: number;
+  name: string;
+  technicalRequirements: string;
+  material: string;
+  diameter: string;
+  length: string;
+  figureNo: string;
+  unit: string;
+}
+
+export interface ProductDetailDto {
+  productItemDetailDtos: ProductItemDto[];
+  quotationId: number;
+  city: string;
+  street: string;
+  province: string;
+  zipCode: string;
+  description: string;
+  title: string;
+  tax: string;
+  bankInfo: string;
+  bankAccount: string;
+  phoneNumber: string;
+  clientPerson: string;
+  id: number;
+}
+
+export interface ProductItemDetailDto {
+  id: number;
+  productTypeId: number;
+  productItemName: string;
+  technicalRequirements: string;
+  material: string;
+  diameter: string;
+  length: string;
+  figureNo: string;
+  amount: number;
+  unit: string;
+  productStatusId: number;
+  // scheduledTime: string;
+  // startTime: string;
+  // endTime: string;
+}
+
+export interface ChangeProductItemCommand {
+  productTypeId: number;
+  amount: number;
+  name: string;
+  technicalRequirements: string;
+  material: string;
+  diameter: string;
+  length: string;
+  figureNo: string;
+  unit: string;
+}
+
+export interface CreateProductItemCommand {
+  productTypeId: number;
+  productItemName: string;
+  technicalRequirements: string;
+  material: string;
+  diameter: string;
+  length: string;
+  figureNo: string;
+  amount: number;
+  unit: string;
+  productStatusId: number;
+  scheduledTime?: string;
+}
+
+export interface AwaitReverseProductItemsGroupDto {
+  productListDto: ProductListDto;
+  productItemDetailDtos: ProductItemDetailDto[];
+}
+
+export interface AwaitReverseProductItemsGroupDto {
+  productListDto: ProductListDto;
+  productItemDetailDtos: ProductItemDetailDto[];
+}

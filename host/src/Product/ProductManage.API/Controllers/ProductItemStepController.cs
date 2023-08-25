@@ -9,7 +9,7 @@ namespace ProductManage.API.Controllers;
 
 [ApiController]
 [Produces("application/json")]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class ProductItemStepController : CommonControllerBase
 {
     private readonly IProductQueries _productQueries;
@@ -22,8 +22,8 @@ public class ProductItemStepController : CommonControllerBase
     [ProducesResponseType(typeof(IEnumerable<AwaitReverseProductItemsGroupDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [HttpGet("{stationNo}")]
-    public async Task<IActionResult> Create([FromRoute] string stationNo)
+    [HttpPost("{stationNo}")]
+    public async Task<IActionResult> Get([FromRoute] string stationNo)
     {
         var result = await _productQueries.GetListByStationNoAsync(stationNo);
         return Succeed(result, StatusCodes.Status201Created);

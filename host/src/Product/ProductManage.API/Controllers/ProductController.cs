@@ -8,7 +8,7 @@ namespace ProductManage.API.Controllers;
 
 [ApiController]
 [Produces("application/json")]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class ProductController : CommonControllerBase
 {
     private readonly IMediator _mediator;

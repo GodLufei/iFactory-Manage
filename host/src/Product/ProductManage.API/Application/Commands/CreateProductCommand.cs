@@ -26,15 +26,17 @@ public class CreateProductCommand : IRequest<int>
 
     public string PhoneNumber { get; set; }
 
+    public string ClinetPerson { get; set; }
+
     public IEnumerable<ProductItemDto> ProductItems { get; set; }
 
     public CreateProductCommand(
-        string description, int quotationId,
+        string description,
         string city, string street, string province,
         string zipcode, string title, string tax, string bankInfo, string phoneNumber, string bankAccount,
         IEnumerable<ProductItemDto> productItems)
     {
-        QuotationId = quotationId;
+        QuotationId = 0;
         Description = description;
         City = city;
         Street = street;

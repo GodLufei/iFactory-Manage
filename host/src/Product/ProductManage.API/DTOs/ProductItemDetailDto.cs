@@ -7,7 +7,7 @@ public class ProductItemDetailDto
 {
     public int Id { get; set; }
 
-    public string ProductType { get; set; }
+    public int ProductTypeId { get; set; }
 
     public string ProductItemName { get; set; }
 
@@ -25,7 +25,7 @@ public class ProductItemDetailDto
 
     public string Unit { get; set; }
 
-    public string ProductStatus { get; set; }
+    public int ProductStatusId { get; set; }
     
 
 }
