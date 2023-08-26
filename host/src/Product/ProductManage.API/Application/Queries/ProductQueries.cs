@@ -48,11 +48,12 @@ public class ProductQueries : IProductQueries
         {
             var product = await _productRepository.GetIdByProductItemIdAsync(productItemId);
             var productDetails = product.ProductItems.Where(t => t.ProductStatusId == ProductStatus.AwaitingProduct.Id);
+            if (awaitReverseProductItemsGroupDtos.Select(t => t.ProductListDto.Id).Contains(product.Id))
+                continue;
             awaitReverseProductItemsGroupDtos.Add(new AwaitReverseProductItemsGroupDto(
                 _mapper.Map<ProductListDto>(product),
                 productDetails.Select(t => _mapper.Map<ProductItemDetailDto>(t))));
         }
-
         return awaitReverseProductItemsGroupDtos;
     }
 
