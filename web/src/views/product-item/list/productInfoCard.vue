@@ -20,7 +20,7 @@
   import { BasicTable, useTable, TableAction, ActionItem } from '/@/components/Table';
   import { productSchemas, productItemTableColumns } from './data';
   import { defineComponent, toRaw } from 'vue';
-  import { ProductStatusEnum } from '/@/api/product/model/productModel';
+  import { ProductStatusEnum } from '/@/api/product/enums/enums';
   import { RoleEnum } from '/@/enums/roleEnum';
   import { useMessage } from '/@/hooks/web/useMessage';
 
@@ -55,7 +55,7 @@
       const getActions = (record) => {
         const item = toRaw(record);
         const actions: ActionItem[] = [];
-        switch (ProductStatusEnum.from(item.productStatus)?.id) {
+        switch (item.productStatusId) {
           case ProductStatusEnum.AwaitingProduct.id:
             actions.push({
               label: '完成',

@@ -18,7 +18,7 @@
   import { useUserStore } from '/@/store/modules/user';
   import ProductInfoCard from './productInfoCard.vue';
   import { reactive } from 'vue';
-  import { ProductGroupListDto } from '/@/api/product/model/productModel';
+  import { AwaitReverseProductItemsGroupDto } from '/@/api/product/model/productModel';
   import { Row, Col } from 'ant-design-vue';
   export default defineComponent({
     name: 'ProductItemListPage',
@@ -26,7 +26,7 @@
     setup() {
       const go = useGo();
       const userStore = useUserStore();
-      const datas = reactive([] as ProductGroupListDto[]);
+      const datas = reactive([] as AwaitReverseProductItemsGroupDto[]);
       getList(userStore.getUserInfo).then((d) => {
         d.data.forEach((m) => datas.push(m));
       });
