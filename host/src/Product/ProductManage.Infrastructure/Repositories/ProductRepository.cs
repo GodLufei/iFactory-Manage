@@ -35,8 +35,6 @@ public class ProductRepository : IProductRepository
         if (product == null) return product!;
         await _context.Entry(product)
             .Collection(i => i.ProductItems).LoadAsync();
-        await _context.Entry(product)
-            .Reference(i => i.ProductStatus).LoadAsync();
         return product;
     }
 
@@ -44,8 +42,9 @@ public class ProductRepository : IProductRepository
         int pageIndex)
     {
         return await _context
-            .Products.OrderBy(p=>p.CreateTime)
-            .Include(x => x.DemandSide).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+            .Products.OrderBy(t=>t.Id)
+            .Include(x => x.DemandSide)
+            .Include(x=>x.ProductItems).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
     }
 
     public Task<ProductManage.Domain.AggregatesModel.Product> GetIdByProductItemIdAsync(int productItemId)

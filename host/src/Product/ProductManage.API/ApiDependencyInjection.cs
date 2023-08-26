@@ -24,11 +24,15 @@ public static class ApiDependencyInjection
 
         services.AddDbContext<ProductContext>(options =>
             {
-                options.UseSqlServer("Data Source=192.168.1.6,1433;Initial Catalog=ProductManage;Persist Security Info=True;User ID=sa;Password=123456;TrustServerCertificate=true",
+                options.UseSqlServer(
+                    "Data Source=192.168.1.4,1433;Initial Catalog=ProductManage;Persist Security Info=True;User ID=sa;Password=123456;TrustServerCertificate=true",
                     sqliteOptionsAction =>
                     {
                         sqliteOptionsAction.MigrationsAssembly(typeof(Program).GetTypeInfo().Assembly.GetName().Name);
-                    });
+                    }
+                    
+                );
+            
             }
         );
         return services;

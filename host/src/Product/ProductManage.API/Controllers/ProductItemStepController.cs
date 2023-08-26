@@ -14,20 +14,12 @@ public class ProductItemStepController : CommonControllerBase
 {
     private readonly IProductQueries _productQueries;
     
-    public ProductItemStepController(IProductQueries productQueries)
+    private readonly IMediator _mediator;
+    
+    public ProductItemStepController(IProductQueries productQueries, IMediator mediator)
     {
         _productQueries = productQueries;
         _mediator = mediator;
-    }
-
-    [ProducesResponseType(typeof(IEnumerable<AwaitReverseProductItemsGroupDto>), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [HttpGet("{stationNo}")]
-    public async Task<IActionResult> GetAsync([FromRoute] string stationNo)
-    {
-        var result = await _productQueries.GetListByStationNoAsync(stationNo);
-        return Succeed(result, StatusCodes.Status201Created);
     }
     
     [ProducesResponseType(typeof(IEnumerable<AwaitReverseProductItemsGroupDto>), StatusCodes.Status200OK)]

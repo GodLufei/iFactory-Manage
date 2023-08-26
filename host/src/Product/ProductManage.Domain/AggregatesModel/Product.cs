@@ -18,9 +18,9 @@ public class Product : Entity, IAggregateRoot
     public DateTime EndTime;
 
     public decimal CompletionRate;
-    public ProductStatus ProductStatus { get; private set; }
+    public ProductStatus ProductStatus { get;  set; }
 
-    public int ProductStatusId;
+    public int ProductStatusId { get; set; }
 
     public TimeSpan? TotalManHour;
 

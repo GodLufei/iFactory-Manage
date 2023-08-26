@@ -5,9 +5,23 @@ namespace ProductManage.API.DTOs;
 [DataContract]
 public class ProductDetailDto
 {
-    public ProductDetailDto(IList<ProductItemDetailDto> productItemDetailDtos)
+    public ProductDetailDto()
+    {
+    }
+
+    public ProductDetailDto(IList<ProductItemDetailDto> productItemDetailDtos, string description, string title, string tax, string bankInfo, string bankAccount, string phoneNumber, string city, string street, string province, string zipCode)
     {
         ProductItemDetailDtos = productItemDetailDtos;
+        Description = description;
+        Title = title;
+        Tax = tax;
+        BankInfo = bankInfo;
+        BankAccount = bankAccount;
+        PhoneNumber = phoneNumber;
+        City = city;
+        Street = street;
+        Province = province;
+        ZipCode = zipCode;
     }
     
     [DataMember]
@@ -33,8 +47,7 @@ public class ProductDetailDto
     [DataMember] public string Province { get; set; }
 
     [DataMember] public string ZipCode { get; set; }
-
-    [DataMember]  public string ClientPerson { get; set; }
+    
 
     [DataMember]
     public IList<ProductItemDetailDto> ProductItemDetailDtos { get; set; }

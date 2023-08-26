@@ -12,6 +12,8 @@ public class ProductEntityTypeConfiguration : IEntityTypeConfiguration<ProductMa
         productConfiguration.HasKey(o => o.Id);
 
         productConfiguration.Ignore(b => b.DomainEvents);
+        
+        productConfiguration.Ignore(b => b.ProductStatus);
 
         productConfiguration
             .Property<DateTime>(x => x.CreateTime)
@@ -37,7 +39,7 @@ public class ProductEntityTypeConfiguration : IEntityTypeConfiguration<ProductMa
             .UsePropertyAccessMode(PropertyAccessMode.Field);
 
         productConfiguration
-            .Property<int>(x => x.ProductStatusId)
+            .Property(x => x.ProductStatusId)
             .UsePropertyAccessMode(PropertyAccessMode.Field);
 
         productConfiguration.HasOne(b => b.DemandSide)

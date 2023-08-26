@@ -12,8 +12,8 @@ using Product.Infrastructure;
 namespace ProductManage.API.Migrations
 {
     [DbContext(typeof(ProductContext))]
-    [Migration("20230822152439_bankAccount_Product")]
-    partial class bankAccount_Product
+    [Migration("20230825154058_productmanage_context")]
+    partial class productmanage_context
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -91,8 +91,6 @@ namespace ProductManage.API.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.HasIndex("ProductStatusId");
-
                     b.ToTable("Product", "Product");
                 });
 
@@ -164,6 +162,32 @@ namespace ProductManage.API.Migrations
                     b.ToTable("ProductItem", "Product");
                 });
 
+            modelBuilder.Entity("ProductManage.Domain.AggregatesModel.ProductItemStep", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ProductItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductStatusId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StepIndex")
+                        .HasColumnType("int");
+
+                    b.Property<string>("WorkStationNo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProductItemStep", "Product");
+                });
+
             modelBuilder.Entity("ProductManage.Domain.AggregatesModel.ProductTechnology", b =>
                 {
                     b.Property<int>("Id")
@@ -208,23 +232,6 @@ namespace ProductManage.API.Migrations
                     b.ToTable("ProductTechnologyItem", "Product");
                 });
 
-            modelBuilder.Entity("ProductManage.Domain.Shared.Enums.ProductStatus", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ProductStatus");
-                });
-
             modelBuilder.Entity("ProductManage.Domain.AggregatesModel.DemandSide", b =>
                 {
                     b.OwnsOne("ProductManage.Domain.AggregatesModel.Address", "Address", b1 =>
@@ -252,15 +259,7 @@ namespace ProductManage.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProductManage.Domain.Shared.Enums.ProductStatus", "ProductStatus")
-                        .WithMany()
-                        .HasForeignKey("ProductStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("DemandSide");
-
-                    b.Navigation("ProductStatus");
                 });
 
             modelBuilder.Entity("ProductManage.Domain.AggregatesModel.ProductItem", b =>

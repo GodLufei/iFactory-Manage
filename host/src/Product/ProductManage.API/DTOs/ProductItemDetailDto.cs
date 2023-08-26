@@ -5,6 +5,25 @@ namespace ProductManage.API.DTOs;
 [DataContract]
 public class ProductItemDetailDto
 {
+    public ProductItemDetailDto()
+    {
+    }
+
+    public ProductItemDetailDto(int id, int productTypeId, string productItemName, string technicalRequirements, string material, string diameter, string length, string figureNo, int amount, string unit, int productStatusId)
+    {
+        Id = id;
+        ProductTypeId = productTypeId;
+        ProductItemName = productItemName;
+        TechnicalRequirements = technicalRequirements;
+        Material = material;
+        Diameter = diameter;
+        Length = length;
+        FigureNo = figureNo;
+        Amount = amount;
+        Unit = unit;
+        ProductStatusId = productStatusId;
+    }
+
     public int Id { get; set; }
 
     public int ProductTypeId { get; set; }

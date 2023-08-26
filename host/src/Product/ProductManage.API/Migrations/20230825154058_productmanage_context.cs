@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ProductManage.API.Migrations
 {
-    public partial class productManageContext : Migration
+    public partial class productmanage_context : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -22,6 +22,7 @@ namespace ProductManage.API.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Tax = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BankInfo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BankAccount = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -30,16 +31,20 @@ namespace ProductManage.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductStatus",
+                name: "ProductItemStep",
+                schema: "Product",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ProductItemId = table.Column<int>(type: "int", nullable: false),
+                    StepIndex = table.Column<int>(type: "int", nullable: false),
+                    WorkStationNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProductStatusId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductStatus", x => x.Id);
+                    table.PrimaryKey("PK_ProductItemStep", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -79,12 +84,6 @@ namespace ProductManage.API.Migrations
                         column: x => x.ProductId,
                         principalSchema: "Product",
                         principalTable: "DemandSide",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Product_ProductStatus_ProductStatusId",
-                        column: x => x.ProductStatusId,
-                        principalTable: "ProductStatus",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -155,12 +154,6 @@ namespace ProductManage.API.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_ProductStatusId",
-                schema: "Product",
-                table: "Product",
-                column: "ProductStatusId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ProductItem_ProductId",
                 schema: "Product",
                 table: "ProductItem",
@@ -180,6 +173,10 @@ namespace ProductManage.API.Migrations
                 schema: "Product");
 
             migrationBuilder.DropTable(
+                name: "ProductItemStep",
+                schema: "Product");
+
+            migrationBuilder.DropTable(
                 name: "ProductTechnologyItem",
                 schema: "Product");
 
@@ -194,9 +191,6 @@ namespace ProductManage.API.Migrations
             migrationBuilder.DropTable(
                 name: "DemandSide",
                 schema: "Product");
-
-            migrationBuilder.DropTable(
-                name: "ProductStatus");
         }
     }
 }
