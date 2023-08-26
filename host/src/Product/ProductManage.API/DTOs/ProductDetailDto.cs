@@ -9,7 +9,9 @@ public class ProductDetailDto
     {
     }
 
-    public ProductDetailDto(IList<ProductItemDetailDto> productItemDetailDtos, string description, string title, string tax, string bankInfo, string bankAccount, string phoneNumber, string city, string street, string province, string zipCode)
+    public ProductDetailDto(IList<ProductItemDetailDto> productItemDetailDtos, string description, string title,
+        string tax, string bankInfo, string bankAccount, string phoneNumber, string city, string street,
+        string province, string zipCode):this()
     {
         ProductItemDetailDtos = productItemDetailDtos;
         Description = description;
@@ -23,13 +25,11 @@ public class ProductDetailDto
         Province = province;
         ZipCode = zipCode;
     }
-    
-    [DataMember]
-    public int Id { get; set; }
 
-    [DataMember]
-    public string Description { get;  set; } 
-    
+    [DataMember] public int Id { get; set; }
+
+    [DataMember] public string Description { get; set; }
+
     [DataMember] public string Title { get; set; }
 
     [DataMember] public string Tax { get; set; }
@@ -47,8 +47,7 @@ public class ProductDetailDto
     [DataMember] public string Province { get; set; }
 
     [DataMember] public string ZipCode { get; set; }
-    
 
-    [DataMember]
-    public IList<ProductItemDetailDto> ProductItemDetailDtos { get; set; }
+
+    [DataMember] public IList<ProductItemDetailDto> ProductItemDetailDtos { get; set; }
 }

@@ -22,7 +22,7 @@ public class ProductItemStep: Entity
 
     public void UpdateStatus(int productStatusId)
     {
-        this.ProductStatusId = productStatusId;
+        ProductStatusId = productStatusId;
     }
     
 

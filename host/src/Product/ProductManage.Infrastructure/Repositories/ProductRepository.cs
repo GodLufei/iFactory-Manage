@@ -31,11 +31,9 @@ public class ProductRepository : IProductRepository
         var product = await _context
             .Products
             .Include(x => x.DemandSide)
+            .Include(x=>x.ProductItems)
             .FirstOrDefaultAsync(o => o.Id == id);
-        if (product == null) return product!;
-        await _context.Entry(product)
-            .Collection(i => i.ProductItems).LoadAsync();
-        return product;
+        return product!;
     }
 
     public async Task<IEnumerable<ProductManage.Domain.AggregatesModel.Product>> GetListAsync(int pageSize,

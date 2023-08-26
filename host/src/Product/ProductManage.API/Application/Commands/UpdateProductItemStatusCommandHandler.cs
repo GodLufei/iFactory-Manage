@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using ProductManage.Domain.AggregatesModel;
+using ProductManage.Domain.Shared.Enums;
 
 namespace ProductManage.API.Application.Commands;
 
@@ -15,14 +16,22 @@ public class UpdateProductItemStatusCommandHandler : IRequestHandler<UpdateProdu
     public async Task<int> Handle(UpdateProductItemStatusCommand request, CancellationToken cancellationToken)
     {
         var productItemSteps =await _productRepository.GetByProductItemIdAsync(request.ProductItemId);
-        productItemSteps.Find(t => t.WorkStationNo == request.StationNo)!.UpdateStatus(request.ProductStatusId);
-
-        if(productItemSteps.Select(t=>t.ProductItemId).Distinct().Count()==productItemSteps.Count)
-        {
-            
-
-        }
         
-        throw new NotImplementedException();
+        var productItemStep=productItemSteps.Find(t => t.WorkStationNo == request.StationNo);
+        productItemStep!.UpdateStatus(request.ProductStatusId);
+        
+        if (request.ProductStatusId == ProductStatus.DoneProduct.Id )
+        {
+            // 最后一个工艺步骤
+            if (productItemStep.StepIndex == productItemSteps.Max(t => t.StepIndex))
+            {
+                
+            }
+
+            var nextProductItemStep = productItemSteps.Find(t => t.StepIndex == ++productItemStep.StepIndex);
+        
+        }
+
+        return 0;
     }
 }

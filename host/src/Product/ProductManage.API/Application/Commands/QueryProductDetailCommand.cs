@@ -34,6 +34,9 @@ public class QueryProductDetailCommandHandler : IRequestHandler<QueryProductDeta
     public async Task<ProductDetailDto> Handle(QueryProductDetailCommand request, CancellationToken cancellationToken)
     {
         var product = await _productRepository.GetAsync(request.Id);
-        return _mapper.Map<ProductDetailDto>(product);
+        var productDetailDto= _mapper.Map<ProductDetailDto>(product);
+        productDetailDto.ProductItemDetailDtos =
+            product.ProductItems.Select(t => _mapper.Map<ProductItemDetailDto>(t)).ToList();
+         return productDetailDto;
     }
 }

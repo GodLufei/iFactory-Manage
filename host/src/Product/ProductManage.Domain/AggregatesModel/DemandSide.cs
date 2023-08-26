@@ -30,4 +30,5 @@ public class DemandSide : Entity
     public string BankAccount { get; set; }
 
     public string PhoneNumber { get; set; }
+    
 }

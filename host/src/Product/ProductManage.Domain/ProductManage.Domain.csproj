@@ -12,6 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Quotation\QuotationServiceManagement.Domain\QuotationServiceManagement.Domain.csproj" />
       <ProjectReference Include="..\ProductManage.Domain.Shared\ProductManage.Domain.Shared.csproj" />
     </ItemGroup>
 

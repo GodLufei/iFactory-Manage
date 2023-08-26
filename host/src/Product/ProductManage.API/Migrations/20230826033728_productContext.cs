@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ProductManage.API.Migrations
 {
-    public partial class productmanage_context : Migration
+    public partial class productContext : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -20,6 +20,10 @@ namespace ProductManage.API.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Province = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ZipCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Tax = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BankInfo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BankAccount = table.Column<string>(type: "nvarchar(max)", nullable: false),

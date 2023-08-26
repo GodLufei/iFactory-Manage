@@ -39,9 +39,9 @@ public class ProductController : CommonControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpPost("{id:int}")]
-    public async Task<IActionResult> UpdateAsync([FromBody] CreateProductCommand createProductCommand)
+    public async Task<IActionResult> UpdateAsync([FromBody] UpdateProductCommand updateProductCommand)
     {
-        var result = await _mediator.Send(createProductCommand);
+        var result = await _mediator.Send(updateProductCommand);
         _logger.LogInformation($"update the product succeed: id{result}");
         return Succeed(result, StatusCodes.Status201Created);
     }

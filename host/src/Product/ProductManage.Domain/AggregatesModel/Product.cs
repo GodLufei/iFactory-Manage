@@ -9,7 +9,7 @@ public class Product : Entity, IAggregateRoot
 {
     public readonly int QuotationId;
 
-    public readonly string Description;
+    public string Description;
 
     public DateTime CreateTime;
 
@@ -24,7 +24,7 @@ public class Product : Entity, IAggregateRoot
 
     public TimeSpan? TotalManHour;
 
-    public DemandSide DemandSide { get; set; }
+    public DemandSide DemandSide { get; private set; }
 
     private readonly List<ProductItem> _productItems;
 
@@ -48,6 +48,11 @@ public class Product : Entity, IAggregateRoot
         CompletionRate = 0;
         DemandSide = new DemandSide(title, tax, bankInfo, phoneNumber, address,bankAccount);
         TotalManHour = new TimeSpan();
+    }
+
+    public void UpdateDescription(string description)
+    {
+        Description = description;
     }
 
     public void UpdateDemandSide(string title, string tax, string bankInfo, string phoneNumber,string street,string city,

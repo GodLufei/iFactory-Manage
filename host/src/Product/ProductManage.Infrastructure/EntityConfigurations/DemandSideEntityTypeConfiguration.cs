@@ -17,8 +17,10 @@ public class DemandSideEntityTypeConfiguration : IEntityTypeConfiguration<Demand
         builder
             .OwnsOne(o => o.Address, a =>
             {
-                // as a workaround for a documented issue in EF Core 5: https://github.com/dotnet/efcore/issues/20740
-                a.WithOwner();
+                a.Property(p => p.Street).HasColumnName("Street");
+                a.Property(p => p.ZipCode).HasColumnName("ZipCode");
+                a.Property(p => p.Province).HasColumnName("Province");
+                a.Property(p => p.City).HasColumnName("City");
             });
 
         builder
