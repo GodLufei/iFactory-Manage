@@ -8,7 +8,7 @@ namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ApiDependencyInjection
 {
-    public static IServiceCollection AddApiServices(this IServiceCollection services)
+    public static IServiceCollection AddApiServices(this IServiceCollection services,IConfiguration configuration)
     {
         services.AddMediatR(cfg =>
             cfg.RegisterServicesFromAssembly(typeof(CreateProductCommand).Assembly));
@@ -24,15 +24,11 @@ public static class ApiDependencyInjection
 
         services.AddDbContext<ProductContext>(options =>
             {
-                options.UseSqlServer(
-                    "Data Source=192.168.1.4,1433;Initial Catalog=ProductManage;Persist Security Info=True;User ID=sa;Password=123456;TrustServerCertificate=true",
-                    sqliteOptionsAction =>
+                options.UseSqlServer(configuration.GetConnectionString("db"),
+                    sqlOptionsAction =>
                     {
-                        sqliteOptionsAction.MigrationsAssembly(typeof(Program).GetTypeInfo().Assembly.GetName().Name);
-                    }
-                    
-                );
-            
+                        sqlOptionsAction.MigrationsAssembly(typeof(Program).GetTypeInfo().Assembly.GetName().Name);
+                    });
             }
         );
         return services;

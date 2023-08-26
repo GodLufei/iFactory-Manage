@@ -1,17 +1,21 @@
 import { BasicColumn } from '/@/components/Table';
 import { Tag } from 'ant-design-vue';
 import { h } from 'vue';
-import { ProductStatusEnum } from '/@/api/product/model/productModel';
 import { getProductItemList, getWaitToApproveProductItems } from '/@/api/product/productApi';
 import { GetUserInfoModel } from '/@/api/sys/model/userModel';
 import { RoleEnum } from '/@/enums/roleEnum';
 import { DescItem } from '/@/components/Description';
+import { ProductStatusEnum, ProductTypeEnum } from '/@/api/product/enums/enums';
 
 export const productItemTableColumns: BasicColumn[] = [
   {
     title: '产品类型',
-    dataIndex: 'productType',
+    dataIndex: 'productTypeId',
     width: 50,
+    customRender: ({ text }) => {
+      const status = ProductTypeEnum.fromName(text);
+      return status?.name;
+    },
   },
   {
     title: '名称',
@@ -45,7 +49,7 @@ export const productItemTableColumns: BasicColumn[] = [
   },
   {
     title: '状态',
-    dataIndex: 'productStatus',
+    dataIndex: 'productStatusId',
     width: 50,
     customRender: ({ text }) => {
       const status = ProductStatusEnum.fromName(text);

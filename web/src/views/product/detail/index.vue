@@ -5,9 +5,6 @@
     </a-card>
     <a-card :bordered="false" :align="'center'" class="!mt-5">
       <a-space>
-        <!-- <PopConfirmButton type="info" title="确认重置？" @confirm="resetInput"
-          >重置</PopConfirmButton
-        > -->
         <PopConfirmButton type="primary" class="!ml-5" title="确认提交？" @confirm="createProduct"
           >提交</PopConfirmButton
         >
@@ -46,13 +43,13 @@
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { PageWrapper } from '/@/components/Page';
   import { Card, Space } from 'ant-design-vue';
-  import { productSchemas, productItemTableSchemas } from './data';
+  import { productItemTableSchemas, getProductSchemas } from './data';
   import EditProductItemModal from './EditProductItemModal.vue';
-  import { defineComponent, reactive, computed, ref } from 'vue';
+  import { defineComponent, reactive } from 'vue';
   import { useModal } from '/@/components/Modal';
-  import { CreateProductCommand, ProductItemDto } from '/@/api/product/model/productModel';
+  import { ProductDetailDto, ProductItemDto } from '/@/api/product/model/productModel';
   import { PopConfirmButton } from '/@/components/Button';
-  import { create, detail } from '/@/api/product/productApi';
+  import { detail } from '/@/api/product/productApi';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { useRoute } from 'vue-router';
   import { RoleEnum } from '/@/enums/roleEnum';
@@ -71,23 +68,21 @@
     setup() {
       const route = useRoute();
       console.log(route.params.id);
-      const idRef = ref(route.params.id);
-      const productRef = reactive({ product: Object });
-      detail(idRef.value as unknown as number).then((data) => ( productRef.product = data.data));
-      const productItemModel = reactive({});
-      const productItems = reactive([] as ProductItemDto[]);
-      const productItemCompute = computed(() => productItems);
+      const productId = parseInt(route.params.id as string);
+      const productRef = reactive({ product: {} as ProductDetailDto });
+      detail(productId).then((data) => (productRef.product = data.data));
+
       const [register, { resetFields, validate }] = useForm({
         layout: 'vertical',
         baseColProps: {
           span: 6,
         },
-        schemas: productSchemas,
+        schemas: getProductSchemas(productRef.product),
         showActionButtonGroup: false,
       });
       const [registerTable, { reload }] = useTable({
         columns: productItemTableSchemas,
-        dataSource: productItemCompute,
+        dataSource: productRef.product.productItemDetailDtos,
         showIndexColumn: false,
         canResize: true,
         rowKey: 'name',
@@ -102,7 +97,7 @@
       });
       const [registerModal, { openModal: openModal }] = useModal();
       const { createMessage } = useMessage();
-      const addProductItem = () => {
+      const editProductItem = () => {
         openModal(true);
       };
       const createProduct = async () => {
@@ -110,53 +105,53 @@
         // TODO: 验证失败的处理
         // TODO: 请求成功后的跳转
         const formValues = await validate();
-        const createProductCommand: CreateProductCommand = {
-          quotationId: formValues.quotationId,
-          city: formValues.city,
-          street: formValues.street,
-          province: formValues.province,
-          zipCode: formValues.zipCode,
-          description: formValues.description,
-          title: formValues.title,
-          tax: formValues.tax,
-          bankInfo: formValues.bankInfo,
-          phoneNumber: formValues.phoneNumber,
-          productItems: productItems.map((item) => ({
-            productTypeId: item.productTypeId,
-            amount: item.amount,
-            name: item.name,
-            technicalRequirements: item.technicalRequirements,
-            material: item.material,
-            diameter: item.diameter,
-            length: item.length,
-            figureNo: item.figureNo,
-            unit: item.unit,
-          })),
-        };
-        console.log(createProductCommand);
-        await create(createProductCommand);
-        createMessage.success('创建成功');
+        console.log(formValues);
+        // const createProductCommand: CreateProductCommand = {
+        //   quotationId: formValues.quotationId,
+        //   city: formValues.city,
+        //   street: formValues.street,
+        //   province: formValues.province,
+        //   zipCode: formValues.zipCode,
+        //   description: formValues.description,
+        //   title: formValues.title,
+        //   tax: formValues.tax,
+        //   bankInfo: formValues.bankInfo,
+        //   phoneNumber: formValues.phoneNumber,
+        //   productItems: productRef.product.productItemDetailDtos.map((item) => ({
+        //     productTypeId: item.productTypeId,
+        //     amount: item.amount,
+        //     name: item.name,
+        //     technicalRequirements: item.technicalRequirements,
+        //     material: item.material,
+        //     diameter: item.diameter,
+        //     length: item.length,
+        //     figureNo: item.figureNo,
+        //     unit: item.unit,
+        //   })),
+        // };
+        // console.log(createProductCommand);
+        // await create(createProductCommand);
+        createMessage.success('更新成功');
         resetInput();
       };
       const resetInput = () => {
         resetFields();
-        productItems.length = 0;
+        productRef.product.productItemDetailDtos.length = 0;
         reload();
       };
       const addItem = (item: ProductItemDto) => {
-        productItems.push(item);
+        productRef.product.productItemDetailDtos.push(item);
         reload();
       };
       return {
         register,
         registerTable,
         registerModal,
-        addProductItem,
+        editProductItem,
         createProduct,
         resetInput,
         addItem,
         RoleEnum,
-        productItemModel,
       };
     },
   });
