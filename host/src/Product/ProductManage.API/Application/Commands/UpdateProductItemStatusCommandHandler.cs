@@ -4,7 +4,7 @@ using ProductManage.Domain.Shared.Enums;
 
 namespace ProductManage.API.Application.Commands;
 
-public class UpdateProductItemStatusCommandHandler : IRequestHandler<UpdateProductItemStatusCommand, int>
+public class UpdateProductItemStatusCommandHandler : IRequestHandler<UpdateProductItemStatusCommand, bool>
 {
     private readonly IProductRepository _productRepository;
 
@@ -13,25 +13,30 @@ public class UpdateProductItemStatusCommandHandler : IRequestHandler<UpdateProdu
         _productRepository = productRepository;
     }
 
-    public async Task<int> Handle(UpdateProductItemStatusCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(UpdateProductItemStatusCommand request, CancellationToken cancellationToken)
     {
-        var productItemSteps =await _productRepository.GetByProductItemIdAsync(request.ProductItemId);
-        
-        var productItemStep=productItemSteps.Find(t => t.WorkStationNo == request.StationNo);
+        var productItemSteps = await _productRepository.GetByProductItemIdAsync(request.ProductItemId);
+
+        var productItemStep = productItemSteps.Find(t => t.WorkStationNo == request.StationNo);
+
         productItemStep!.UpdateStatus(request.ProductStatusId);
-        
-        if (request.ProductStatusId == ProductStatus.DoneProduct.Id )
+
+        if (request.ProductStatusId == ProductStatus.DoneProduct.Id)
         {
-            // 最后一个工艺步骤
+            // 最后一个工艺步骤 更新 productItem 
             if (productItemStep.StepIndex == productItemSteps.Max(t => t.StepIndex))
             {
-                
+                var product = await _productRepository.GetProductByItemIdAsync(productItemStep.ProductItemId);
+                product.ApproveProductItem(productItemStep.ProductItemId);
             }
-
-            var nextProductItemStep = productItemSteps.Find(t => t.StepIndex == ++productItemStep.StepIndex);
-        
+            else
+            {
+                // 更新productItemStep
+                var nextProductItemStep = productItemSteps.Find(t => t.StepIndex == ++productItemStep.StepIndex);
+                nextProductItemStep!.UpdateStatus(ProductStatus.AwaitingProduct.Id);
+            }
         }
-
-        return 0;
+        await _productRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+        return true;
     }
 }

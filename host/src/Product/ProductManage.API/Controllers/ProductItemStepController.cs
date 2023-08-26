@@ -29,7 +29,7 @@ public class ProductItemStepController : CommonControllerBase
     public async Task<IActionResult> GetListAsync([FromRoute] string stationNo)
     {
         var result = await _productQueries.GetListByStationNoAsync(stationNo);
-        return Succeed(result, StatusCodes.Status201Created);
+        return Succeed(result, StatusCodes.Status200OK);
     }
     
     [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]

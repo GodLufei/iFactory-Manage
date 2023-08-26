@@ -10,6 +10,8 @@ public interface IProductRepository : IRepository<Product>
     Product Update(Product product);
 
     Task<Product> GetAsync(int id);
+    
+    Task<Product> GetProductByItemIdAsync(int productItemId);
 
     Task<IEnumerable<Product>> GetListAsync(int pageSize, int pageIndex);
 

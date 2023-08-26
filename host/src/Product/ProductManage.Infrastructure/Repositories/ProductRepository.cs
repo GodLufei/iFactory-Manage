@@ -36,6 +36,13 @@ public class ProductRepository : IProductRepository
         return product!;
     }
 
+    public Task<ProductManage.Domain.AggregatesModel.Product> GetProductByItemIdAsync(int productItemId)
+    {
+        return _context
+            .Products
+            .Include(x => x.ProductItems.Where(t=>t.Id==productItemId)).FirstOrDefaultAsync()!;
+    }
+
     public async Task<IEnumerable<ProductManage.Domain.AggregatesModel.Product>> GetListAsync(int pageSize,
         int pageIndex)
     {

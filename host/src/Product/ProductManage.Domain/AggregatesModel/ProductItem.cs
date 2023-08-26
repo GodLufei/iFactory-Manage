@@ -91,6 +91,7 @@ public class ProductItem : Entity
         FigureNo = figureNo;
         Amount = amount;
         Unit = unit;
+        ProductStatusId = ProductStatus.UnProduct.Id;
     }
 
     /// <summary>

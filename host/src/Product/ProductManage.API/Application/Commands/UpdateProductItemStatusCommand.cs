@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ProductManage.API.Application.Commands;
 
-public class UpdateProductItemStatusCommand : IRequest<int>
+public class UpdateProductItemStatusCommand : IRequest<bool>
 {
     public UpdateProductItemStatusCommand(string stationNo, int productItemId, int productStatusId)
     {
