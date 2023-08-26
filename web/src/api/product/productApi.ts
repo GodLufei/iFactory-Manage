@@ -32,7 +32,7 @@ export function getList(page: Pagable, mode: ErrorMessageMode = 'message') {
  */
 export function getWaitToApproveProductItems(mode: ErrorMessageMode = 'message') {
   return defHttp.get<BasicFetchResult<AwaitReverseProductItemsGroupDto[]>>(
-    { url: Api.ProductItem },
+    { url: `${Api.Product}/${Api.ProductItem }`},
     { errorMessageMode: mode },
   );
 }
@@ -60,13 +60,9 @@ export async function create(product: CreateProductCommand, mode: ErrorMessageMo
 /**
  * @description: update product
  */
-export async function update(
-  productId: number,
-  product: CreateProductCommand,
-  mode: ErrorMessageMode = 'message',
-) {
+export async function update(product: CreateProductCommand, mode: ErrorMessageMode = 'message') {
   return await defHttp.put<BasicFetchResult<number>>(
-    { url: `${Api.Product}/${productId}`, params: product },
+    { url: `${Api.Product}`, params: product },
     { errorMessageMode: mode },
   );
 }
@@ -85,14 +81,12 @@ export async function down(productId: number, mode: ErrorMessageMode = 'message'
  * @description: update product item
  */
 export async function updateProductItem(
-  productId: number,
-  productItemId: number,
   productItem: ChangeProductItemCommand,
   mode: ErrorMessageMode = 'message',
 ) {
   return await defHttp.put<BasicFetchResult<number>>(
     {
-      url: `${Api.Product}/${productId}/${Api.ProductItem}/${productItemId}`,
+      url: `${Api.Product}${Api.ProductItem}`,
       params: productItem,
     },
     { errorMessageMode: mode },
@@ -132,7 +126,7 @@ export async function approveProductItem(
   mode: ErrorMessageMode = 'message',
 ) {
   return await defHttp.patch<BasicFetchResult<number>>(
-    { url: `${Api.Product}/${productId}/${Api.ProductItem}/${productItemId}` },
+    { url: `${Api.Product}/${productId}${Api.ProductItem}/${productItemId}/approve` },
     { errorMessageMode: mode },
   );
 }
@@ -160,17 +154,25 @@ export async function updateProductItemStatus(
  */
 export function getProductItemList(workStationNo: string, mode: ErrorMessageMode = 'message') {
   return defHttp.get<BasicFetchResult<AwaitReverseProductItemsGroupDto[]>>(
-    { url: `${Api.ProductItem}/${workStationNo}` },
+    { url: `${Api.ProductItemStep}/${workStationNo}` },
     { errorMessageMode: mode },
   );
 }
 
 /**
- * @description: create product item step
+ * @description: update product item step
  */
-export function createProductItemStep(workStationNo: string, mode: ErrorMessageMode = 'message') {
-  return defHttp.get<BasicFetchResult<AwaitReverseProductItemsGroupDto[]>>(
-    { url: `${Api.ProductItemStep}/${workStationNo}` },
+export function updateProductItemStep(
+  workStationNo: string,
+  productItemId: number,
+  productStatusId: number,
+  mode: ErrorMessageMode = 'message',
+) {
+  return defHttp.put<BasicFetchResult<number>>(
+    {
+      url: `${Api.ProductItemStep}`,
+      params: { productStatusId, stationNo: workStationNo, productItemId: productItemId },
+    },
     { errorMessageMode: mode },
   );
 }

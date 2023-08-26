@@ -14,3 +14,14 @@ public class DownProductItemDomainEvent : INotification
 
     public List<string> WorkStationNos { get; set; }
 }
+
+public class DownProductDomainEvent : INotification
+{
+    public DownProductDomainEvent(int productId)
+    {
+        ProductId = productId;
+    }
+
+    public int ProductId { get; set; }
+
+}

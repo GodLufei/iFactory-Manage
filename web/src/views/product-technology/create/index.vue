@@ -66,7 +66,7 @@
         workStationNo: '01',
         stepIndex: 0,
       });
-      const selectedProductType = ref(1);
+      const selectedProductType = ref(0);
       const productTechnologySteps = reactive([] as StepTechnology[]);
       const lastStepIndex = computed(() => {
         if (productTechnologySteps.length == 0) return 0;

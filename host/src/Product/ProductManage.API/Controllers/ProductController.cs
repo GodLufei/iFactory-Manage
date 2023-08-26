@@ -27,7 +27,7 @@ public class ProductController : CommonControllerBase
     [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [HttpPost("")]
+    [HttpPost]
     public async Task<IActionResult> CreateAsync([FromBody] CreateProductCommand createProductCommand)
     {
         var result = await _mediator.Send(createProductCommand);
@@ -35,18 +35,18 @@ public class ProductController : CommonControllerBase
         return Succeed<int>(result, StatusCodes.Status201Created);
     }
     
-    [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [HttpPost("{id:int}")]
+    [HttpPut]
     public async Task<IActionResult> UpdateAsync([FromBody] UpdateProductCommand updateProductCommand)
     {
         var result = await _mediator.Send(updateProductCommand);
         _logger.LogInformation($"update the product succeed: id{result}");
-        return Succeed(result, StatusCodes.Status201Created);
+        return Succeed(result, StatusCodes.Status200OK);
     }
     
-    [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpPost("{id:int}/down")]
@@ -54,7 +54,7 @@ public class ProductController : CommonControllerBase
     {
         var result = await _mediator.Send(new DownProductCommand(id));
         _logger.LogInformation($"down the product succeed: id{result}");
-        return Succeed(result, StatusCodes.Status201Created);
+        return Succeed(result, StatusCodes.Status200OK);
     }
 
     [ProducesResponseType(typeof(ProductPageListDto), StatusCodes.Status200OK)]
@@ -81,7 +81,7 @@ public class ProductController : CommonControllerBase
     [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [HttpPost("{id:int}/productItem/{itemId:int}")]
+    [HttpPut("productItem")]
     public async Task<IActionResult> UpdateItemAsync([FromBody] ChangeProductItemCommand changeProductItemCommand)
     {
         var result = await _mediator.Send(changeProductItemCommand);
@@ -116,7 +116,7 @@ public class ProductController : CommonControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpGet("productItem")]
     public async Task<IActionResult> GetAwaitApproveAsync()
-    {
+   {
         var result = await _productQueries.GetAwaitApproveListAsync();
         return Succeed(result, StatusCodes.Status200OK);
     }

@@ -218,7 +218,7 @@ export const productSchemas: FormSchema[] = [
 export const productItemTableSchemas: BasicColumn[] = [
   {
     title: '名称',
-    dataIndex: 'name',
+    dataIndex: 'productItemName',
     width: 100,
   },
   {
@@ -269,7 +269,7 @@ export const productItemTableSchemas: BasicColumn[] = [
 
 export const productItemFormSchemas: FormSchema[] = [
   {
-    field: 'name',
+    field: 'productItemName',
     component: 'Input',
     label: '名字',
     required: true,
@@ -324,6 +324,13 @@ export const productItemFormSchemas: FormSchema[] = [
     component: 'Input',
     label: '单位',
     required: true,
+  },
+  {
+    field: 'id',
+    component: 'Input',
+    label: 'id',
+    required: true,
+    show: false,
   },
 ];
 

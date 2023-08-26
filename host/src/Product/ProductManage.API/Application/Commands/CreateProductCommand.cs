@@ -51,7 +51,7 @@ public class CreateProductCommand : IRequest<int>
     public record ProductItemDto
     {
         public int ProductTypeId { get; set; }
-        public string Name { get; set; }
+        public string ProductItemName { get; set; }
         public string TechnicalRequirements { get; set; }
         public string Material { get; set; }
         public string Diameter { get; set; }

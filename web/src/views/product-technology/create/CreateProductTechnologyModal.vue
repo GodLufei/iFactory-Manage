@@ -49,7 +49,6 @@
           const formData = await validate();
           setModalProps({ confirmLoading: true });
           closeModal();
-          debugger;
           emit('ok', {
             technologyTypeId: formData.technologyTypeId,
             workStationNo: formData.workStationNo,

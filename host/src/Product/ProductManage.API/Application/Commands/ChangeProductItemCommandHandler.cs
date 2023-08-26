@@ -20,7 +20,7 @@ public class ChangeProductItemCommandHandler : IRequestHandler<ChangeProductItem
     public async Task<int> Handle(ChangeProductItemCommand request, CancellationToken cancellationToken)
     {
         var productItem = await _productRepository.GetItemAsync(request.Id);
-        productItem.UpdateProductItem(request.ProductTypeId, request.Name, request.TechnicalRequirements,
+        productItem.UpdateProductItem(request.ProductTypeId, request.ProductItemName, request.TechnicalRequirements,
             request.Material, request.Diameter, request.Length, request.FigureNo, request.Amount, request.Unit);
 
         var newProductItem = _productRepository.UpdateItem(productItem);

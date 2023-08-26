@@ -10,5 +10,5 @@ public class AwaitReverseProductItemsGroupDto
 
     public ProductListDto ProductListDto { get; set; }
 
-    private IEnumerable<ProductItemDetailDto> ProductItemDetailDtos { get; set; }
+    public IEnumerable<ProductItemDetailDto> ProductItemDetailDtos { get; set; }
 }

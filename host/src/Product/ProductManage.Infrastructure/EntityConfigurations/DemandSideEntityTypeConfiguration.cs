@@ -47,5 +47,6 @@ public class DemandSideEntityTypeConfiguration : IEntityTypeConfiguration<Demand
             .Property<string>(x => x.PhoneNumber)
             .UsePropertyAccessMode(PropertyAccessMode.Field)
             .IsRequired();
+
     }
 }

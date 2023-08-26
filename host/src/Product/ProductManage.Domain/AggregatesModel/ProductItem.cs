@@ -76,8 +76,10 @@ public class ProductItem : Entity
     ///  工时
     /// </summary>
     public TimeSpan? ManHour { get; private set; }
-    
-    
+
+    public int ProductId { get; private set; }
+
+    public IEnumerable<ProductItemStep>  ProductItemSteps { get; private set; }
     public ProductItem(int productTypeId, string productItemName,
         string technicalRequirements, string material, string diameter,
         string length, string figureNo, int amount, string unit)
@@ -143,6 +145,16 @@ public class ProductItem : Entity
             FinishProductItem();
         }
     }
+
+    public void DoingStatus()
+    {
+        ProductStatusId = ProductStatus.DoingProduct.Id;
+    }
+    public void DoneStatus()
+    {
+        ProductStatusId = ProductStatus.DoneProduct.Id;
+    }
+
 
     public void DownProductItemProductEvent(List<string> workStationNos)
     {

@@ -9,7 +9,7 @@ public class ProductListDto
 
     [DataMember] public string Description { get; set; }
 
-    [DataMember] public DateTime CreateTime { get; set; }
+    [DataMember] public string CreateTime { get; set; }
 
     [DataMember] public string CompletionRate { get; set; }
 

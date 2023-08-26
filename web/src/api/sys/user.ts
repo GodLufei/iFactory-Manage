@@ -44,10 +44,10 @@ export function getUserList() {
       userId: worker.id,
       username: worker.id,
       password: '123456',
-      realName: worker.id,
+      realName: worker.name,
       avatar: '',
       desc: worker.name,
-      token: 'worker-token',
+      token: 'worker-token' + worker.id,
       homePath: '/product-item/list',
       roles: [
         {
@@ -68,7 +68,7 @@ export function loginApi(params: LoginParams) {
     (item) => item.username === params.username && params.password === item.password,
   );
   if (!checkUser) {
-    throw new Error('Incorrect account or password！');
+    throw new Error('账号或密码错误');
   }
   return checkUser.token;
 }

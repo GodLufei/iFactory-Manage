@@ -76,7 +76,6 @@
         // TODO: 请求成功后的跳转
         const formValues = await validate();
         const createProductCommand: CreateProductCommand = {
-          quotationId: formValues.quotationId,
           city: formValues.city,
           street: formValues.street,
           province: formValues.province,
@@ -90,7 +89,7 @@
           productItems: productItems.map((item) => ({
             productTypeId: item.productTypeId,
             amount: item.amount,
-            name: item.name,
+            productItemName: item.productItemName,
             technicalRequirements: item.technicalRequirements,
             material: item.material,
             diameter: item.diameter,
