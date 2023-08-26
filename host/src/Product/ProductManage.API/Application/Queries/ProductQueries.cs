@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Globalization;
 using AutoMapper;
 using Dapper;
 using ProductManage.API.Application.Dapper;
@@ -64,13 +65,13 @@ public class ProductQueries : IProductQueries
             list = await Task.Run(() =>
                 dbConnection
                     .Query<ProductListDto>(
-                        " SELECT * FROM (SELECT Product.[Id],Product.[ProductStatusId],[CreateTime],[Description],(DemanSide.[Province]+DemanSide.[City]+DemanSide.[Street]) as AddressDetail,ROW_NUMBER() OVER (ORDER BY  Product.[Id]) AS RowNum FROM [ProductManage].[Product].[Product] as Product  inner join [ProductManage].[Product].[DemandSide] as DemanSide  on Product.Id=DemanSide.Id  ) AS T WHERE RowNum > (@pageIndex - 1) * @pageSize AND RowNum <= @pageIndex * @pageSize",new {pageIndex,pageSize})
+                        sql: " SELECT * FROM (SELECT Product.[Id],Product.[ProductStatusId],[CreateTime],[Description],(DemanSide.[Province]+DemanSide.[City]+DemanSide.[Street]) as AddressDetail,ROW_NUMBER() OVER (ORDER BY  Product.[Id]) AS RowNum FROM [ProductManage].[Product].[Product] as Product  inner join [ProductManage].[Product].[DemandSide] as DemanSide  on Product.Id=DemanSide.Id  ) AS T WHERE RowNum > (@pageIndex - 1) * @pageSize AND RowNum <= @pageIndex * @pageSize",new {pageIndex,pageSize})
                     .ToList());
         }
         foreach (var item in list)
         {
             var product = await _productRepository.GetAsync(item.Id);
-            item.CompletionRate=product.CompletionRate.ToString();
+            item.CompletionRate=product.CompletionRate.ToString(CultureInfo.InvariantCulture);
             item.TotalManHour = product.TotalManHour;
         }
         var totalCount = await _productRepository.GetCount();
