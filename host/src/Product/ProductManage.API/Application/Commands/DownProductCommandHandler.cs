@@ -25,7 +25,7 @@ public class DownProductCommandHandler : IRequestHandler<DownProductCommand, int
         var productItems = product.ProductItems;
         foreach (var productItem in productItems)
         {
-            var result = await _productTechnologyRepository.GetByProductTypeIdAsync(productItem.ProductStatusId);
+            var result = await _productTechnologyRepository.GetByProductTypeIdAsync(productItem.ProductTypeId);
             productItem.TransferStatus();
             productItem.DownProductItemProductEvent(result.ProductTechnologyItems.Select(t=>t.WorkStationNo).ToList());
         }

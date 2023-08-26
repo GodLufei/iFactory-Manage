@@ -1,15 +1,10 @@
 <template>
-  <BasicModal
-    v-bind="$attrs"
-    @register="register"
-    title="新增"
-    @visible-change="handleVisibleChange"
-  >
-    <BasicForm @register="registerForm" :model="model" />
+  <BasicModal v-bind="$attrs" @register="register" :title="getTitle" @ok="handleSubmit">
+    <BasicForm @register="registerForm" />
   </BasicModal>
 </template>
 <script lang="ts">
-  import { defineComponent, ref, nextTick } from 'vue';
+  import { defineComponent, computed } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { productTechnologyFormSchemas } from './data';
@@ -17,15 +12,19 @@
   export default defineComponent({
     components: { BasicModal, BasicForm },
     props: {
-      userData: { type: Object },
+      isEdit: Boolean,
+      technologyTypeId: Number,
+      workStationNo: String,
     },
-    setup(props) {
-      const modelRef = ref({});
+    emits: ['ok'],
+    setup(props, { emit }) {
+      const getTitle = computed(() => (props.isEdit ? '编辑' : '新增'));
       const [
         registerForm,
         {
-          // setFieldsValue,
           // setProps
+          validate,
+          setFieldsValue,
         },
       ] = useForm({
         labelWidth: 120,
@@ -36,29 +35,35 @@
         },
       });
 
-      const [register] = useModalInner((data) => {
-        data && onDataReceive(data);
+      const [register, { setModalProps, closeModal }] = useModalInner((data) => {
+        if (data.isEdit) {
+          setFieldsValue({
+            technologyTypeId: data.technologyTypeId,
+            workStationNo: data.workStationNo,
+          });
+        }
       });
 
-      function onDataReceive(data) {
-        console.log('Data Received', data);
-        modelRef.value = { field2: data.data, field1: data.info };
-
-        // setProps({
-        //   model:{ field2: data.data, field1: data.info }
-        // })
+      async function handleSubmit() {
+        try {
+          const formData = await validate();
+          setModalProps({ confirmLoading: true });
+          closeModal();
+          debugger;
+          emit('ok', {
+            technologyTypeId: formData.technologyTypeId,
+            workStationNo: formData.workStationNo,
+          });
+        } finally {
+          setModalProps({ confirmLoading: false });
+        }
       }
-
-      function handleVisibleChange(v) {
-        v && props.userData && nextTick(() => onDataReceive(props.userData));
-      }
-
       return {
         register,
         productTechnologyFormSchemas,
         registerForm,
-        model: modelRef,
-        handleVisibleChange,
+        getTitle,
+        handleSubmit,
       };
     },
   });

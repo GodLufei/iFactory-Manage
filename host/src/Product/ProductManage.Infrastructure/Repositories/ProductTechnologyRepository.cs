@@ -19,6 +19,11 @@ public class ProductTechnologyRepository : IProductTechnologyRepository
         return _context.ProductTechnologies.Add(productTechnology).Entity;
     }
 
+    public ProductTechnology Update(ProductTechnology productTechnology)
+    {
+        return _context.ProductTechnologies.Update(productTechnology).Entity;
+    }
+
     public async Task<int> DeleteAsync(int id)
     {
         var result = _context.ProductTechnologies.Remove((await _context.ProductTechnologies.FirstOrDefaultAsync(t => t.Id == id))!);
@@ -34,6 +39,14 @@ public class ProductTechnologyRepository : IProductTechnologyRepository
         return productTechnology!;
     }
 
+    public async Task<ProductTechnology> GetByProductTypeIdAsync(int productTypeId)
+    {
+        var productTechnology = await _context
+            .ProductTechnologies
+            .Include(x => x.ProductTechnologyItems)
+            .FirstOrDefaultAsync(o => o.ProductTypeId == productTypeId);
+        return productTechnology!;
+    }
     public async Task<IEnumerable<ProductTechnology>> GetListAsync(int pageSize, int pageIndex)
     {
         return await _context
@@ -44,14 +57,5 @@ public class ProductTechnologyRepository : IProductTechnologyRepository
     public async Task<int> GetCount()
     {
         return await _context.ProductTechnologies.CountAsync();
-    }
-
-    public async Task<ProductTechnology> GetByProductTypeIdAsync(int productTypeId)
-    {
-        var productTechnology = await _context
-            .ProductTechnologies
-            .Include(x => x.ProductTechnologyItems)
-            .FirstOrDefaultAsync(o => o.ProductTypeId == productTypeId);
-        return productTechnology!;
     }
 }

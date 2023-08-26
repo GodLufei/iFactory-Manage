@@ -53,6 +53,8 @@
   import { useMessage } from '/@/hooks/web/useMessage';
   import { useRoute } from 'vue-router';
   import { RoleEnum } from '/@/enums/roleEnum';
+  import { useGo } from '/@/hooks/web/usePage';
+import { PageEnum } from '/@/enums/pageEnum';
   export default defineComponent({
     name: 'CreateProductPage',
     components: {
@@ -67,12 +69,20 @@
     },
     setup() {
       const route = useRoute();
-      console.log(route.params.id);
+      const go = useGo();
+
+      const { createMessage } = useMessage();
+      const [registerModal, { openModal: openModal }] = useModal();
+
+      if (isNaN(parseInt(route.params.id as string))) {
+        // createMessage.error('获取失败');
+        go(`${PageEnum.PRODUCT_HOME}`);
+      }
+
       const productId = parseInt(route.params.id as string);
       const productRef = reactive({ product: {} as ProductDetailDto });
-      detail(productId).then((data) => (productRef.product = data.data));
 
-      const [register, { resetFields, validate }] = useForm({
+      const [register, { resetFields, validate, setFieldsValue }] = useForm({
         layout: 'vertical',
         baseColProps: {
           span: 6,
@@ -95,8 +105,10 @@
           slots: { customRender: 'action' },
         },
       });
-      const [registerModal, { openModal: openModal }] = useModal();
-      const { createMessage } = useMessage();
+      detail(productId).then((data) => {
+        productRef.product = data.data;
+        setFieldsValue(productRef.product);
+      });
       const editProductItem = () => {
         openModal(true);
       };

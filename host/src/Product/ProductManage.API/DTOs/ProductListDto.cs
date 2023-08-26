@@ -13,7 +13,7 @@ public class ProductListDto
 
     [DataMember] public string CompletionRate { get; set; }
 
-    [DataMember] public string ProductStatusId { get; set; }
+    [DataMember] public int ProductStatusId { get; set; }
 
     [DataMember] public TimeSpan? TotalManHour { get; set; }
     

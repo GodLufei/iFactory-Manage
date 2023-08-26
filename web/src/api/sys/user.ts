@@ -1,9 +1,10 @@
+import { WorkStationEnum } from '../product/enums/enums';
 import { LoginParams } from './model/userModel';
 
 import { RoleEnum } from '/@/enums/roleEnum';
 
 export function getUserList() {
-  return [
+  const baseUsers = [
     {
       userId: '1',
       username: 'admin',
@@ -20,22 +21,7 @@ export function getUserList() {
         },
       ],
     },
-    {
-      userId: '2',
-      username: 'worker',
-      password: '123456',
-      realName: '员工',
-      avatar: '',
-      desc: '员工',
-      token: 'worker-token',
-      homePath: '/product-item/list',
-      roles: [
-        {
-          roleName: '员工',
-          value: RoleEnum.WORKER,
-        },
-      ],
-    },
+
     {
       userId: '3',
       username: 'approver',
@@ -53,6 +39,25 @@ export function getUserList() {
       ],
     },
   ];
+  WorkStationEnum.list.forEach((worker) =>
+    baseUsers.push({
+      userId: worker.id,
+      username: worker.id,
+      password: '123456',
+      realName: worker.id,
+      avatar: '',
+      desc: worker.name,
+      token: 'worker-token',
+      homePath: '/product-item/list',
+      roles: [
+        {
+          roleName: '员工',
+          value: RoleEnum.WORKER,
+        },
+      ],
+    }),
+  );
+  return baseUsers;
 }
 
 /**

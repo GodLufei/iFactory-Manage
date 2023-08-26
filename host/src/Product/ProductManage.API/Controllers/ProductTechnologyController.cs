@@ -60,7 +60,7 @@ public class ProductTechnologyController : CommonControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpGet("{productTypeId:int}")]
-    public async Task<IActionResult> GetAsync([FromQuery] int productTypeId)
+    public async Task<IActionResult> GetAsync([FromRoute] int productTypeId)
     {
         var result = await _productTechnologyQueries.GetAsync(productTypeId);
         return Succeed(result, StatusCodes.Status200OK);

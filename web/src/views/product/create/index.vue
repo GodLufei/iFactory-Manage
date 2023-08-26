@@ -85,6 +85,7 @@
           title: formValues.title,
           tax: formValues.tax,
           bankInfo: formValues.bankInfo,
+          bankAccount: formValues.bankAccount,
           phoneNumber: formValues.phoneNumber,
           productItems: productItems.map((item) => ({
             productTypeId: item.productTypeId,

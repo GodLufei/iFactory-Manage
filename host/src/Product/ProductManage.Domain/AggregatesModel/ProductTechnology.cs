@@ -26,6 +26,10 @@ public class ProductTechnology : Entity, IAggregateRoot
         ProductTypeId = productTypeId;
     }
 
+    public void RemoveAllProductTechnology() 
+    {
+        _productTechnologyItems.Clear();
+    }
     public void AddProductTechnologyDetail(int technologyTypeId, int stepIndex, string workStationNo)
     {
         _productTechnologyItems.Add(new ProductTechnologyItem(technologyTypeId, workStationNo, stepIndex));

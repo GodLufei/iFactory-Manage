@@ -1,7 +1,7 @@
 import { BasicColumn } from '/@/components/Table';
 import { Tag } from 'ant-design-vue';
 import { h } from 'vue';
-import { ProductStatusEnum } from '/@/api/product/model/productModel';
+import { ProductStatusEnum } from '/@/api/product/enums/enums';
 
 export const columns: BasicColumn[] = [
   {
@@ -29,10 +29,10 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '状态',
-    dataIndex: 'productStatus',
+    dataIndex: 'productStatusId',
     width: 100,
     customRender: ({ text }) => {
-      const status = ProductStatusEnum.fromName(text);
+      const status = ProductStatusEnum.from(text);
       return h(Tag, { color: status?.color ?? 'black' }, () => status?.name);
     },
   },

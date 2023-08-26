@@ -7,7 +7,6 @@ import {
   CreateProductCommand,
   CreateProductItemCommand,
   ProductDetailDto,
-  ProductItemDetailDto,
   ProductPageListDto,
 } from './model/productModel';
 import { BasicFetchResult, Pagable } from '../model/baseModel';
@@ -32,122 +31,6 @@ export function getList(page: Pagable, mode: ErrorMessageMode = 'message') {
  * @description: get wait to approve product items
  */
 export function getWaitToApproveProductItems(mode: ErrorMessageMode = 'message') {
-  return Promise.resolve({
-    data: [
-      {
-        productListDto: {
-          id: 1,
-          description: '1',
-          title: '1',
-          tax: 1,
-          bankInfo: '1',
-          bankAccount: '1',
-          phoneNumber: '1',
-          clientPerson: '1',
-          addressDetail: '1',
-        },
-        productItemDetailDtos: [
-          {
-            id: 1,
-            productTypeId: 1,
-            productItemName: '1',
-            technicalRequirements: '1',
-            material: '1',
-            diameter: '1',
-            length: '1',
-            figureNo: '1',
-            amount: 1,
-            unit: '1',
-            productStatusId: 2,
-          },
-        ] as ProductItemDetailDto[],
-      },
-      {
-        productListDto: {
-          id: 2,
-          description: '2',
-          title: '1',
-          tax: 1,
-          bankInfo: '1',
-          bankAccount: '1',
-          phoneNumber: '1',
-          clientPerson: '1',
-          addressDetail: '1',
-        },
-        productItemDetailDtos: [
-          {
-            id: 3,
-            productTypeId: 1,
-            productItemName: '1',
-            technicalRequirements: '1',
-            material: '1',
-            diameter: '1',
-            length: '1',
-            figureNo: '1',
-            amount: 1,
-            unit: '1',
-            productStatusId: 4,
-          },
-        ] as ProductItemDetailDto[],
-      },
-      {
-        productListDto: {
-          id: 1,
-          description: '1',
-          title: '1',
-          tax: 1,
-          bankInfo: '1',
-          bankAccount: '1',
-          phoneNumber: '1',
-          clientPerson: '1',
-          addressDetail: '1',
-        },
-        productItemDetailDtos: [
-          {
-            id: 1,
-            productTypeId: 1,
-            productItemName: '1',
-            technicalRequirements: '1',
-            material: '1',
-            diameter: '1',
-            length: '1',
-            figureNo: '1',
-            amount: 1,
-            unit: '1',
-            productStatusId: 2,
-          },
-        ] as ProductItemDetailDto[],
-      },
-      {
-        productListDto: {
-          id: 2,
-          description: '2',
-          title: '1',
-          tax: 1,
-          bankInfo: '1',
-          bankAccount: '1',
-          phoneNumber: '1',
-          clientPerson: '1',
-          addressDetail: '1',
-        },
-        productItemDetailDtos: [
-          {
-            id: 3,
-            productTypeId: 1,
-            productItemName: '1',
-            technicalRequirements: '1',
-            material: '1',
-            diameter: '1',
-            length: '1',
-            figureNo: '1',
-            amount: 1,
-            unit: '1',
-            productStatusId: 4,
-          },
-        ] as ProductItemDetailDto[],
-      },
-    ],
-  });
   return defHttp.get<BasicFetchResult<AwaitReverseProductItemsGroupDto[]>>(
     { url: Api.ProductItem },
     { errorMessageMode: mode },

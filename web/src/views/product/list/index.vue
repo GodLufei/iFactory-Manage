@@ -11,6 +11,7 @@
             },
             {
               label: '下发',
+              ifShow: record.productStatusId == ProductStatusEnum.UnProduct.id,
               color: 'success',
               popConfirm: {
                 title: '是否下发？',
@@ -29,20 +30,33 @@
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { PageWrapper } from '/@/components/Page';
   import { columns } from './data';
-  import { getList } from '/@/api/product/productApi';
+  import { getList, down } from '/@/api/product/productApi';
   import { useGo } from '/@/hooks/web/usePage';
   import { PageEnum } from '/@/enums/pageEnum';
   import { RoleEnum } from '/@/enums/roleEnum';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import { ProductStatusEnum } from '/@/api/product/enums/enums';
   export default defineComponent({
     name: 'ProductPage',
     components: { BasicTable, PageWrapper, TableAction },
     setup() {
       const go = useGo();
-      const [registerTable] = useTable({
-        api: getList,
+      const { createMessage } = useMessage();
+      const [registerTable, { setPagination, reload }] = useTable({
+        api: async (params) => {
+          const data = await getList({ page: params.page, pageSize: params.pageSize });
+          setPagination({
+            pageSize: data.data.page.pageSize,
+            current: data.data.page.pageIndex,
+            total: data.data.page.total,
+          });
+          return new Promise((resolve) => {
+            resolve([...data.data.productListDtos]);
+          });
+        },
         columns: columns,
         useSearchForm: false,
-        showTableSetting: false,
+        showTableSetting: true,
         bordered: true,
         showIndexColumn: false,
         pagination: {
@@ -67,14 +81,17 @@
       }
       function handleDown(record: Recordable) {
         const { id } = record;
-        go(`${PageEnum.PRODUCT_DETAIL}/${id}`);
-        return {};
+        down(id).then(() => {
+          createMessage.success('下发成功');
+          reload();
+        });
       }
       return {
         registerTable,
         handleAssignTask,
         handleDetail,
         handleDown,
+        ProductStatusEnum,
         RoleEnum,
       };
     },
