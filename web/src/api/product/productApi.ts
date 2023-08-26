@@ -32,7 +32,7 @@ export function getList(page: Pagable, mode: ErrorMessageMode = 'message') {
  */
 export function getWaitToApproveProductItems(mode: ErrorMessageMode = 'message') {
   return defHttp.get<BasicFetchResult<AwaitReverseProductItemsGroupDto[]>>(
-    { url: `${Api.Product}/${Api.ProductItem }`},
+    { url: `${Api.Product}${Api.ProductItem}` },
     { errorMessageMode: mode },
   );
 }
