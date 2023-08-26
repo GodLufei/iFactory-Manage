@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Product.Infrastructure.Repositories;
 using ProductManage.Domain.AggregatesModel;
 
 namespace ProductManage.API.Application.Commands;
@@ -19,14 +20,22 @@ public class CreateProductTechnologyCommandHandler : IRequestHandler<CreateProdu
 
     public async Task<int> Handle(CreateProductTechnologyCommand request, CancellationToken cancellationToken)
     {
-        var productTechnology = new ProductTechnology(request.ProductTypeId);
+        var productTechnology = await _productTechnologyRepository.GetByProductTypeIdAsync(request.ProductTypeId);
+        if (productTechnology is null) 
+        {
+            productTechnology = new ProductTechnology(request.ProductTypeId);
+            productTechnology = _productTechnologyRepository.Add(productTechnology);
+            await _productTechnologyRepository.UnitOfWork
+            .SaveEntitiesAsync(cancellationToken);
+        }
+        productTechnology.RemoveAllProductTechnology();
         foreach (var itemDto in request.ProductTechnologyItemDtos)
         {
             productTechnology.AddProductTechnologyDetail(itemDto.TechnologyTypeId, itemDto.StepIndex,
                 itemDto.WorkStationNo);
         }
 
-        var result = _productTechnologyRepository.Add(productTechnology);
+        var result = _productTechnologyRepository.Update(productTechnology);
         await _productTechnologyRepository.UnitOfWork
             .SaveEntitiesAsync(cancellationToken);
         return result.Id;

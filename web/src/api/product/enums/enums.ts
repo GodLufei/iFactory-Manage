@@ -99,18 +99,18 @@ export class TechnologyTypeEnum {
 }
 
 export class WorkStationEnum {
-  id: number;
+  id: string;
   name: string;
-  constructor(id: number, name: string) {
+  constructor(id: string, name: string) {
     this.id = id;
     this.name = name;
   }
-  static readonly One = new WorkStationEnum(1, '1号工区');
-  static readonly Two = new WorkStationEnum(2, '2号工区');
-  static readonly Three = new WorkStationEnum(3, '3号工区');
-  static readonly Four = new WorkStationEnum(4, '4号工区');
-  static readonly Five = new WorkStationEnum(5, '5号工区');
-  static readonly Six = new WorkStationEnum(6, '6号工区');
+  static readonly One = new WorkStationEnum('01', '1号工区');
+  static readonly Two = new WorkStationEnum('02', '2号工区');
+  static readonly Three = new WorkStationEnum('03', '3号工区');
+  static readonly Four = new WorkStationEnum('04', '4号工区');
+  static readonly Five = new WorkStationEnum('05', '5号工区');
+  static readonly Six = new WorkStationEnum('06', '6号工区');
 
   private static readonly Mapper = new Map([
     [WorkStationEnum.One.id.toString(), WorkStationEnum.One],
@@ -127,6 +127,16 @@ export class WorkStationEnum {
     [WorkStationEnum.Six.name, WorkStationEnum.Six],
   ]);
 
-  static from = (id: number) => WorkStationEnum.Mapper.get(`${id}`);
+  static get list() {
+    return [
+      WorkStationEnum.One,
+      WorkStationEnum.Two,
+      WorkStationEnum.Three,
+      WorkStationEnum.Four,
+      WorkStationEnum.Five,
+      WorkStationEnum.Six,
+    ];
+  }
+  static from = (id: string) => WorkStationEnum.Mapper.get(`${id}`);
   static fromName = (name: string) => WorkStationEnum.Mapper.get(`${name}`);
 }

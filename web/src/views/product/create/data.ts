@@ -1,8 +1,7 @@
 import { FormSchema } from '/@/components/Form';
 import { BasicColumn } from '/@/components/Table';
 import pc from '../pc';
-import { ProductTypeEnum } from '/@/api/product/model/productModel';
-import { TechnologyTypeEnum } from '/@/api/product/model/technologyModel';
+import { ProductTypeEnum, TechnologyTypeEnum } from '/@/api/product/enums/enums';
 
 const provincesOptions = pc.map((city) => ({
   id: city.code,
@@ -127,35 +126,6 @@ export const productSchemas: FormSchema[] = [
       span: 4,
     },
   },
-  {
-    field: 'clientPerson',
-    component: 'Input',
-    label: '委托代理人',
-    required: false,
-    colProps: {
-      span: 4,
-      offset: 2,
-    },
-  },
-  // {
-  //   field: 'email',
-  //   component: 'Input',
-  //   label: 'E-mail',
-  //   required: true,
-  //   colProps: {
-  //     span: 4,
-  //     offset: 2,
-  //   },
-  // },
-  // {
-  //   field: 'fax',
-  //   component: 'Input',
-  //   label: '传真',
-  //   required: true,
-  //   colProps: {
-  //     span: 4,
-  //   },
-  // },
   {
     field: 'divider-address-linked',
     component: 'Divider',

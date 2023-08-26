@@ -34,6 +34,6 @@ public class ProductTechnologyQueries : IProductTechnologyQueries
     public async Task<ProductTechnologyListDto> GetAsync(int productTypeId)
     {
         var productTechnologies = await _productTechnologyRepository.GetByProductTypeIdAsync(productTypeId);
-     return _mapper.Map<ProductTechnologyListDto>(productTechnologies);
+        return _mapper.Map<ProductTechnologyListDto>(productTechnologies);
     }
 }

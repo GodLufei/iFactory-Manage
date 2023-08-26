@@ -26,8 +26,6 @@ public class CreateProductCommand : IRequest<int>
 
     public string PhoneNumber { get; set; }
 
-    public string ClinetPerson { get; set; }
-
     public IEnumerable<ProductItemDto> ProductItems { get; set; }
 
     public CreateProductCommand(

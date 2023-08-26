@@ -1,7 +1,5 @@
-import { ProductTypeEnum } from '/@/api/product/model/productModel';
-import { TechnologyTypeEnum } from '/@/api/product/model/technologyModel';
+import { ProductTypeEnum, TechnologyTypeEnum, WorkStationEnum } from '/@/api/product/enums/enums';
 import { FormSchema } from '/@/components/Form';
-import { BasicColumn } from '/@/components/Table';
 
 export const productTypeOptions = [
   {
@@ -55,28 +53,28 @@ export const technologyTypeOptions = [
 
 export const workStationNoOptions = [
   {
-    label: '1号车间',
-    value: 1,
+    label: WorkStationEnum.One.name,
+    value: WorkStationEnum.One.id,
   },
   {
-    label: '2号车间',
-    value: 2,
+    label: WorkStationEnum.Two.name,
+    value: WorkStationEnum.Two.id,
   },
   {
-    label: '3号车间',
-    value: 3,
+    label: WorkStationEnum.Three.name,
+    value: WorkStationEnum.Three.id,
   },
   {
-    label: '4号车间',
-    value: 4,
+    label: WorkStationEnum.Four.name,
+    value: WorkStationEnum.Four.id,
   },
   {
-    label: '5号车间',
-    value: 5,
+    label: WorkStationEnum.Five.name,
+    value: WorkStationEnum.Five.id,
   },
   {
-    label: '6号车间',
-    value: 6,
+    label: WorkStationEnum.Six.name,
+    value: WorkStationEnum.Six.id,
   },
 ];
 
@@ -93,8 +91,8 @@ export const productTechnologyStepSchemas = [
   {
     align: 'center',
     title: '技术类型',
-    key: 'technologyType',
-    dataIndex: 'technologyType',
+    key: 'technologyTypeId',
+    dataIndex: 'technologyTypeId',
     customRender: ({ text }) => {
       return `${TechnologyTypeEnum.from(text)?.name}`;
     },
@@ -104,6 +102,9 @@ export const productTechnologyStepSchemas = [
     title: '工作区',
     key: 'workStationNo',
     dataIndex: 'workStationNo',
+    customRender: ({ text }) => {
+      return `${WorkStationEnum.from(text)?.name}`;
+    },
   },
   {
     align: 'center',
@@ -113,52 +114,9 @@ export const productTechnologyStepSchemas = [
   },
 ];
 
-export const productItemTableSchemas: BasicColumn[] = [
-  {
-    title: '名称',
-    dataIndex: 'Name',
-    width: 100,
-  },
-  {
-    title: '类别',
-    dataIndex: 'productType',
-    width: 100,
-  },
-  {
-    title: '材料',
-    dataIndex: 'material',
-    width: 100,
-  },
-  {
-    title: '规格',
-    dataIndex: 'diameter',
-    width: 100,
-  },
-  {
-    title: '长度',
-    dataIndex: 'length',
-    width: 100,
-  },
-  {
-    title: '指纹码',
-    dataIndex: 'figureNo',
-    width: 100,
-  },
-  {
-    title: '总计',
-    dataIndex: 'amount',
-    width: 100,
-  },
-  {
-    title: '单位',
-    dataIndex: 'unit',
-    width: 100,
-  },
-];
-
 export const productTechnologyFormSchemas: FormSchema[] = [
   {
-    field: 'technologyType',
+    field: 'technologyTypeId',
     component: 'Select',
     label: '技术要求',
     required: true,
@@ -180,6 +138,6 @@ export const productTechnologyFormSchemas: FormSchema[] = [
 export interface StepTechnology {
   key: string;
   stepIndex: number;
-  technologyType: number;
-  workStationNo: number;
+  technologyTypeId: number;
+  workStationNo: string;
 }

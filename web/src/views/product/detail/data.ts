@@ -138,16 +138,6 @@ export const productSchemas: FormSchema[] = [
     },
   },
   {
-    field: 'clientPerson',
-    component: 'Input',
-    label: '委托代理人',
-    required: false,
-    colProps: {
-      span: 4,
-      offset: 2,
-    },
-  },
-  {
     field: 'divider-address-linked',
     component: 'Divider',
     label: '甲方地址',
@@ -337,178 +327,170 @@ export const productItemFormSchemas: FormSchema[] = [
   },
 ];
 
-export const getProductSchemas = (product: ProductDetailDto): FormSchema[] => [
-  {
-    field: 'id',
-    component: 'Input',
-    label: 'id',
-    required: true,
-    defaultValue: product.id,
-    show: false,
-    colProps: {
-      span: 4,
+export const getProductSchemas = (product: ProductDetailDto): FormSchema[] => {
+  console.log(product);
+  return [
+    {
+      field: 'id',
+      component: 'Input',
+      label: 'id',
+      required: true,
+      defaultValue: product.id,
+      show: false,
+      colProps: {
+        span: 4,
+      },
     },
-  },
-  {
-    field: 'description',
-    component: 'Input',
-    label: '描述',
-    defaultValue: product.description,
-    required: true,
-    colProps: {
-      span: 4,
+    {
+      field: 'description',
+      component: 'Input',
+      label: '描述',
+      defaultValue: product.description,
+      required: true,
+      colProps: {
+        span: 4,
+      },
     },
-  },
-  {
-    field: 'divider-info-linked',
-    component: 'Divider',
-    label: '甲方信息',
-    colProps: {
-      span: 24,
+    {
+      field: 'divider-info-linked',
+      component: 'Divider',
+      label: '甲方信息',
+      colProps: {
+        span: 24,
+      },
     },
-  },
-  {
-    field: 'title',
-    component: 'Input',
-    label: '公司名称',
-    defaultValue: product.title,
-    required: true,
-    colProps: {
-      span: 4,
+    {
+      field: 'title',
+      component: 'Input',
+      label: '公司名称',
+      defaultValue: product.title,
+      required: true,
+      colProps: {
+        span: 4,
+      },
     },
-  },
-  {
-    field: 'tax',
-    component: 'Input',
-    label: '税号',
-    defaultValue: product.tax,
-    required: true,
-    colProps: {
-      span: 4,
-      offset: 2,
+    {
+      field: 'tax',
+      component: 'Input',
+      label: '税号',
+      defaultValue: product.tax,
+      required: true,
+      colProps: {
+        span: 4,
+        offset: 2,
+      },
     },
-  },
-  {
-    field: 'bankInfo',
-    component: 'Input',
-    label: '开户银行',
-    required: true,
-    defaultValue: product.bankInfo,
-    colProps: {
-      span: 4,
-      offset: 2,
+    {
+      field: 'bankInfo',
+      component: 'Input',
+      label: '开户银行',
+      required: true,
+      defaultValue: product.bankInfo,
+      colProps: {
+        span: 4,
+        offset: 2,
+      },
     },
-  },
-  {
-    field: 'bankAccount',
-    component: 'Input',
-    label: '银行账号',
-    defaultValue: product.bankAccount,
-    required: true,
-    colProps: {
-      span: 4,
-      offset: 2,
+    {
+      field: 'bankAccount',
+      component: 'Input',
+      label: '银行账号',
+      defaultValue: product.bankAccount,
+      required: true,
+      colProps: {
+        span: 4,
+        offset: 2,
+      },
     },
-  },
-  {
-    field: 'phoneNumber',
-    component: 'Input',
-    label: '联系电话',
-    defaultValue: product.phoneNumber,
-    required: true,
-    colProps: {
-      span: 4,
+    {
+      field: 'phoneNumber',
+      component: 'Input',
+      label: '联系电话',
+      defaultValue: product.phoneNumber,
+      required: true,
+      colProps: {
+        span: 4,
+      },
     },
-  },
-  {
-    field: 'clientPerson',
-    component: 'Input',
-    label: '委托代理人',
-    defaultValue: product.clientPerson,
-    required: false,
-    colProps: {
-      span: 4,
-      offset: 2,
+    {
+      field: 'divider-address-linked',
+      component: 'Divider',
+      label: '甲方地址',
+      colProps: {
+        span: 24,
+      },
     },
-  },
-  {
-    field: 'divider-address-linked',
-    component: 'Divider',
-    label: '甲方地址',
-    colProps: {
-      span: 24,
+    {
+      field: 'province',
+      component: 'Select',
+      label: '省份',
+      defaultValue: product.province,
+      required: true,
+      colProps: {
+        span: 4,
+      },
+      componentProps: ({ formModel, formActionType }) => {
+        return {
+          options: provincesOptions,
+          placeholder: '请选择省份',
+          onChange: (e: any) => {
+            console.log(e);
+            const citiesOptions = pc
+              .find((p) => p.name == e)
+              ?.children.map((city) => ({
+                id: city.code,
+                label: city.name,
+                value: city.name,
+                key: city.code,
+              }));
+            formModel.city = undefined; //  reset city value
+            const { updateSchema } = formActionType;
+            updateSchema({
+              field: 'city',
+              componentProps: {
+                options: citiesOptions,
+              },
+            });
+          },
+        };
+      },
     },
-  },
-  {
-    field: 'province',
-    component: 'Select',
-    label: '省份',
-    defaultValue: product.province,
-    required: true,
-    colProps: {
-      span: 4,
+    {
+      field: 'city',
+      component: 'Select',
+      label: '城市',
+      defaultValue: product.city,
+      required: true,
+      colProps: {
+        span: 4,
+        offset: 2,
+      },
+      componentProps: {
+        options: [], // defalut []
+        placeholder: '请选择城市',
+      },
     },
-    componentProps: ({ formModel, formActionType }) => {
-      return {
-        options: provincesOptions,
-        placeholder: '请选择省份',
-        onChange: (e: any) => {
-          console.log(e);
-          const citiesOptions = pc
-            .find((p) => p.name == e)
-            ?.children.map((city) => ({
-              id: city.code,
-              label: city.name,
-              value: city.name,
-              key: city.code,
-            }));
-          formModel.city = undefined; //  reset city value
-          const { updateSchema } = formActionType;
-          updateSchema({
-            field: 'city',
-            componentProps: {
-              options: citiesOptions,
-            },
-          });
-        },
-      };
+    {
+      field: 'street',
+      component: 'Input',
+      label: '街道',
+      defaultValue: product.street,
+      required: true,
+      colProps: {
+        span: 4,
+        offset: 2,
+      },
     },
-  },
-  {
-    field: 'city',
-    component: 'Select',
-    label: '城市',
-    defaultValue: product.city,
-    required: true,
-    colProps: {
-      span: 4,
-      offset: 2,
+    {
+      field: 'zipCode',
+      component: 'Input',
+      defaultValue: product.zipCode,
+      label: '邮政编码',
+      required: true,
+      colProps: {
+        span: 4,
+        offset: 2,
+      },
     },
-    componentProps: {
-      options: [], // defalut []
-      placeholder: '请选择城市',
-    },
-  },
-  {
-    field: 'street',
-    component: 'Input',
-    label: '街道',
-    defaultValue: product.street,
-    required: true,
-    colProps: {
-      span: 4,
-      offset: 2,
-    },
-  },
-  {
-    field: 'zipCode',
-    component: 'Input',
-    defaultValue: product.zipCode,
-    label: '邮政编码',
-    required: true,
-    colProps: {
-      span: 4,
-      offset: 2,
-    },
-  },
-];
+  ];
+};

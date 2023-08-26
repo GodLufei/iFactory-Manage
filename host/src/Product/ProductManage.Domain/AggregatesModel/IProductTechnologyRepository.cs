@@ -6,6 +6,8 @@ public interface IProductTechnologyRepository : IRepository<ProductTechnology>
 {
     ProductTechnology Add(ProductTechnology productTechnology);
 
+    ProductTechnology Update(ProductTechnology productTechnology);
+
     Task<int> DeleteAsync(int id);
 
     Task<ProductTechnology> GetAsync(int id);

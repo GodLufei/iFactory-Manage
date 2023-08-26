@@ -15,20 +15,11 @@ public class ProductTechnologyPageListDto
 
 public class ProductTechnologyListDto
 {
-    public ProductTechnologyListDto(int id, int technologySteps, int? productTypeId,
-        IEnumerable<ProductTechnologyItemDto> productTechnologyItemDtos)
-    {
-        Id = id;
-        TechnologySteps = technologySteps;
-        ProductTypeId = productTypeId;
-        ProductTechnologyItemDtos = productTechnologyItemDtos;
-    }
-
     public int Id { get; set; }
 
     public int TechnologySteps { get; set; }
 
-    public int? ProductTypeId { get; set; }
+    public int ProductTypeId { get; set; }
 
     public IEnumerable<ProductTechnologyItemDto> ProductTechnologyItemDtos { get; set; }
 }

@@ -2,9 +2,7 @@
   "name": "factory-admin",
   "version": "2.8.0",
   "author": {
-    "name": "factory",
-    "email": "",
-    "url": ""
+    "name": "factory"
   },
   "scripts": {
     "bootstrap": "yarn install",

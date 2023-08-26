@@ -90,11 +90,6 @@ export const productSchemas: DescItem[] = [
     label: '联系电话',
   },
   {
-    field: 'clientPerson',
-    contentMinWidth: 100,
-    label: '委托代理人',
-  },
-  {
     field: 'addressDetail',
     contentMinWidth: 100,
     label: '地址',

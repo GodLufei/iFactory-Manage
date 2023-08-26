@@ -28,10 +28,10 @@ public class ProductQueries : IProductQueries
     {
         var products = await _productRepository.GetListAsync();
         return (from product in products
-            let productDto = _mapper.Map<ProductListDto>(product)
-            let productItems = product.ProductItems.Where(t => t.ProductStatusId == ProductStatus.DoingProduct.Id)
-            let productItemsDtos = productItems.Select(t => _mapper.Map<ProductItemDetailDto>(t))
-            select new AwaitReverseProductItemsGroupDto(productDto, productItemsDtos)).ToList();
+                let productDto = _mapper.Map<ProductListDto>(product)
+                let productItems = product.ProductItems.Where(t => t.ProductStatusId == ProductStatus.DoingProduct.Id)
+                let productItemsDtos = productItems.Select(t => _mapper.Map<ProductItemDetailDto>(t))
+                select new AwaitReverseProductItemsGroupDto(productDto, productItemsDtos)).ToList();
     }
 
     public async Task<IEnumerable<AwaitReverseProductItemsGroupDto>> GetListByStationNoAsync(string stationNo)
@@ -56,22 +56,21 @@ public class ProductQueries : IProductQueries
         return awaitReverseProductItemsGroupDtos;
     }
 
-    public async Task<ProductPageListDto> GetList(int pageIndex,int pageSize )
+    public async Task<ProductPageListDto> GetList(int pageIndex, int pageSize)
     {
-        List<ProductListDto> list;
-        using (IDbConnection dbConnection = BaseDb.Connection)
+        IEnumerable<ProductListDto> list;
+        using (IDbConnection dbConnection = BaseDb.CreateConnection())
         {
             dbConnection.Open();
-            list = await Task.Run(() =>
-                dbConnection
-                    .Query<ProductListDto>(
-                        sql: " SELECT * FROM (SELECT Product.[Id],Product.[ProductStatusId],[CreateTime],[Description],(DemanSide.[Province]+DemanSide.[City]+DemanSide.[Street]) as AddressDetail,ROW_NUMBER() OVER (ORDER BY  Product.[Id]) AS RowNum FROM [ProductManage].[Product].[Product] as Product  inner join [ProductManage].[Product].[DemandSide] as DemanSide  on Product.Id=DemanSide.Id  ) AS T WHERE RowNum > (@pageIndex - 1) * @pageSize AND RowNum <= @pageIndex * @pageSize",new {pageIndex,pageSize})
-                    .ToList());
+            list = await
+                dbConnection.QueryAsync<ProductListDto>(
+                        sql: "SELECT * FROM (SELECT Product.[Id],Product.[ProductStatusId],[CreateTime],[Description],(DemanSide.[Province]+DemanSide.[City]+DemanSide.[Street]) as AddressDetail,ROW_NUMBER() OVER (ORDER BY  Product.[Id]) AS RowNum FROM [ProductManage].[Product].[Product] as Product  inner join [ProductManage].[Product].[DemandSide] as DemanSide  on Product.Id=DemanSide.Id  ) AS T WHERE RowNum > (@pageIndex - 1) * @pageSize AND RowNum <= @pageIndex * @pageSize", new { pageIndex, pageSize })
+                    ;
         }
         foreach (var item in list)
         {
             var product = await _productRepository.GetAsync(item.Id);
-            item.CompletionRate=product.CompletionRate.ToString(CultureInfo.InvariantCulture);
+            item.CompletionRate = product.CompletionRate.ToString(CultureInfo.InvariantCulture);
             item.TotalManHour = product.TotalManHour;
         }
         var totalCount = await _productRepository.GetCount();

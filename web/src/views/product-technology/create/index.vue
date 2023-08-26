@@ -26,28 +26,10 @@
       </a-table>
       <a-button block class="mt-5" @click="addStep"> 新增 </a-button>
     </a-card>
-    <a-card :bordered="false" :align="'center'" class="!mt-5 center">
+    <a-card :bordered="false" :align="'center'" class="!mt-5">
       <a-button type="primary" @click="saveProductTech" class="!ml-5">保存</a-button>
     </a-card>
-    <CreateProductTechnologyModal ref="modalData" @register="registerModal" />
-    <!-- <a-modal v-model:visible="showEditModel.isShown" :title="showEditModel.title" @ok="handleOk">
-      <a-card :bordered="false">
-        <h2>技术类型:</h2>
-        <a-select
-          placeholder="请选择"
-          style="width: 100%"
-          v-model:value="modalData.technologyType"
-          :options="technologyTypeOptions"
-        />
-        <h2 class="!mt-5">工作区:</h2>
-        <a-select
-          :placeholder="'请选择'"
-          style="width: 100%"
-          v-model:value="modalData.workStationNo"
-          :options="workStationNoOptions"
-        />
-      </a-card>
-    </a-modal> -->
+    <CreateProductTechnologyModal v-bind="$attrs" @register="registerModal" @ok="saveStep" />
   </PageWrapper>
 </template>
 <script lang="ts">
@@ -56,7 +38,6 @@
   import {
     productTypeOptions,
     technologyTypeOptions,
-    workStationNoOptions,
     productTechnologyStepSchemas,
     StepTechnology,
   } from './data';
@@ -64,6 +45,7 @@
   import { defineComponent, ref, reactive, toRaw, computed } from 'vue';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { useModal } from '/@/components/Modal/src/hooks/useModal';
+  import { detail, create } from '/@/api/product/technologyApi';
   export default defineComponent({
     name: 'CreateProductTechnologyPage',
     components: {
@@ -76,42 +58,46 @@
       CreateProductTechnologyModal,
     },
     setup() {
-      const {
-        notification,
-        //createErrorModal
-      } = useMessage();
-      const [registerModal, { openModal: openModal }] = useModal();
-      const showEditModel = reactive({ isShown: false, title: '编辑' });
+      const { createMessage } = useMessage();
+      const [registerModal, { openModal }] = useModal();
+      const showEditModel = reactive({ title: '编辑' });
       const modalData = reactive({
-        technologyType: 1,
-        workStationNo: 1,
+        technologyTypeId: 1,
+        workStationNo: '01',
         stepIndex: 0,
       });
-      const selectedProductType = ref(null);
+      const selectedProductType = ref(1);
       const productTechnologySteps = reactive([] as StepTechnology[]);
       const lastStepIndex = computed(() => {
-        return productTechnologySteps.length > 0
-          ? productTechnologySteps.sort((s) => s.stepIndex)[productTechnologySteps.length - 1]
-              .stepIndex
-          : 0;
+        if (productTechnologySteps.length == 0) return 0;
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        return productTechnologySteps.sort((s) => s.stepIndex)[productTechnologySteps.length - 1]
+          .stepIndex;
       });
       const addStep = () => {
         openModal(true, {});
-        // showEditModel.title = '新增';
-        // showEditModel.isShown = true;
         modalData.stepIndex = 0;
-        modalData.technologyType = 0;
-        modalData.workStationNo = 0;
+        modalData.technologyTypeId = 1;
+        modalData.workStationNo = '01';
       };
-      const saveProductTech = () => {
-        notification.success({
-          message: '保存成功',
-          // description: `${t('sys.login.loginSuccessDesc')}: ${userInfo.realName}`,
-          duration: 3,
+      const saveProductTech = async () => {
+        await create({
+          productTypeId: selectedProductType.value,
+          productTechnologyItemDtos: productTechnologySteps,
         });
+        createMessage.success('保存成功');
       };
-      const handleChange = (value) => {
-        console.log(value);
+      const handleChange = async (value) => {
+        const result = await detail(value);
+        productTechnologySteps.length = 0;
+        result.data?.productTechnologyItemDtos?.forEach((item) =>
+          productTechnologySteps.push({
+            key: item.stepIndex + item.workStationNo,
+            stepIndex: item.stepIndex,
+            workStationNo: item.workStationNo,
+            technologyTypeId: item.technologyTypeId,
+          }),
+        );
       };
       const deleteStep = (record) => {
         const { stepIndex } = toRaw(record);
@@ -125,29 +111,27 @@
       };
       const editStep = (record) => {
         showEditModel.title = '编辑';
-        showEditModel.isShown = true;
-        const { stepIndex, technologyType, workStationNo } = toRaw(record);
+        const { stepIndex, technologyTypeId, workStationNo } = toRaw(record);
         modalData.stepIndex = stepIndex;
-        modalData.technologyType = technologyType;
+        modalData.technologyTypeId = technologyTypeId;
         modalData.workStationNo = workStationNo;
       };
-      const handleOk = () => {
-        if (modalData.stepIndex == 0) {
+      const saveStep = (data) => {
+        if (data.stepIndex == 0 || !data.stepIndex) {
           productTechnologySteps.push({
             stepIndex: lastStepIndex.value + 1,
-            technologyType: modalData.technologyType,
-            workStationNo: modalData.workStationNo,
+            technologyTypeId: data.technologyTypeId,
+            workStationNo: data.workStationNo,
             key: `${lastStepIndex.value + 1}`,
           });
         } else {
           productTechnologySteps.forEach((item) => {
-            if (item.stepIndex == modalData.stepIndex) {
-              item.technologyType = modalData.technologyType;
-              item.workStationNo = modalData.workStationNo;
+            if (item.stepIndex == data.stepIndex) {
+              item.technologyTypeId = data.technologyTypeId;
+              item.workStationNo = data.workStationNo;
             }
           });
         }
-        showEditModel.isShown = false;
       };
       return {
         productTypeOptions,
@@ -155,11 +139,10 @@
         technologyTypeOptions,
         productTechnologySteps,
         productTechnologyStepSchemas,
-        workStationNoOptions,
         showEditModel,
         modalData,
         registerModal,
-        handleOk,
+        saveStep,
         handleChange,
         addStep,
         saveProductTech,

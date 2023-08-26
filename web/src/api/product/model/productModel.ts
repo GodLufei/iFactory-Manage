@@ -9,7 +9,7 @@ export interface ProductListDto {
   description: string;
   createTime: string;
   completionRate: number;
-  productStatus: string;
+  productStatusId: number;
   totalManHour: string;
   addressDetail: string;
 }
@@ -26,7 +26,6 @@ export interface CreateProductCommand {
   bankInfo: string;
   bankAccount: string;
   phoneNumber: string;
-  clientPerson: string;
 }
 export interface ProductItemDto {
   productTypeId: number;
@@ -53,7 +52,6 @@ export interface ProductDetailDto {
   bankInfo: string;
   bankAccount: string;
   phoneNumber: string;
-  clientPerson: string;
   id: number;
 }
 
