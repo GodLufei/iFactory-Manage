@@ -1,4 +1,7 @@
-﻿using AutoMapper;
+﻿using System.Data;
+using AutoMapper;
+using Dapper;
+using ProductManage.API.Application.Dapper;
 using ProductManage.API.DTOs;
 using ProductManage.Domain.AggregatesModel;
 using ProductManage.Domain.Shared.Enums;
@@ -11,10 +14,13 @@ public class ProductQueries : IProductQueries
 
     private readonly IMapper _mapper;
 
-    public ProductQueries(IProductRepository productRepository, IMapper mapper)
+    public readonly BaseDbContext BaseDb;
+
+    public ProductQueries(IProductRepository productRepository, IMapper mapper, BaseDbContext baseDb)
     {
         _productRepository = productRepository;
         _mapper = mapper;
+        BaseDb = baseDb;
     }
 
     public async Task<IEnumerable<AwaitReverseProductItemsGroupDto>> GetAwaitApproveListAsync()
@@ -45,7 +51,38 @@ public class ProductQueries : IProductQueries
                 _mapper.Map<ProductListDto>(product),
                 productDetails.Select(t => _mapper.Map<ProductItemDetailDto>(t))));
         }
-        
+
         return awaitReverseProductItemsGroupDtos;
+    }
+
+    public async Task<ProductPageListDto> GetList(int pageIndex,int pageSize )
+    {
+        List<ProductListDto> list;
+        using (IDbConnection dbConnection = BaseDb.Connection)
+        {
+            dbConnection.Open();
+            list = await Task.Run(() =>
+                dbConnection
+                    .Query<ProductListDto>(
+                        " SELECT * FROM (SELECT Product.[Id],Product.[ProductStatusId],[CreateTime],[Description],(DemanSide.[Province]+DemanSide.[City]+DemanSide.[Street]) as AddressDetail,ROW_NUMBER() OVER (ORDER BY  Product.[Id]) AS RowNum FROM [ProductManage].[Product].[Product] as Product  inner join [ProductManage].[Product].[DemandSide] as DemanSide  on Product.Id=DemanSide.Id  ) AS T WHERE RowNum > (@pageIndex - 1) * @pageSize AND RowNum <= @pageIndex * @pageSize",new {pageIndex,pageSize})
+                    .ToList());
+        }
+        foreach (var item in list)
+        {
+            var product = await _productRepository.GetAsync(item.Id);
+            item.CompletionRate=product.CompletionRate.ToString();
+            item.TotalManHour = product.TotalManHour;
+        }
+        var totalCount = await _productRepository.GetCount();
+        return new ProductPageListDto
+        {
+            ProductListDtos = list,
+            Page = new Page
+            {
+                PageIndex = pageIndex,
+                PageSize = pageSize,
+                Total = totalCount,
+            }
+        };
     }
 }

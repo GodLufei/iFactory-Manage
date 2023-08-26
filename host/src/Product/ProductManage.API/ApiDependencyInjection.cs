@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Product.Infrastructure;
 using ProductManage.API.Application.Commands;
+using ProductManage.API.Application.Dapper;
 using ProductManage.API.Application.Queries;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -31,6 +32,10 @@ public static class ApiDependencyInjection
                     });
             }
         );
+        
+        services.AddSingleton(sp => new BaseDbContext(
+            configuration.GetConnectionString("db")
+        ));
         return services;
     }
 }

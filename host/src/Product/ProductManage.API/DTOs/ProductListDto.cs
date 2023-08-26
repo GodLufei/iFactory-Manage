@@ -11,11 +11,11 @@ public class ProductListDto
 
     [DataMember] public DateTime CreateTime { get; set; }
 
-    [DataMember] public double CompletionRate { get; set; }
+    [DataMember] public string CompletionRate { get; set; }
 
     [DataMember] public string ProductStatusId { get; set; }
 
-    [DataMember] public TimeSpan TotalManHour { get; set; }
+    [DataMember] public TimeSpan? TotalManHour { get; set; }
     
     [DataMember] public string AddressDetail { get; set; }
 }
