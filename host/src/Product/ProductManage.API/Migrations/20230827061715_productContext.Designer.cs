@@ -12,8 +12,8 @@ using Product.Infrastructure;
 namespace ProductManage.API.Migrations
 {
     [DbContext(typeof(ProductContext))]
-    [Migration("20230826174914_new_new_new_new_new_new")]
-    partial class new_new_new_new_new_new
+    [Migration("20230827061715_productContext")]
+    partial class productContext
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

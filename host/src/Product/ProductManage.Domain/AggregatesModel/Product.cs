@@ -106,6 +106,7 @@ public class Product : Entity, IAggregateRoot
     //    StartTime = DateTime.Now;
     //    ProductStatusId = ProductStatus.AwaitingProduct.Id;
     //}
+    
     public void DownProduct()
     {
         StartTime = DateTime.Now;
@@ -116,7 +117,8 @@ public class Product : Entity, IAggregateRoot
         }
         DownProductEvent();
     }
-    public void DownProductEvent()
+
+    private void DownProductEvent()
     {
         AddDomainEvent(new DownProductDomainEvent(this.Id));
     }

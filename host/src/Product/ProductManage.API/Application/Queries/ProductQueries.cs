@@ -34,58 +34,58 @@ public class ProductQueries : IProductQueries
                 select new AwaitReverseProductItemsGroupDto(productDto, productItemsDtos)).ToList();
     }
 
+    // public async Task<IEnumerable<AwaitReverseProductItemsGroupDto>> GetListByStationNoAsync(string stationNo)
+    // {
+    //     var productSteps = await _productRepository.GetByWorkStationNoAndProductStatusIdAsync(stationNo, ProductStatus.AwaitingProduct.Id);
+    //
+    //     var productItemIds = productSteps.Select(t => t.ProductItemId).Distinct().ToList();
+    //
+    //     var previewSteps = await _productRepository.GetByProductItemIdsAsync(productItemIds.ToArray());
+    //
+    //     productSteps = productSteps.Where( _ => _.StepIndex < 2 ||
+    //     new int[]{ ProductStatus.DoneProduct.Id,ProductStatus.CancelledProduct.Id }.Contains(
+    //     previewSteps.FirstOrDefault(p => p.StepIndex == _.StepIndex - 1).ProductStatusId)).ToList();
+    //
+    //     var canHandleroductItemIds = productSteps.Select(t => t.ProductItemId).Distinct().ToArray();
+    //     var products = await _productRepository.GetProductsByItemIdsAsync(canHandleroductItemIds);
+    //     var awaitReverseProductItemsGroupDtos = new List<AwaitReverseProductItemsGroupDto>();
+    //     foreach (var product in products)
+    //     {
+    //         
+    //         if (product.ProductItems.Any(_ => canHandleroductItemIds.Contains(_.Id)))
+    //         {
+    //             awaitReverseProductItemsGroupDtos.Add(new AwaitReverseProductItemsGroupDto(
+    //         _mapper.Map<ProductListDto>(product),
+    //         product.ProductItems.Where(_ => canHandleroductItemIds.Contains(_.Id)).Select(t => _mapper.Map<ProductItemDetailDto>(t)).ToList()));
+    //         }
+    //     
+    //     }
+    //
+    //     return awaitReverseProductItemsGroupDtos;
+    // }
+
     public async Task<IEnumerable<AwaitReverseProductItemsGroupDto>> GetListByStationNoAsync(string stationNo)
     {
-        var productSteps = await _productRepository.GetByWorkStationNoAndProductStatusIdAsync(stationNo, ProductStatus.AwaitingProduct.Id);
-
+        var productSteps =
+            await _productRepository.GetByWorkStationNoAndProductStatusIdAsync(stationNo,
+                ProductStatus.AwaitingProduct.Id);
+    
         var productItemIds = productSteps.Select(t => t.ProductItemId).Distinct().ToList();
-
-        var previewSteps = await _productRepository.GetByProductItemIdsAsync(productItemIds.ToArray());
-
-        productSteps = productSteps.Where( _ => _.StepIndex < 2 ||
-        new int[]{ ProductStatus.DoneProduct.Id,ProductStatus.CancelledProduct.Id }.Contains(
-        previewSteps.FirstOrDefault(p => p.StepIndex == _.StepIndex - 1).ProductStatusId)).ToList();
-
-        var canHandleroductItemIds = productSteps.Select(t => t.ProductItemId).Distinct().ToArray();
-        var products = await _productRepository.GetProductsByItemIdsAsync(canHandleroductItemIds);
+    
         var awaitReverseProductItemsGroupDtos = new List<AwaitReverseProductItemsGroupDto>();
-        foreach (var product in products)
+    
+        foreach (var productItemId in productItemIds)
         {
-            
-            if (product.ProductItems.Any(_ => canHandleroductItemIds.Contains(_.Id)))
-            {
-                awaitReverseProductItemsGroupDtos.Add(new AwaitReverseProductItemsGroupDto(
-            _mapper.Map<ProductListDto>(product),
-            product.ProductItems.Where(_ => canHandleroductItemIds.Contains(_.Id)).Select(t => _mapper.Map<ProductItemDetailDto>(t)).ToList()));
-            }
-        
+            var product = await _productRepository.GetIdByProductItemIdAsync(productItemId);
+            var productDetails = product.ProductItems.Where(t => t.ProductStatusId == ProductStatus.AwaitingProduct.Id);
+            if (awaitReverseProductItemsGroupDtos.Select(t => t.ProductListDto.Id).Contains(product.Id))
+                continue;
+            awaitReverseProductItemsGroupDtos.Add(new AwaitReverseProductItemsGroupDto(
+                _mapper.Map<ProductListDto>(product),
+                productDetails.Select(t => _mapper.Map<ProductItemDetailDto>(t))));
         }
-
         return awaitReverseProductItemsGroupDtos;
     }
-
-    //public async Task<IEnumerable<AwaitReverseProductItemsGroupDto>> GetListByStationNoAsync(string stationNo)
-    //{
-    //    var productSteps =
-    //        await _productRepository.GetByWorkStationNoAndProductStatusIdAsync(stationNo,
-    //            ProductStatus.AwaitingProduct.Id);
-
-    //    var productItemIds = productSteps.Select(t => t.ProductItemId).Distinct().ToList();
-
-    //    var awaitReverseProductItemsGroupDtos = new List<AwaitReverseProductItemsGroupDto>();
-
-    //    foreach (var productItemId in productItemIds)
-    //    {
-    //        var product = await _productRepository.GetIdByProductItemIdAsync(productItemId);
-    //        var productDetails = product.ProductItems.Where(t => t.ProductStatusId == ProductStatus.AwaitingProduct.Id);
-    //        if (awaitReverseProductItemsGroupDtos.Select(t => t.ProductListDto.Id).Contains(product.Id))
-    //            continue;
-    //        awaitReverseProductItemsGroupDtos.Add(new AwaitReverseProductItemsGroupDto(
-    //            _mapper.Map<ProductListDto>(product),
-    //            productDetails.Select(t => _mapper.Map<ProductItemDetailDto>(t))));
-    //    }
-    //    return awaitReverseProductItemsGroupDtos;
-    //}
 
     public async Task<ProductPageListDto> GetList(int pageIndex, int pageSize)
     {

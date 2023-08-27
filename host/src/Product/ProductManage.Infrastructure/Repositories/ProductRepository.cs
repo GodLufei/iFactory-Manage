@@ -111,6 +111,12 @@ public class ProductRepository : IProductRepository
         return _context.ProductItemSteps.Add(productItemStep).Entity;
     }
 
+    public ProductItemStep Update(ProductItemStep productItemStep)
+    {
+        var entry = _context.ProductItemSteps.Update(productItemStep);
+        return entry.Entity;
+    }
+
     public Task<List<ProductItemStep>> GetByProductItemIdAsync(int productItemId)
     {
         return _context.ProductItemSteps.Where(t=>t.ProductItemId==productItemId).ToListAsync();

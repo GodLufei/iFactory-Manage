@@ -64,7 +64,6 @@ public class ProductController : CommonControllerBase
     public async Task<IActionResult> GetListAsync([FromQuery] Page page)
     {
         var result = await _productQueries.GetList(page.PageIndex,page.PageSize);
-        // var result = await _mediator.Send(new QueryProductListCommand(page));
         return Succeed(result, StatusCodes.Status200OK);
     }
 

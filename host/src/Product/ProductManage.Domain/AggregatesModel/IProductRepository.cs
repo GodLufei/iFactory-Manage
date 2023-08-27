@@ -38,6 +38,8 @@ public interface IProductRepository : IRepository<Product>
     
     ProductItemStep Add(ProductItemStep productItemStep);
     
+    ProductItemStep Update(ProductItemStep productItemStep);
+    
     Task<List<ProductItemStep>> GetByProductItemIdAsync(int productItemId);
     
     Task<List<ProductItemStep>> GetByWorkStationNoAndProductStatusIdAsync(string workStationNo,int productStatusId);

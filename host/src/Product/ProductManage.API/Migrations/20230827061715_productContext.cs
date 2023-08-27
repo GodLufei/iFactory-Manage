@@ -35,23 +35,6 @@ namespace ProductManage.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductItemStep",
-                schema: "Product",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductItemId = table.Column<int>(type: "int", nullable: false),
-                    StepIndex = table.Column<int>(type: "int", nullable: false),
-                    WorkStationNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProductStatusId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductItemStep", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ProductTechnology",
                 schema: "Product",
                 columns: table => new
@@ -73,7 +56,7 @@ namespace ProductManage.API.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductStatusId = table.Column<int>(type: "int", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    DemandSideId = table.Column<int>(type: "int", nullable: false),
                     CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -84,8 +67,8 @@ namespace ProductManage.API.Migrations
                 {
                     table.PrimaryKey("PK_Product", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Product_DemandSide_ProductId",
-                        column: x => x.ProductId,
+                        name: "FK_Product_DemandSide_DemandSideId",
+                        column: x => x.DemandSideId,
                         principalSchema: "Product",
                         principalTable: "DemandSide",
                         principalColumn: "Id",
@@ -137,7 +120,7 @@ namespace ProductManage.API.Migrations
                     StartTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     EndTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ManHour = table.Column<TimeSpan>(type: "time", nullable: true),
-                    ProductId = table.Column<int>(type: "int", nullable: true)
+                    ProductId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -151,17 +134,47 @@ namespace ProductManage.API.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ProductItemStep",
+                schema: "Product",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProductItemId = table.Column<int>(type: "int", nullable: false),
+                    StepIndex = table.Column<int>(type: "int", nullable: false),
+                    WorkStationNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProductStatusId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductItemStep", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProductItemStep_ProductItem_ProductItemId",
+                        column: x => x.ProductItemId,
+                        principalSchema: "Product",
+                        principalTable: "ProductItem",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
-                name: "IX_Product_ProductId",
+                name: "IX_Product_DemandSideId",
                 schema: "Product",
                 table: "Product",
-                column: "ProductId");
+                column: "DemandSideId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductItem_ProductId",
                 schema: "Product",
                 table: "ProductItem",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductItemStep_ProductItemId",
+                schema: "Product",
+                table: "ProductItemStep",
+                column: "ProductItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductTechnologyItem_ProductTechnologyId",
@@ -173,10 +186,6 @@ namespace ProductManage.API.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ProductItem",
-                schema: "Product");
-
-            migrationBuilder.DropTable(
                 name: "ProductItemStep",
                 schema: "Product");
 
@@ -185,11 +194,15 @@ namespace ProductManage.API.Migrations
                 schema: "Product");
 
             migrationBuilder.DropTable(
-                name: "Product",
+                name: "ProductItem",
                 schema: "Product");
 
             migrationBuilder.DropTable(
                 name: "ProductTechnology",
+                schema: "Product");
+
+            migrationBuilder.DropTable(
+                name: "Product",
                 schema: "Product");
 
             migrationBuilder.DropTable(
