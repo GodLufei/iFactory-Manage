@@ -52,7 +52,8 @@ export const productItemTableColumns: BasicColumn[] = [
     dataIndex: 'productStatusId',
     width: 50,
     customRender: ({ text }) => {
-      const status = ProductStatusEnum.fromName(text);
+      const status = ProductStatusEnum.from(text);
+      console.log(status);
       return h(Tag, { color: status?.color ?? 'black' }, () => status?.name);
     },
   },
@@ -65,29 +66,29 @@ export const productSchemas: DescItem[] = [
     contentMinWidth: 20,
   },
   {
-    field: 'title',
-    label: '公司名称',
+    field: 'createTime',
+    label: '创建时间',
     contentMinWidth: 100,
   },
   {
-    field: 'tax',
-    label: '税号',
+    field: 'completionRate',
+    label: '完成率',
     contentMinWidth: 100,
+    render: (v) => `${v} %`,
   },
   {
-    field: 'bankInfo',
+    field: 'productStatusId',
     contentMinWidth: 100,
-    label: '开户银行',
+    label: '产品状态',
+    render: (v) => {
+      const status = ProductStatusEnum.from(v);
+      return h(Tag, { color: status?.color ?? 'black' }, () => status?.name);
+    },
   },
   {
-    field: 'bankAccount',
+    field: 'totalManHour',
     contentMinWidth: 100,
-    label: '银行账号',
-  },
-  {
-    field: 'phoneNumber',
-    contentMinWidth: 100,
-    label: '联系电话',
+    label: '工时',
   },
   {
     field: 'addressDetail',

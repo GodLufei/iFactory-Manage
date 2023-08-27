@@ -1,4 +1,5 @@
-﻿using ProductManage.Domain.SeedWork;
+﻿using ProductManage.Domain.Events;
+using ProductManage.Domain.SeedWork;
 using ProductManage.Domain.Shared.Enums;
 using ProductManage.Domain.Shared.Exceptions;
 using ProductManage.Domain.Shared.Models;
@@ -82,13 +83,43 @@ public class Product : Entity, IAggregateRoot
         if (_productItems.All(t => t.ProductStatusId == ProductStatus.ApproveProduct.Id))
             ProductStatusId = ProductStatus.ApproveProduct.Id;
     }
+    public void DoneProduct()
+    {
+        EndTime = DateTime.Now;
+        ProductStatusId = ProductStatus.DoneProduct.Id;
+        foreach (var item in ProductItems)
+        {
+            item.DoneStatus();
+        }
+    }
+    public void DoingProduct()
+    {
+        ProductStatusId = ProductStatus.DoingProduct.Id;
+        foreach (var item in ProductItems)
+        {
+            item.DoingStatus();
+        }
+    }
 
+    //public void DownProduct()
+    //{
+    //    StartTime = DateTime.Now;
+    //    ProductStatusId = ProductStatus.AwaitingProduct.Id;
+    //}
     public void DownProduct()
     {
         StartTime = DateTime.Now;
         ProductStatusId = ProductStatus.AwaitingProduct.Id;
+        foreach (var item in ProductItems)
+        {
+            item.TransferStatus();
+        }
+        DownProductEvent();
     }
-    
+    public void DownProductEvent()
+    {
+        AddDomainEvent(new DownProductDomainEvent(this.Id));
+    }
 
     public void UpdateProduct(int productItemId, TimeSpan scheduleTime)
     {

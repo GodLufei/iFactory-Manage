@@ -6,7 +6,11 @@
     class="!mt-5 !mb-5"
   >
     <a-col :span="24">
-      <ProductInfoCard :product="p.productListDto" :productItems="p.productItemDetailDtos" />
+      <ProductInfoCard
+        :product="p.productListDto"
+        :productItems="p.productItemDetailDtos"
+        @reload="reload"
+      />
     </a-col>
   </a-row>
 </template>
@@ -28,7 +32,9 @@
       const userStore = useUserStore();
       const datas = reactive([] as AwaitReverseProductItemsGroupDto[]);
       getList(userStore.getUserInfo).then((d) => {
+        datas.length = 0;
         d.data.forEach((m) => datas.push(m));
+        // console.log(datas);
       });
 
       function handleAssignTask(record: Recordable) {
@@ -39,11 +45,18 @@
         go(`${PageEnum.PRODUCT_DETAIL}/${id}`);
         return {};
       }
+      function reload() {
+        getList(userStore.getUserInfo).then((d) => {
+          datas.length = 0;
+          d.data.forEach((m) => datas.push(m));
+        });
+      }
       return {
         ProductInfoCard,
         productsCompute: datas,
         handleAssignTask,
         handleDetail,
+        reload,
       };
     },
   });

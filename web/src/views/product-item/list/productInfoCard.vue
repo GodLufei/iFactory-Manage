@@ -4,7 +4,7 @@
       size="small"
       title="产品信息"
       :bordered="true"
-      :column="4"
+      :column="3"
       :data="productData"
       :schema="productSchemas"
     />
@@ -19,10 +19,12 @@
   import { Description } from '/@/components/Description/index';
   import { BasicTable, useTable, TableAction, ActionItem } from '/@/components/Table';
   import { productSchemas, productItemTableColumns } from './data';
-  import { defineComponent, toRaw } from 'vue';
+  import { defineComponent, toRaw, computed } from 'vue';
   import { ProductStatusEnum } from '/@/api/product/enums/enums';
   import { RoleEnum } from '/@/enums/roleEnum';
   import { useMessage } from '/@/hooks/web/useMessage';
+  import { updateProductItemStep, approveProductItem } from '/@/api/product/productApi';
+  import { useUserStore } from '/@/store/modules/user';
 
   export default defineComponent({
     components: {
@@ -30,11 +32,14 @@
       BasicTable,
       TableAction,
     },
+    emits: ['reload'],
+    // eslint-disable-next-line vue/order-in-components
     props: {
       product: Object,
       productItems: Array<Object>,
     },
-    setup(props) {
+    setup(props, { emit }) {
+      const productIdCompute = computed(() => props.product.id);
       const { createMessage } = useMessage();
       const [registerProductItemTable] = useTable({
         dataSource: props.productItems,
@@ -56,34 +61,9 @@
         const item = toRaw(record);
         const actions: ActionItem[] = [];
         switch (item.productStatusId) {
-          case ProductStatusEnum.AwaitingProduct.id:
-            actions.push({
-              label: '完成',
-              color: 'success',
-              auth: [RoleEnum.WORKER],
-              popConfirm: {
-                title: '是否完成？',
-                confirm: handleClick.bind(null, item),
-              },
-            });
-            actions.push({
-              label: '取消',
-              color: 'warning',
-              auth: [RoleEnum.WORKER],
-              popConfirm: {
-                title: '是否取消？',
-                confirm: handleClick.bind(null, item),
-              },
-            });
-            actions.push({
-              label: '报废',
-              color: 'error',
-              auth: [RoleEnum.WORKER],
-              popConfirm: {
-                title: '是否报废？',
-                confirm: handleClick.bind(null, item),
-              },
-            });
+          case ProductStatusEnum.ApproveProduct.id:
+          case ProductStatusEnum.CancelledProduct.id:
+          case ProductStatusEnum.ScarpProduct.id:
             break;
           case ProductStatusEnum.DoneProduct.id:
             actions.push({
@@ -92,23 +72,91 @@
               auth: [RoleEnum.APPROVER],
               popConfirm: {
                 title: '是否通过？',
-                confirm: handleClick.bind(null, item),
+                confirm: approve.bind(null, item),
               },
             });
             break;
           default:
+            actions.push({
+              label: '完成',
+              color: 'success',
+              auth: [RoleEnum.WORKER],
+              popConfirm: {
+                title: '是否完成？',
+                confirm: done.bind(null, item),
+              },
+            });
+            actions.push({
+              label: '取消',
+              color: 'warning',
+              auth: [RoleEnum.WORKER],
+              popConfirm: {
+                title: '是否取消？',
+                confirm: cancel.bind(null, item),
+              },
+            });
+            actions.push({
+              label: '报废',
+              color: 'error',
+              auth: [RoleEnum.WORKER],
+              popConfirm: {
+                title: '是否报废？',
+                confirm: scarp.bind(null, item),
+              },
+            });
             break;
         }
         return actions;
       };
-      const handleClick = (item) => {
-        createMessage.success(`对 ${item.productItemName} 操作成功`);
+      const approve = (item) => {
+        const { id } = item;
+        approveProductItem(productIdCompute.value, id).then(() => {
+          createMessage.success(`对 ${item.productItemName} 操作成功`);
+          emit('reload');
+        });
+      };
+      const done = (item) => {
+        const userStore = useUserStore();
+        const { id } = item;
+        updateProductItemStep(
+          userStore.getUserInfo.userId as string,
+          id,
+          ProductStatusEnum.DoneProduct.id,
+        ).then(() => {
+          createMessage.success(`对 ${item.productItemName} 操作成功`);
+          emit('reload');
+        });
+      };
+      const cancel = (item) => {
+        const userStore = useUserStore();
+        const { id } = item;
+        updateProductItemStep(
+          userStore.getUserInfo.userId as string,
+          id,
+          ProductStatusEnum.CancelledProduct.id,
+        ).then(() => {
+          createMessage.success(`对 ${item.productItemName} 操作成功`);
+          emit('reload');
+        });
+      };
+      const scarp = (item) => {
+        const userStore = useUserStore();
+        const { id } = item;
+        updateProductItemStep(
+          userStore.getUserInfo.userId as string,
+          id,
+          ProductStatusEnum.ScarpProduct.id,
+        ).then(() => {
+          createMessage.success(`对 ${item.productItemName} 操作成功`);
+          emit('reload');
+        });
       };
       return {
         registerProductItemTable,
         productItemTableColumns,
         productSchemas,
         getActions,
+        productIdCompute,
         productData: props.product,
       };
     },

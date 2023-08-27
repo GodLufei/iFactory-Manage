@@ -26,7 +26,7 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
         
         foreach (var productItem in request.ProductItems)
         {
-            product.AddProductItem(productItem.ProductTypeId, productItem.Name,
+            product.AddProductItem(productItem.ProductTypeId, productItem.ProductItemName,
                 productItem.TechnicalRequirements, productItem.Material,
                 productItem.Diameter, productItem.Length, productItem.FigureNo, productItem.Amount,
                 productItem.Unit);

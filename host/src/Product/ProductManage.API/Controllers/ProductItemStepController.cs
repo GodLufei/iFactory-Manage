@@ -35,7 +35,7 @@ public class ProductItemStepController : CommonControllerBase
     [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [HttpPut("{stationNo}/{productItemId:int}")]
+    [HttpPut]
     public async Task<IActionResult> UpdateProductItemStatus(UpdateProductItemStatusCommand updateProductItemStatusCommand )
     {
         var result = await _mediator.Send(updateProductItemStatusCommand);

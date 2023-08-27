@@ -8,7 +8,7 @@ public class ProductListAutoMapperProfile : AutoMapper.Profile
     {
         CreateMap<Domain.AggregatesModel.Product, ProductListDto>()
             .ForMember(d => d.Id, o => o.MapFrom(s => s.Id))
-            .ForMember(d => d.CreateTime, o => o.MapFrom(s => s.CreateTime))
+            .ForMember(d => d.CreateTime, o => o.MapFrom(s => s.CreateTime.ToString("yyyy-MM-dd HH:mm:ss")))
             .ForMember(d => d.ProductStatusId, o => o.MapFrom(s => s.ProductStatusId))
             .ForMember(d => d.Description, o => o.MapFrom(s => s.Description))
             .ForMember(d => d.CompletionRate, o => o.MapFrom(s => s.CompletionRate))

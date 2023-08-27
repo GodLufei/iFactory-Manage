@@ -65,5 +65,14 @@ public class ProductItemEntityTypeConfiguration : IEntityTypeConfiguration<Produ
         productItemConfiguration
             .Property(x => x.EndTime)
             .UsePropertyAccessMode(PropertyAccessMode.Field);
+
+        productItemConfiguration.Property(x => x.ProductId)
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .IsRequired();
+
+        productItemConfiguration.HasMany(b => b.ProductItemSteps)
+            .WithOne()
+            .HasForeignKey(b => b.ProductItemId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

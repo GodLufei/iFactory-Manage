@@ -66,15 +66,15 @@ namespace ProductManage.API.Migrations
                     b.Property<DateTime>("CreateTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("DemandSideId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
 
                     b.Property<int>("ProductStatusId")
                         .HasColumnType("int");
@@ -87,7 +87,7 @@ namespace ProductManage.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("DemandSideId");
 
                     b.ToTable("Product", "Product");
                 });
@@ -125,7 +125,7 @@ namespace ProductManage.API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProductId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<string>("ProductItemName")
@@ -182,6 +182,8 @@ namespace ProductManage.API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProductItemId");
 
                     b.ToTable("ProductItemStep", "Product");
                 });
@@ -273,7 +275,7 @@ namespace ProductManage.API.Migrations
                 {
                     b.HasOne("ProductManage.Domain.AggregatesModel.DemandSide", "DemandSide")
                         .WithMany()
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("DemandSideId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -285,7 +287,17 @@ namespace ProductManage.API.Migrations
                     b.HasOne("ProductManage.Domain.AggregatesModel.Product", null)
                         .WithMany("ProductItems")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ProductManage.Domain.AggregatesModel.ProductItemStep", b =>
+                {
+                    b.HasOne("ProductManage.Domain.AggregatesModel.ProductItem", null)
+                        .WithMany("ProductItemSteps")
+                        .HasForeignKey("ProductItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ProductManage.Domain.AggregatesModel.ProductTechnologyItem", b =>
@@ -299,6 +311,11 @@ namespace ProductManage.API.Migrations
             modelBuilder.Entity("ProductManage.Domain.AggregatesModel.Product", b =>
                 {
                     b.Navigation("ProductItems");
+                });
+
+            modelBuilder.Entity("ProductManage.Domain.AggregatesModel.ProductItem", b =>
+                {
+                    b.Navigation("ProductItemSteps");
                 });
 
             modelBuilder.Entity("ProductManage.Domain.AggregatesModel.ProductTechnology", b =>

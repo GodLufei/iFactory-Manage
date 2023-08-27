@@ -47,6 +47,10 @@ public class ProductTechnologyRepository : IProductTechnologyRepository
             .FirstOrDefaultAsync(o => o.ProductTypeId == productTypeId);
         return productTechnology!;
     }
+    public async Task<IEnumerable<ProductTechnology>> GetByProductTypeIdsAsync(int[] productTypeIds)
+    {
+       return await _context.ProductTechnologies.Include(x => x.ProductTechnologyItems).Where(o => productTypeIds.Contains(o.ProductTypeId)).ToListAsync();
+    }
     public async Task<IEnumerable<ProductTechnology>> GetListAsync(int pageSize, int pageIndex)
     {
         return await _context

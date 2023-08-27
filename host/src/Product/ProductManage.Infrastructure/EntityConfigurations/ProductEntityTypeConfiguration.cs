@@ -44,12 +44,12 @@ public class ProductEntityTypeConfiguration : IEntityTypeConfiguration<ProductMa
 
         productConfiguration.HasOne(b => b.DemandSide)
             .WithMany()
-            .HasForeignKey("ProductId")
+            .HasForeignKey("DemandSideId")
             .OnDelete(DeleteBehavior.Cascade);
 
         productConfiguration.HasMany(b => b.ProductItems)
             .WithOne()
-            .HasForeignKey("ProductId")
+            .HasForeignKey(b=>b.ProductId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

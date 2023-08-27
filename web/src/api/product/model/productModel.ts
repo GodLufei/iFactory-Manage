@@ -15,7 +15,6 @@ export interface ProductListDto {
 }
 export interface CreateProductCommand {
   productItems: ProductItemDto[];
-  quotationId: number;
   city: string;
   street: string;
   province: string;
@@ -26,17 +25,19 @@ export interface CreateProductCommand {
   bankInfo: string;
   bankAccount: string;
   phoneNumber: string;
+  id?: number;
 }
 export interface ProductItemDto {
   productTypeId: number;
   amount: number;
-  name: string;
+  productItemName: string;
   technicalRequirements: string;
   material: string;
   diameter: string;
   length: string;
   figureNo: string;
   unit: string;
+  id?: number;
 }
 
 export interface ProductDetailDto {
@@ -72,13 +73,14 @@ export interface ProductItemDetailDto {
 export interface ChangeProductItemCommand {
   productTypeId: number;
   amount: number;
-  name: string;
+  productItemName: string;
   technicalRequirements: string;
   material: string;
   diameter: string;
   length: string;
   figureNo: string;
   unit: string;
+  id: number;
 }
 
 export interface CreateProductItemCommand {

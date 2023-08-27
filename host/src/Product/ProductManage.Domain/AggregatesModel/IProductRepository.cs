@@ -16,9 +16,12 @@ public interface IProductRepository : IRepository<Product>
     Task<IEnumerable<Product>> GetListAsync(int pageSize, int pageIndex);
 
     Task<IEnumerable<Product>> GetListAsync();
-    
+    Task<IEnumerable<Product>> GetDoneListAsync();
+
     Task<Product> GetIdByProductItemIdAsync(int productItemId);
-    
+
+    Task<IEnumerable<Product>> GetProductsByItemIdsAsync(int[] productItemIds);
+
     Task<IEnumerable<Product>> GetListByProductStatusAsync(int productStatusId);
     
     Task<int> GetCount();
@@ -39,4 +42,5 @@ public interface IProductRepository : IRepository<Product>
     
     Task<List<ProductItemStep>> GetByWorkStationNoAndProductStatusIdAsync(string workStationNo,int productStatusId);
 
+    Task<List<ProductItemStep>> GetByProductItemIdsAsync(int[] productItemIds);
 }

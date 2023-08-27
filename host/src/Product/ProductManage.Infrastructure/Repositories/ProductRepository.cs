@@ -1,6 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProductManage.Domain.AggregatesModel;
 using ProductManage.Domain.SeedWork;
+using System.Security.Cryptography;
+using System.Linq;
+using ProductManage.Domain.Shared.Enums;
 
 namespace Product.Infrastructure.Repositories;
 
@@ -36,11 +39,12 @@ public class ProductRepository : IProductRepository
         return product!;
     }
 
-    public Task<ProductManage.Domain.AggregatesModel.Product> GetProductByItemIdAsync(int productItemId)
+    public async Task<ProductManage.Domain.AggregatesModel.Product> GetProductByItemIdAsync(int productItemId)
     {
+        var product = await _context.ProductItems.FirstAsync(t => t.Id == productItemId);
         return _context
             .Products
-            .Include(x => x.ProductItems.Where(t=>t.Id==productItemId)).FirstOrDefaultAsync()!;
+            .Include(x => x.ProductItems.Where(t=>t.Id==productItemId)).FirstOrDefault(_=>_.Id == product.ProductId)!;
     }
 
     public async Task<IEnumerable<ProductManage.Domain.AggregatesModel.Product>> GetListAsync(int pageSize,
@@ -55,7 +59,7 @@ public class ProductRepository : IProductRepository
     public Task<ProductManage.Domain.AggregatesModel.Product> GetIdByProductItemIdAsync(int productItemId)
     {
         return _context
-            .Products.Include(x => x.ProductItems).FirstOrDefaultAsync(t=>t.ProductItems.Select(productItem=>productItem.Id).Contains(productItemId))!;
+            .Products.Include(x => x.DemandSide).Include(x => x.ProductItems).FirstOrDefaultAsync(t=>t.ProductItems.Select(productItem=>productItem.Id).Contains(productItemId))!;
     }
 
     public async Task<IEnumerable<ProductManage.Domain.AggregatesModel.Product>> GetListByProductStatusAsync(int productStatusId)
@@ -83,6 +87,12 @@ public class ProductRepository : IProductRepository
             .Products
             .Include(x => x.ProductItems).ToListAsync();
     }
+    public async Task<IEnumerable<ProductManage.Domain.AggregatesModel.Product>> GetDoneListAsync()
+    {
+        return await _context
+            .Products
+            .Include(x => x.ProductItems).Where(_ => _.ProductStatusId == ProductStatus.DoneProduct.Id).ToListAsync();
+    }
 
     public ProductItem UpdateItem(ProductItem productItem)
     {
@@ -108,6 +118,20 @@ public class ProductRepository : IProductRepository
 
     public Task<List<ProductItemStep>> GetByWorkStationNoAndProductStatusIdAsync(string workStationNo,int productStatusId)
     {
-        return _context.ProductItemSteps.Where(t => t.WorkStationNo==workStationNo && t.ProductStatusId==productStatusId).ToListAsync();
+        return _context.ProductItemSteps.Where(t => t.WorkStationNo==workStationNo && t.ProductStatusId==productStatusId).OrderBy(_=>_.StepIndex).ToListAsync();
+    }
+
+    public async Task<IEnumerable<ProductManage.Domain.AggregatesModel.Product>> GetProductsByItemIdsAsync(int[] productItemIds)
+    {
+        var productIdsQuery = _context.ProductItems.Where(item => productItemIds.Contains(item.Id)).Select(item => item.ProductId).Distinct();
+
+        return from product in _context.Products.Include(x => x.DemandSide).Include(x=>x.ProductItems)
+               where productIdsQuery.Contains(product.Id)
+               select product;
+    }
+
+    public Task<List<ProductItemStep>> GetByProductItemIdsAsync(int[] productItemIds)
+    {
+        return _context.ProductItemSteps.Where(t => productItemIds.Contains(t.ProductItemId)).OrderBy(_ => _.StepIndex).ToListAsync();
     }
 }
